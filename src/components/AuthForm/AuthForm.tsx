@@ -62,11 +62,13 @@ export default function AuthFormWithImage({
             setValue={setEmail}
           />
           {type === "register" ? (
-            <PasswordSignUp setPassword={setPassword} />
+            <PasswordSignUp setValue={setPassword} />
           ) : (
             <PasswordLogIn setPassword={setPassword} />
           )}
-          {type === "register" && <FileInput setImage={setImage} />}
+          {type === "register" && (
+            <FileInput label="Add a Profile Picture" setFile={setImage} />
+          )}
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"

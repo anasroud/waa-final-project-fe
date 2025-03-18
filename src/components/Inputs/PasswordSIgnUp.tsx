@@ -5,13 +5,18 @@ import { Label } from "@/components/ui/label";
 import { CheckIcon, EyeIcon, EyeOffIcon, XIcon } from "lucide-react";
 import { useId, useMemo, useState } from "react";
 
-export default function PasswordSignUp() {
+export interface IPasswordSignUpProps {
+  setValue: (value: string) => void;
+}
+
+export default function PasswordSignUp({ setValue }: IPasswordSignUpProps) {
   const id = useId();
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const toggleVisibility = () => setIsVisible((prevState) => !prevState);
 
+  setValue(password);
   const checkStrength = (pass: string) => {
     const requirements = [
       { regex: /.{8,}/, text: "At least 8 characters" },
