@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Bed, Bath, Home, MapPin, DollarSign, ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "../ui/button";
+import { motion } from "framer-motion";
+import { Bed, Bath, Home, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import PropertyDetails from "../PropertyDetails/PropertyDetails";
 
 export type Property = {
     id: number;
@@ -26,8 +26,16 @@ export type Property = {
     isApproved: boolean;
     processedAt: string | null;
     ownerId: number;
-    status: string;
+    status: "AVAILABLE" | "PENDING" | "SOLD" | "CONTINGENT";
     imageURLs: string[];
+};
+
+export const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0,
+    }).format(price);
 };
 
 interface PropertyItemProps {
@@ -51,14 +59,6 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
         setCurrentImageIndex((prev) =>
             prev === 0 ? property.imageURLs.length - 1 : prev - 1
         );
-    };
-
-    const formatPrice = (price: number) => {
-        return new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            maximumFractionDigits: 0,
-        }).format(price);
     };
 
     return (
@@ -147,171 +147,7 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
                     </div>
                 </div>
             </div>
-            <AnimatePresence>
-                {isOpen && (
-                    <>
-                        <motion.div
-                            className="fixed inset-0 bg-black/50 z-40"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setIsOpen(false)}
-                        />
-                        <motion.div
-                            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 z-50 max-h-[90vh] overflow-y-auto"
-                            initial={{ y: "100%" }}
-                            animate={{ y: 0 }}
-                            exit={{ y: "100%" }}
-                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        >
-                            <div className="flex justify-between items-start mb-6">
-                                <h2 className="text-2xl font-bold">{property.title}</h2>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => setIsOpen(false)}
-                                    className="-mr-2"
-                                >
-                                    <X className="h-6 w-6" />
-                                </Button>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="space-y-6">
-                                    <div className="aspect-video rounded-lg overflow-hidden relative group">
-                                        <motion.div
-                                            key={currentImageIndex}
-                                            initial={{ opacity: 0.5 }}
-                                            animate={{ opacity: 1 }}
-                                            exit={{ opacity: 0.5 }}
-                                            transition={{ duration: 0.7 }}
-                                            className="h-full"
-                                        >
-                                            <img
-                                                src={property.imageURLs[currentImageIndex] || "/hero-bg.jpg"}
-                                                alt={`${property.title} - Image ${currentImageIndex + 1}`}
-                                                className="w-full h-full object-cover"
-                                            />
-                                        </motion.div>
-                                        {property.imageURLs.length > 1 && (
-                                            <>
-                                                <button
-                                                    onClick={prevImage}
-                                                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                                                >
-                                                    <ChevronLeft className="h-6 w-6" />
-                                                </button>
-                                                <button
-                                                    onClick={nextImage}
-                                                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                                                >
-                                                    <ChevronRight className="h-6 w-6" />
-                                                </button>
-                                                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
-                                                    {property.imageURLs.map((_, index) => (
-                                                        <div
-                                                            key={index}
-                                                            className={cn(
-                                                                "h-1.5 w-1.5 rounded-full transition-all",
-                                                                index === currentImageIndex
-                                                                    ? "bg-white w-3"
-                                                                    : "bg-white/50"
-                                                            )}
-                                                        />
-                                                    ))}
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-
-                                    <div className="space-y-4">
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-2xl font-bold text-primary">
-                                                {formatPrice(property.price)}
-                                            </span>
-                                            <div className="flex items-center text-gray-500">
-                                                <MapPin className="h-5 w-5 mr-1" />
-                                                <span>{property.address}</span>
-                                            </div>
-                                        </div>
-
-                                        <div className="grid grid-cols-3 gap-4">
-                                            <div className="flex items-center">
-                                                <Bed className="h-5 w-5 mr-2 text-gray-600" />
-                                                <span>{property.bedroomCount} Bedrooms</span>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <Bath className="h-5 w-5 mr-2 text-gray-600" />
-                                                <span>{property.bathroomCount} Bathrooms</span>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <Home className="h-5 w-5 mr-2 text-gray-600" />
-                                                <span>{property.squareFootage} sqft</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-6">
-                                    <div>
-                                        <h3 className="text-lg font-semibold mb-2">Description</h3>
-                                        <p className="text-gray-600">{property.description}</p>
-                                    </div>
-
-                                    <div>
-                                        <h3 className="text-lg font-semibold mb-2">Features</h3>
-                                        <div className="grid grid-cols-2 gap-2">
-                                            {property.hasParking && (
-                                                <div className="flex items-center text-gray-600">
-                                                    <span className="mr-2">•</span>
-                                                    Parking Available
-                                                </div>
-                                            )}
-                                            {property.hasPool && (
-                                                <div className="flex items-center text-gray-600">
-                                                    <span className="mr-2">•</span>
-                                                    Swimming Pool
-                                                </div>
-                                            )}
-                                            {property.hasAC && (
-                                                <div className="flex items-center text-gray-600">
-                                                    <span className="mr-2">•</span>
-                                                    Air Conditioning
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <h3 className="text-lg font-semibold mb-2">Location</h3>
-                                        <p className="text-gray-600">
-                                            {property.address}<br />
-                                            {property.city}, {property.state} {property.zipCode}
-                                        </p>
-                                    </div>
-
-                                    <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                                        <Button
-                                            className="flex-1"
-                                            size="lg"
-                                        >
-                                            <DollarSign className="h-5 w-5" />
-                                            Place an Offer
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            className="flex-1"
-                                            size="lg"
-                                        >
-                                            Contact Seller
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </>
-                )}
-            </AnimatePresence>
+            <PropertyDetails isOpen={isOpen} setIsOpen={setIsOpen} selectedProperty={property} />
         </>
     );
 };
