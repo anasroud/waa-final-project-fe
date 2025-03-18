@@ -2,6 +2,7 @@ import Nav from '@/components/Nav/Nav'
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/router'
+import PropertiesTable from '@/components/PropertiesTable/PropertiesTable'
 
 function Owner() {
     const router = useRouter();
@@ -16,6 +17,7 @@ function Owner() {
                         Create Property
                     </Button>
                 </div>
+                <PropertiesTable />
             </div>
         </div>
     )
