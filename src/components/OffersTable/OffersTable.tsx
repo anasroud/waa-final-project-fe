@@ -94,14 +94,14 @@ const OffersTable = () => {
               </TableCell>
               <TableCell>
                 <span
-                  className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${offer.isAccepted ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}
+                  className={`inline-flex items-center rounded-sm px-2 py-1 text-xs font-medium ${offer.isAccepted ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}
                 >
                   {offer.isAccepted ? 'Accepted' : 'Pending'}
                 </span>
               </TableCell>
               <TableCell>
-                {!offer.isAccepted && (
-                  <div className="flex space-x-2">
+                <div className="flex space-x-2 justify-end">
+                  {!offer.isAccepted && (
                     <Button
                       onClick={() => handleAcceptOffer(offer.id)}
                       variant="outline"
@@ -110,16 +110,16 @@ const OffersTable = () => {
                     >
                       Accept
                     </Button>
-                    <Button
-                      onClick={() => handleRejectOffer(offer.id)}
-                      variant="outline"
-                      className="bg-red-50 text-red-700 hover:bg-red-100"
-                      size="sm"
-                    >
-                      Reject
-                    </Button>
-                  </div>
-                )}
+                  )}
+                  <Button
+                    onClick={() => handleRejectOffer(offer.id)}
+                    variant="outline"
+                    className="bg-red-50 text-red-700 hover:bg-red-100"
+                    size="sm"
+                  >
+                    Reject
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}
