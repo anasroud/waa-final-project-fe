@@ -67,12 +67,12 @@ const PropertiesTable = () => {
 
     return (
         <Table>
-            <TableHeader>
+            <TableHeader className="bg-muted">
                 <TableRow>
-                    <TableHead>Property Details</TableHead>
+                    <TableHead className='rounded-tl-md'>Property Details</TableHead>
                     <TableHead>Features</TableHead>
                     <TableHead>Price</TableHead>
-                    <TableHead>Actions</TableHead>
+                    <TableHead className='rounded-tr-md'>Actions</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>

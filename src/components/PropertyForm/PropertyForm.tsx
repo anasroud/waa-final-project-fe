@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Nav from '@/components/Nav/Nav';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -148,7 +147,6 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
 
     return (
         <div>
-            <Nav />
             <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold mb-8">{isEditing ? 'Edit Property Listing' : 'Create New Property Listing'}</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
