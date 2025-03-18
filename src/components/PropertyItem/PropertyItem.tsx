@@ -1,6 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Bed, Bath, Home, MapPin, DollarSign } from "lucide-react";
+import { X, Bed, Bath, Home, MapPin, DollarSign, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 
@@ -36,6 +37,21 @@ interface PropertyItemProps {
 
 const PropertyItem = ({ property, className }: PropertyItemProps) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    const nextImage = (e?: React.MouseEvent) => {
+        e?.stopPropagation();
+        setCurrentImageIndex((prev) =>
+            prev === (property.imageURLs.length - 1) ? 0 : prev + 1
+        );
+    };
+
+    const prevImage = (e?: React.MouseEvent) => {
+        e?.stopPropagation();
+        setCurrentImageIndex((prev) =>
+            prev === 0 ? property.imageURLs.length - 1 : prev - 1
+        );
+    };
 
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat("en-US", {
@@ -54,15 +70,53 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
                 )}
                 onClick={() => setIsOpen(true)}
             >
-                <div className="relative h-48 w-full">
-                    <img
-                        src={property.imageURLs[0] || "/hero-bg.jpg"}
-                        alt={property.title}
-                        className="h-full w-full object-cover"
-                    />
+                <div className="relative h-48 w-full group">
+                    <motion.div
+                        key={currentImageIndex}
+                        initial={{ opacity: 0.5 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0.7 }}
+                        transition={{ duration: 0.5 }}
+                        className="h-full"
+                    >
+                        <img
+                            src={property.imageURLs[currentImageIndex] || "/hero-bg.jpg"}
+                            alt={`${property.title} - Image ${currentImageIndex + 1}`}
+                            className="h-full w-full object-cover"
+                        />
+                    </motion.div>
                     <div className="absolute top-2 left-2 bg-primary text-white px-2 py-1 rounded text-sm font-semibold">
                         {property.homeType}
                     </div>
+                    {property.imageURLs.length > 1 && (
+                        <>
+                            <button
+                                onClick={prevImage}
+                                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 p-1.5 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                                <ChevronLeft className="h-4 w-4" />
+                            </button>
+                            <button
+                                onClick={nextImage}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 p-1.5 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                                <ChevronRight className="h-4 w-4" />
+                            </button>
+                            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                                {property.imageURLs.map((_, index) => (
+                                    <div
+                                        key={index}
+                                        className={cn(
+                                            "h-1 w-1 rounded-full transition-all",
+                                            index === currentImageIndex
+                                                ? "bg-white w-2"
+                                                : "bg-white/50"
+                                        )}
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    )}
                 </div>
                 <div className="p-4">
                     <div className="flex justify-between items-start mb-2">
@@ -124,12 +178,50 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-6">
-                                    <div className="aspect-video rounded-lg overflow-hidden">
-                                        <img
-                                            src={property.imageURLs[0] || "/hero-bg.jpg"}
-                                            alt={property.title}
-                                            className="w-full h-full object-cover"
-                                        />
+                                    <div className="aspect-video rounded-lg overflow-hidden relative group">
+                                        <motion.div
+                                            key={currentImageIndex}
+                                            initial={{ opacity: 0.5 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0.5 }}
+                                            transition={{ duration: 0.7 }}
+                                            className="h-full"
+                                        >
+                                            <img
+                                                src={property.imageURLs[currentImageIndex] || "/hero-bg.jpg"}
+                                                alt={`${property.title} - Image ${currentImageIndex + 1}`}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </motion.div>
+                                        {property.imageURLs.length > 1 && (
+                                            <>
+                                                <button
+                                                    onClick={prevImage}
+                                                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                                                >
+                                                    <ChevronLeft className="h-6 w-6" />
+                                                </button>
+                                                <button
+                                                    onClick={nextImage}
+                                                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                                                >
+                                                    <ChevronRight className="h-6 w-6" />
+                                                </button>
+                                                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                                                    {property.imageURLs.map((_, index) => (
+                                                        <div
+                                                            key={index}
+                                                            className={cn(
+                                                                "h-1.5 w-1.5 rounded-full transition-all",
+                                                                index === currentImageIndex
+                                                                    ? "bg-white w-3"
+                                                                    : "bg-white/50"
+                                                            )}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            </>
+                                        )}
                                     </div>
 
                                     <div className="space-y-4">
