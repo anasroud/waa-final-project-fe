@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from '@/components/ui/button';
-import { BedDouble, DollarSign, ShowerHead, Trash } from 'lucide-react';
+import { BedDouble, CircleDollarSign, ShowerHead, Trash } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 interface Property {
@@ -85,20 +85,20 @@ const PropertiesTable = () => {
                             </div>
                         </TableCell>
                         <TableCell>
-                            <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                            <div className="flex items-center font-semibold space-x-4 text-sm text-muted-foreground">
                                 <span className="flex items-center">
-                                    <BedDouble className="mr-1" />
+                                    <BedDouble className="mr-1" height={16} />
                                     {property.bedroomCount}
                                 </span>
                                 <span className="flex items-center">
-                                    <ShowerHead className="mr-1" />
+                                    <ShowerHead className="mr-1" height={16} />
                                     {property.bathroomCount}
                                 </span>
                             </div>
                         </TableCell>
                         <TableCell>
                             <div className="flex items-center text-sm">
-                                <DollarSign className="mr-2 text-green-500" />
+                                <CircleDollarSign className="mr-1 text-green-500" height={16} />
                                 ${property.price.toLocaleString()}
                             </div>
                         </TableCell>
