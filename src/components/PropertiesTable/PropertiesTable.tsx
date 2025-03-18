@@ -5,6 +5,7 @@ import { BedDouble, CircleDollarSign, Edit, Eye, ShowerHead, Trash } from 'lucid
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Property } from '../PropertyItem/PropertyItem';
 import PropertyDetails from '../PropertyDetails/PropertyDetails';
+import { Badge } from '../ui/badge';
 
 const PropertiesTable = () => {
     const router = useRouter();
@@ -80,8 +81,8 @@ const PropertiesTable = () => {
                             </TableCell>
                             <TableCell>
                                 <div className="flex items-center">
-                                    <span
-                                        className={`inline-flex items-center rounded-sm px-1.5 py-1 !text-[10px] font-bold ${property.status === 'AVAILABLE'
+                                    <Badge
+                                        className={`!text-[10px] rounded-sm font-bold ${property.status === 'AVAILABLE'
                                             ? 'bg-green-100 text-green-800'
                                             : property.status === 'PENDING'
                                                 ? 'bg-yellow-100 text-yellow-800'
@@ -91,7 +92,7 @@ const PropertiesTable = () => {
                                             }`}
                                     >
                                         {property.status}
-                                    </span>
+                                    </Badge>
                                 </div>
                             </TableCell>
                             <TableCell>

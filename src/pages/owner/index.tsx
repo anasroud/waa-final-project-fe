@@ -6,6 +6,7 @@ import PropertiesTable from '@/components/PropertiesTable/PropertiesTable'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { CircleDollarSign, HouseIcon, HousePlus } from 'lucide-react'
+import OffersTable from '@/components/OffersTable/OffersTable'
 
 function Owner() {
     const router = useRouter();
@@ -51,7 +52,7 @@ function Owner() {
                         <PropertiesTable />
                     </TabsContent>
                     <TabsContent value="offers">
-                        <p className="text-muted-foreground pt-1 text-center text-lg">Offers content coming soon</p>
+                        <OffersTable />
                     </TabsContent>
                     <TabsContent value="sold-properties">
                         <p className="text-muted-foreground pt-1 text-center text-lg">Sold properties content coming soon</p>

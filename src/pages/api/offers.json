@@ -1,0 +1,191 @@
+[
+  {
+    "id": 1,
+    "message": "I'm interested in this property.",
+    "offeredPrice": 480000,
+    "isAccepted": false,
+    "property": {
+      "id": 1,
+      "title": "Luxury Apartment",
+      "price": 500000,
+      "imageURLs": [
+        "https://example.com/image1.jpg",
+        "https://example.com/image2.jpg"
+      ]
+    },
+    "customer": {
+      "id": 2,
+      "name": "Jane Doe",
+      "imageURL": "https://example.com/jane.jpg"
+    }
+  },
+  {
+    "id": 2,
+    "message": "Would you consider lowering the price?",
+    "offeredPrice": 340000,
+    "isAccepted": false,
+    "property": {
+      "id": 2,
+      "title": "Cozy Condo",
+      "price": 350000,
+      "imageURLs": [
+        "https://example.com/condo1.jpg"
+      ]
+    },
+    "customer": {
+      "id": 3,
+      "name": "John Smith",
+      "imageURL": null
+    }
+  },
+  {
+    "id": 3,
+    "message": "This house is perfect for my family!",
+    "offeredPrice": 810000,
+    "isAccepted": true,
+    "property": {
+      "id": 3,
+      "title": "Spacious House",
+      "price": 800000,
+      "imageURLs": [
+        "https://example.com/house1.jpg",
+        "https://example.com/house2.jpg",
+        "https://example.com/house3.jpg"
+      ]
+    },
+    "customer": {
+      "id": 4,
+      "name": "Alice Johnson",
+      "imageURL": "https://example.com/alice.png"
+    }
+  },
+  {
+    "id": 4,
+    "message": "I would like to schedule a viewing.",
+    "offeredPrice": 590000,
+    "isAccepted": false,
+    "property": {
+      "id": 4,
+      "title": "Downtown Loft",
+      "price": 600000,
+      "imageURLs": null
+    },
+    "customer": {
+      "id": 5,
+      "name": "Bob Williams",
+      "imageURL": null
+    }
+  },
+  {
+    "id": 5,
+    "message": "Is the property still available?",
+    "offeredPrice": 410000,
+    "isAccepted": false,
+    "property": {
+      "id": 5,
+      "title": "Suburban Townhouse",
+      "price": 400000,
+      "imageURLs": [
+        "https://example.com/townhouse1.jpeg"
+      ]
+    },
+    "customer": {
+      "id": 6,
+      "name": "Eva Brown",
+      "imageURL": "https://example.com/eva.jpg"
+    }
+  },
+  {
+    "id": 6,
+    "message": "I love the Mountain Cabin!",
+    "offeredPrice": 550000,
+    "isAccepted": true,
+    "property": {
+      "id": 6,
+      "title": "Mountain Cabin",
+      "price": 550000,
+      "imageURLs": [
+        "https://example.com/cabin1.jpg",
+        "https://example.com/cabin2.jpg"
+      ]
+    },
+    "customer": {
+      "id": 7,
+      "name": "Michael Davis",
+      "imageURL": null
+    }
+  },
+  {
+    "id": 7,
+    "message": "This is a great beach property!",
+    "offeredPrice": 1150000,
+    "isAccepted": false,
+    "property": {
+      "id": 7,
+      "title": "Beachfront Villa",
+      "price": 1200000,
+      "imageURLs": null
+    },
+    "customer": {
+      "id": 8,
+      "name": "Sophia Wilson",
+      "imageURL": "https://example.com/sophia.png"
+    }
+  },
+  {
+    "id": 8,
+    "message": "I want to make an offer.",
+    "offeredPrice": 690000,
+    "isAccepted": false,
+    "property": {
+      "id": 8,
+      "title": "Riverside Bungalow",
+      "price": 700000,
+      "imageURLs": [
+        "https://example.com/bungalow1.jpg"
+      ]
+    },
+    "customer": {
+      "id": 9,
+      "name": "David Garcia",
+      "imageURL": null
+    }
+  },
+  {
+    "id": 9,
+    "message": "This Brownstone has a lot of history!",
+    "offeredPrice": 910000,
+    "isAccepted": true,
+    "property": {
+      "id": 9,
+      "title": "Historic Brownstone",
+      "price": 900000,
+      "imageURLs": [
+        "https://example.com/brownstone1.jpg",
+        "https://example.com/brownstone2.jpg"
+      ]
+    },
+    "customer": {
+      "id": 10,
+      "name": "Olivia Rodriguez",
+      "imageURL": "https://example.com/olivia.jpeg"
+    }
+  },
+  {
+    "id": 10,
+    "message": "Farmhouse is perfect",
+    "offeredPrice": 740000,
+    "isAccepted": false,
+    "property": {
+      "id": 10,
+      "title": "Modern Farmhouse",
+      "price": 750000,
+      "imageURLs": null
+    },
+    "customer": {
+      "id": 11,
+      "name": "James Martinez",
+      "imageURL": null
+    }
+  }
+]
