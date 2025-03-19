@@ -8,6 +8,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
+import { apiFetch } from '@/utils/api';
 
 interface Offer {
   id: number;
@@ -27,13 +28,13 @@ interface Offer {
 }
 
 interface OffersResponse {
-  offers: Offer[];
-  pagination: {
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
-  };
+  "message": string;
+  data: Offer[];
+  "meta": {
+    "totalPages": number;
+    "currentPage": number;
+    "totalElements": number;
+  }
 }
 
 const OffersTable = () => {
@@ -46,9 +47,11 @@ const OffersTable = () => {
 
   const fetchOffers = async () => {
     try {
-      const response = await fetch('/api/offers');
-      const data: OffersResponse = await response.json();
-      setOffers(data.offers);
+      const { data } = await apiFetch<OffersResponse>('/owners/offers', {
+        method: 'GET',
+      });
+
+      setOffers(data);
     } catch (error) {
       console.error('Error fetching offers:', error);
     } finally {
@@ -59,11 +62,42 @@ const OffersTable = () => {
   const handleAcceptOffer = async (offerId: number) => {
     // TODO: Implement API call to accept offer
     console.log('Accepting offer:', offerId);
+    const response = await apiFetch<{ message: string; data: { id: number, accepted: boolean } }>(`/owners/offers/${offerId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        "isAccepted": true
+      }),
+    });
+    if (response.message === "success") {
+      setOffers((prevOffers) =>
+        prevOffers.map((offer) =>
+          offer.id === offerId ? { ...offer, isAccepted: true } : offer
+        )
+      );
+      fetchOffers();
+    } else {
+      console.error('Failed to accept offer:', response.message);
+    }
   };
 
   const handleRejectOffer = async (offerId: number) => {
     // TODO: Implement API call to reject offer
     console.log('Rejecting offer:', offerId);
+    const response = await apiFetch<{ message: string; data: { id: number, accepted: boolean } }>(`/owners/offers/${offerId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        "isAccepted": false
+      }),
+    });
+    if (response.message === "success") {
+      // refresh the offers list
+      setOffers((prevOffers) =>
+        prevOffers.filter((offer) => offer.id !== offerId)
+      );
+      fetchOffers();
+    } else {
+      console.error('Failed to reject offer:', response.message);
+    }
   };
 
   if (loading) {

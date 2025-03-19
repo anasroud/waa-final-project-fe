@@ -6,6 +6,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Property } from '../PropertyItem/PropertyItem';
 import PropertyDetails from '../PropertyDetails/PropertyDetails';
 import { Badge } from '../ui/badge';
+import { apiFetch } from '@/utils/api';
+
+// const sampleResponse = { "message": "success", "data": [{ "id": 1, "title": "Beautiful Villa", "description": "A luxurious villa in the city", "city": "New York", "state": "NY", "zipCode": "10001", "address": "123 Villa St", "locationLat": 40.7128, "locationLng": -74.006, "price": 500000, "bedroomCount": 4, "bathroomCount": 3, "homeType": "House", "squareFootage": 3500, "hasParking": true, "hasPool": true, "hasAC": true, "processedAt": "2025-03-19T13:41:19.488141", "ownerId": 2, "status": "Available", "imageURLs": [], "approved": true }, { "id": 2, "title": "Modern Condo", "description": "A modern condo with a pool", "city": "Los Angeles", "state": "CA", "zipCode": "90001", "address": "456 Condo Ave", "locationLat": 34.0522, "locationLng": -118.2437, "price": 350000, "bedroomCount": 2, "bathroomCount": 2, "homeType": "Condo", "squareFootage": 1200, "hasParking": true, "hasPool": true, "hasAC": true, "processedAt": "2025-03-19T13:41:19.488165", "ownerId": 2, "status": "Available", "imageURLs": [], "approved": true }], "meta": { "totalPages": 1, "currentPage": 0, "totalElements": 2 } }
 
 const PropertiesTable = () => {
     const router = useRouter();
@@ -19,10 +22,13 @@ const PropertiesTable = () => {
 
     const fetchProperties = async () => {
         try {
-            const response = await fetch('/api/properties');
-            if (!response.ok) throw new Error('Failed to fetch properties');
-            const data = await response.json();
-            setProperties(data.properties);
+            const response = await apiFetch<{ message: string; data: Property[] }>('/owners/properties', {
+                method: 'GET',
+            });
+
+            if (response.message !== "success") throw new Error('Failed to fetch properties');
+
+            setProperties(response.data);
             setLoading(false);
         } catch (err) {
             console.log(err);
