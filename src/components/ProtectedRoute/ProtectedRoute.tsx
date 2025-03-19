@@ -8,10 +8,16 @@ type Props = {
 };
 
 export default function ProtectedRoute({ allowedRoles, children }: Props) {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
+    if (user === undefined || user === null) {
+      // Fetch or set the user here
+      setUser(localStorage.user); // Assuming setUser is a function that fetches and sets the user
+      return;
+    }
+
     if (!user) {
       if (allowedRoles.includes("admin")) {
         router.push("/login/admin");
@@ -22,10 +28,8 @@ export default function ProtectedRoute({ allowedRoles, children }: Props) {
       }
     } else if (!allowedRoles.includes(user.role)) {
       router.replace("/");
-    } else {
-      router.replace("/");
     }
-  }, [user, allowedRoles, router]);
+  }, [user, allowedRoles, router, setUser]);
 
   return <>{children}</>;
 }
