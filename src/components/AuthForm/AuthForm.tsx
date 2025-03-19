@@ -1,5 +1,5 @@
 import { useState } from "react";
-import FileInput from "../Inputs/FileInput";
+// import FileInput from "../Inputs/FileInput";
 import EmailInput from "../Inputs/InputWithIcon";
 import PasswordSignUp from "../Inputs/PasswordSIgnUp";
 import PasswordLogIn from "../Inputs/PasswordLogin";
@@ -8,12 +8,7 @@ import { AtSignIcon } from "lucide-react";
 
 type Props = {
   title: string;
-  onSubmit: (
-    email: string,
-    password: string,
-    name: string,
-    image: File | null
-  ) => Promise<void>;
+  onSubmit: (email: string, password: string, name: string) => Promise<void>;
   type?: "login" | "register";
   buttonText: string;
   role?: "owner" | "customer";
@@ -29,14 +24,14 @@ export default function AuthFormWithImage({
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [image, setImage] = useState<File | null>(null);
+  // const [image, setImage] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     try {
-      await onSubmit(email, password, name, image);
+      await onSubmit(email, password, name);
     } catch (err) {
       setError((err as Error).message);
     }

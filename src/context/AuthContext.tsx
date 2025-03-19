@@ -59,6 +59,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const userData = { ...data.data, role };
       setUser(userData);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { role: _, ...userWithoutRole } = userData;
       const localData = { role, ...userWithoutRole };
       localStorage.setItem("user", JSON.stringify(localData));
