@@ -10,7 +10,6 @@ type Props = {
 export default function ProtectedRoute({ allowedRoles, children }: Props) {
   const { user } = useAuth();
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user) {
@@ -23,10 +22,8 @@ export default function ProtectedRoute({ allowedRoles, children }: Props) {
       }
     } else if (!allowedRoles.includes(user.role)) {
       router.replace("/");
-    } else if (user === null) {
-      router.replace("/");
     } else {
-      setLoading(false);
+      router.replace("/");
     }
   }, [user, allowedRoles, router]);
 

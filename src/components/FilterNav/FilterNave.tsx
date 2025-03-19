@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import NormalInput from "../Inputs/Input";
-import Component from "../comp-258";
 import PricesFilter from "../comp-258";
 
 /**
