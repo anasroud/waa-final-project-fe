@@ -42,7 +42,7 @@ import {
 } from "lucide-react";
 import { memo, useCallback, useEffect, useState } from "react";
 import { Users } from "@/types/Users";
-import Alert from "@/components/Alert";
+import Alert from "@/components/Alert/Alert";
 
 const images = [
   "https://res.cloudinary.com/dlzlfasou/image/upload/v1736358071/avatar-40-02_upqrxi.jpg",
