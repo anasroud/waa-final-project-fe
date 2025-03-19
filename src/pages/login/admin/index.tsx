@@ -12,7 +12,6 @@ export default function AdminLogin() {
         title="Admin Login"
         onSubmit={(email, password) => login(email, password, "admin")}
         buttonText="Login"
-        role="admin"
       />
     </>
   );
