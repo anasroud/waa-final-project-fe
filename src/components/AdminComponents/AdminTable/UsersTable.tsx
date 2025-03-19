@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { usePagination } from "@/hooks/use-pagination";
@@ -52,10 +53,10 @@ const columns: ColumnDef<Users>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-3">
-          {row.getValue("imageUrl") && (
+          {typeof row.getValue("imageUrl") === "string" && (
             <img
               className="rounded-full"
-              src={row.getValue("imageUrl")}
+              src={row.getValue("imageUrl") as string}
               width={40}
               height={40}
               alt="User Avatar"
@@ -134,7 +135,7 @@ const AdminTable = () => {
     const res = apiFetch(
       `/admins/owners?limit=${pagination.pageSize}&page=${pagination.pageIndex}`
     );
-    const data = await res.then(res);
+    const data = (await res) as { data: Users[]; meta: { totalPages: number } };
     setData(data.data);
     setNumberOfUsers(data.meta.totalPages);
   }, [pagination.pageIndex, pagination.pageSize]);

@@ -6,5 +6,6 @@ export interface Users {
   createdAt: string;
   updatedAt: string;
   isActive: boolean;
+  imageUrl: string;
   image: string;
 }
