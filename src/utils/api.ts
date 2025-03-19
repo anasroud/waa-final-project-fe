@@ -34,7 +34,8 @@ export async function apiFetch<T>(
 
   if (response.status === 403) {
     console.error("Forbidden: User does not have permission.");
-    window.location.replace("/");
+    // TODO -ADD this once done
+    // window.location.replace("/");
   }
 
   if (!response.ok) {
