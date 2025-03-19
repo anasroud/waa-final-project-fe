@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
-    router.push("/login");
+    router.push("/");
   };
 
   useEffect(() => {

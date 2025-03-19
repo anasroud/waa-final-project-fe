@@ -19,38 +19,42 @@ const Nav = ({ showButtons = true }) => {
         >
           <span className="text-3xl font-bold font-lora">HomeFindr.</span>
         </div>
-        {showButtons && (
-          <div className="flex space-x-4">
-            <Button
-              variant="outline"
-              size={"lg"}
-              onClick={() => router.push("/search")}
-            >
-              Buy
-            </Button>
-            <Button
-              variant="default"
-              size={"lg"}
-              onClick={() => router.push("/owner")}
-            >
-              Sell
-            </Button>
-          </div>
-        )}
-        {user && (
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="outline"
-              size={"lg"}
-              onClick={() => router.push("/dashboard")}
-            >
-              Dashboard
-            </Button>
-            <Button variant="default" size={"lg"} onClick={() => logout()}>
-              Logout
-            </Button>
-          </div>
-        )}
+        <div className="flex space-x-4">
+          {showButtons && (
+            <>
+              <Button
+                variant="outline"
+                size={"lg"}
+                onClick={() => router.push("/search")}
+              >
+                Buy
+              </Button>
+              <Button
+                variant="default"
+                size={"lg"}
+                onClick={() => router.push("/owner")}
+              >
+                Sell
+              </Button>
+            </>
+          )}
+          {user && (
+            <>
+              {user.role === "admin" && (
+                <Button
+                  variant="outline"
+                  size={"lg"}
+                  onClick={() => router.push("/dashboard")}
+                >
+                  Dashboard
+                </Button>
+              )}
+              <Button variant="default" size={"lg"} onClick={() => logout()}>
+                Logout
+              </Button>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   );
