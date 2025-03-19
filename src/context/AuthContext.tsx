@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    const data = await apiFetch<{ token: string }>(`/${role}/login`, {
+    const data = await apiFetch<{ token: string }>(`/admins/login`, {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     formData.append("name", name);
     if (image) formData.append("image", image);
 
-    await apiFetch<void>(`/${role}/register`, {
+    await apiFetch<void>(`/owners/signup`, {
       method: "POST",
       body: formData,
     });
