@@ -9,3 +9,5 @@ export interface Users {
   imageUrl: string;
   image: string;
 }
+
+export type UserRole = "owner" | "admin" | "customer";

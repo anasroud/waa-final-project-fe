@@ -6,7 +6,8 @@ interface FetchOptions extends RequestInit {
 
 export async function apiFetch<T>(
   endpoint: string,
-  options: FetchOptions = {}
+  options: FetchOptions = {},
+  onError: (error: string) => void = console.error
 ): Promise<T> {
   const token =
     typeof window !== "undefined"
@@ -29,7 +30,7 @@ export async function apiFetch<T>(
   if (response.status === 401) {
     localStorage.removeItem("user");
     console.error("Forbidden: User has been logged out.");
-    window.location.replace("/");
+    // window.location.replace("/");
   }
 
   if (response.status === 403) {

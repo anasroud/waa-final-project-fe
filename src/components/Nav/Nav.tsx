@@ -22,20 +22,24 @@ const Nav = ({ showButtons = true }) => {
         <div className="flex space-x-4">
           {showButtons && (
             <>
-              <Button
-                variant="outline"
-                size={"lg"}
-                onClick={() => router.push("/search")}
-              >
-                Buy
-              </Button>
-              <Button
-                variant="default"
-                size={"lg"}
-                onClick={() => router.push("/owner")}
-              >
-                Sell
-              </Button>
+              {(!user || user.role === "customer") && (
+                <Button
+                  variant="outline"
+                  size={"lg"}
+                  onClick={() => router.push("/search")}
+                >
+                  Buy
+                </Button>
+              )}
+              {(!user || user.role === "owner") && (
+                <Button
+                  variant="default"
+                  size={"lg"}
+                  onClick={() => router.push("/owner")}
+                >
+                  Sell
+                </Button>
+              )}
             </>
           )}
           {user && (

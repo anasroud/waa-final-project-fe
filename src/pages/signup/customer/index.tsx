@@ -1,17 +1,21 @@
-import { useAuth } from '@/context/AuthContext';
-import AuthFormWithImage from '@/components/AuthForm/AuthForm';
+import { useAuth } from "@/context/AuthContext";
+import AuthFormWithImage from "@/components/AuthForm/AuthForm";
+import Nav from "@/components/Nav/Nav";
 
 export default function CustomerRegister() {
   const { register } = useAuth();
 
   return (
-    <AuthFormWithImage
-      title="Customer Register"
-      type="register"
-      onSubmit={(email, password, name, image) =>
-        register(email, password, name, image, 'customer')
-      }
-      buttonText="Register"
-    />
+    <>
+      <Nav />
+      <AuthFormWithImage
+        title="Customer Register"
+        type="register"
+        onSubmit={(email, password, name) =>
+          register(email, password, name, "customer")
+        }
+        buttonText="Register"
+      />
+    </>
   );
 }

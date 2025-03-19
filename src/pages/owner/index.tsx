@@ -7,13 +7,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { CircleDollarSign, HouseIcon, HousePlus } from "lucide-react";
 import OffersTable from "@/components/OffersTable/OffersTable";
-import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 
 function Owner() {
   const router = useRouter();
 
   return (
-    <ProtectedRoute allowedRoles={["owner"]}>
+    <div>
       <Nav />
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
@@ -74,7 +73,7 @@ function Owner() {
           </TabsContent>
         </Tabs>
       </div>
-    </ProtectedRoute>
+    </div>
   );
 }
 

@@ -16,6 +16,7 @@ type Props = {
   ) => Promise<void>;
   type?: "login" | "register";
   buttonText: string;
+  role?: "owner" | "customer";
 };
 
 export default function AuthFormWithImage({
@@ -23,6 +24,7 @@ export default function AuthFormWithImage({
   onSubmit,
   buttonText,
   type = "login",
+  role,
 }: Props) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -66,9 +68,9 @@ export default function AuthFormWithImage({
           ) : (
             <PasswordLogIn setPassword={setPassword} />
           )}
-          {type === "register" && (
+          {/* {type === "register" && (
             <FileInput label="Add a Profile Picture" setFile={setImage} />
-          )}
+          )} */}
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
@@ -76,6 +78,11 @@ export default function AuthFormWithImage({
             {buttonText}
           </button>
         </form>
+        {role && (
+          <div className="text-blue-500">
+            <a href={`/signup/${role}`}>Dont have an account? Sign Up</a>
+          </div>
+        )}
       </div>
     </div>
   );

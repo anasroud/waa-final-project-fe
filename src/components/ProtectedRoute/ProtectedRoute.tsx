@@ -1,35 +1,31 @@
 import { useAuth } from "@/context/AuthContext";
+import { UserRole } from "@/types/Users";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 type Props = {
-  allowedRoles: ["admin" | "customer" | "owner"];
+  allowedRoles: UserRole[];
   children: React.ReactNode;
 };
 
 export default function ProtectedRoute({ allowedRoles, children }: Props) {
-  const { user, setUser } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (user === undefined || user === null) {
-      // Fetch or set the user here
-      setUser(localStorage.user); // Assuming setUser is a function that fetches and sets the user
-      return;
+    if (!loading && !user) {
+      router.push(`/login/${allowedRoles[0]}`);
     }
+    console.log(user);
 
-    if (!user) {
-      if (allowedRoles.includes("admin")) {
-        router.push("/login/admin");
-      } else if (allowedRoles.includes("customer")) {
-        router.push("/login/customer");
-      } else if (allowedRoles.includes("owner")) {
-        router.push("/login/owner");
-      }
-    } else if (!allowedRoles.includes(user.role)) {
-      router.replace("/");
+    if (!loading && user && !allowedRoles.includes(user.role)) {
+      router.push(`/`);
     }
-  }, [user, allowedRoles, router, setUser]);
+  }, [user, loading, router, allowedRoles]);
 
-  return <>{children}</>;
+  if (loading || !user) {
+    return <div>Loading...</div>;
+  }
+
+  return children;
 }
