@@ -1,13 +1,14 @@
 import UsersTable from "@/components/AdminComponents/AdminTable/UsersTable";
 import AnimatedWrapper from "@/components/AnimatedWrapper/AnimatedWrapper";
 import Nav from "@/components/Nav/Nav";
+import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UserIcon, UsersIcon } from "lucide-react";
 
 export default function Dashboard() {
   return (
-    <>
+    <ProtectedRoute allowedRoles={["admin"]}>
       <Nav showButtons={false} />
       <div className="max-w-[1200px] p-6 flex flex-col items-center mx-auto">
         <Tabs defaultValue="tab-1">
@@ -50,6 +51,6 @@ export default function Dashboard() {
           </TabsContent>
         </Tabs>
       </div>
-    </>
+    </ProtectedRoute>
   );
 }

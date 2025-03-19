@@ -1,27 +1,34 @@
-import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 type Props = {
+  allowedRoles: ["admin" | "customer" | "owner"];
   children: React.ReactNode;
-  allowedRoles: ('owner' | 'admin' | 'customer')[];
 };
 
-export default function ProtectedRoute({ children, allowedRoles }: Props) {
+export default function ProtectedRoute({ allowedRoles, children }: Props) {
   const { user } = useAuth();
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user) {
-      if (allowedRoles.includes('owner')) router.push('/owner-login');
-      else if (allowedRoles.includes('customer')) router.push('/customer-login');
-      else router.push('/');
+      if (allowedRoles.includes("admin")) {
+        router.push("/login/admin");
+      } else if (allowedRoles.includes("customer")) {
+        router.push("/login/customer");
+      } else if (allowedRoles.includes("owner")) {
+        router.push("/login/owner");
+      }
     } else if (!allowedRoles.includes(user.role)) {
-      if (user.role === 'admin') router.push('/');
-      else if (user.role === 'customer') router.push('/customer-login');
-      else if (user.role === 'owner') router.push('/owner-login');
+      router.replace("/");
+    } else if (user === null) {
+      router.replace("/");
+    } else {
+      setLoading(false);
     }
-  }, [user, router, allowedRoles]);
+  }, [user, allowedRoles, router]);
 
-  return user && allowedRoles.includes(user.role) ? <>{children}</> : null;
+  return <>{children}</>;
 }

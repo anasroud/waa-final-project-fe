@@ -43,13 +43,7 @@ import {
 import { memo, useCallback, useEffect, useState } from "react";
 import { Users } from "@/types/Users";
 import Alert from "@/components/Alert/Alert";
-
-const images = [
-  "https://res.cloudinary.com/dlzlfasou/image/upload/v1736358071/avatar-40-02_upqrxi.jpg",
-  "https://res.cloudinary.com/dlzlfasou/image/upload/v1736358073/avatar-40-01_ij9v7j.jpg",
-  "https://res.cloudinary.com/dlzlfasou/image/upload/v1736358072/avatar-40-03_dkeufx.jpg",
-  "https://res.cloudinary.com/dlzlfasou/image/upload/v1736358070/avatar-40-05_cmz0mg.jpg",
-];
+import { apiFetch } from "@/utils/api";
 
 const columns: ColumnDef<Users>[] = [
   {
@@ -58,13 +52,15 @@ const columns: ColumnDef<Users>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-3">
-          <img
-            className="rounded-full"
-            src={images[row.index % 4]}
-            width={40}
-            height={40}
-            alt="User Avatar"
-          />
+          {row.getValue("imageUrl") && (
+            <img
+              className="rounded-full"
+              src={row.getValue("imageUrl")}
+              width={40}
+              height={40}
+              alt="User Avatar"
+            />
+          )}
           <div>
             <div className="font-medium">{row.getValue("name")}</div>
           </div>
@@ -135,14 +131,12 @@ const AdminTable = () => {
   const [data, setData] = useState<Users[]>([]);
 
   const fetchUsers = useCallback(async () => {
-    const res = await fetch(
-      "/api/users?page=" +
-        (pagination.pageIndex + 1) +
-        "&limit=" +
-        pagination.pageSize
+    const res = apiFetch(
+      `/admins/owners?limit=${pagination.pageSize}&page=${pagination.pageIndex}`
     );
-    const data = await res.json();
-    setData(data.users);
+    const data = await res.then(res);
+    setData(data.data);
+    setNumberOfUsers(data.meta.totalPages);
   }, [pagination.pageIndex, pagination.pageSize]);
 
   const fetchNumberOfUsers = useCallback(async () => {
@@ -154,10 +148,6 @@ const AdminTable = () => {
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers, fetchNumberOfUsers]);
-
-  useEffect(() => {
-    fetchNumberOfUsers();
-  }, []);
 
   const table = useReactTable({
     data,

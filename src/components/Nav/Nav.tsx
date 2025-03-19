@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { Button } from "../ui/button";
+import { useAuth } from "@/context/AuthContext";
 
 export interface INavProps {
   showButtons?: boolean;
@@ -7,6 +8,7 @@ export interface INavProps {
 
 const Nav = ({ showButtons = true }) => {
   const router = useRouter();
+  const { user, logout } = useAuth();
 
   return (
     <nav className="w-full flex justify-center px-4 sm:px-6 lg:px-8 py-4 bg-white shadow-sm">
@@ -19,7 +21,11 @@ const Nav = ({ showButtons = true }) => {
         </div>
         {showButtons && (
           <div className="flex space-x-4">
-            <Button variant="outline" size={"lg"}>
+            <Button
+              variant="outline"
+              size={"lg"}
+              onClick={() => router.push("/search")}
+            >
               Buy
             </Button>
             <Button
@@ -28,6 +34,20 @@ const Nav = ({ showButtons = true }) => {
               onClick={() => router.push("/owner")}
             >
               Sell
+            </Button>
+          </div>
+        )}
+        {user && (
+          <div className="flex items-center space-x-4">
+            <Button
+              variant="outline"
+              size={"lg"}
+              onClick={() => router.push("/dashboard")}
+            >
+              Dashboard
+            </Button>
+            <Button variant="default" size={"lg"} onClick={() => logout()}>
+              Logout
             </Button>
           </div>
         )}

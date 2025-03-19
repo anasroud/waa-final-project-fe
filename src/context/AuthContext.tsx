@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { apiFetch } from "@/utils/api";
 
@@ -24,42 +24,31 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const debugMode = process.env.NEXT_PUBLIC_DEBUG_MODE === "true";
-
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (debugMode) {
-  //     setUser({
-  //       role: process.env.NEXT_PUBLIC_DEBUG_ROLE as UserRole,
-  //       token: 'mock-token',
-  //     });
-  //     console.log('🚀 Debug Mode Enabled');
-  //   } else {
-  //     const storedUser = localStorage.getItem('user');
-  //     if (storedUser) setUser(JSON.parse(storedUser));
-  //   }
-  // }, []);
-
   const login = async (email: string, password: string, role: UserRole) => {
-    // Mock the authentication flow during development
-    if (debugMode) {
-      setUser({ role, token: "mock-token" });
-      router.push(`/${role}-home`);
-      return;
-    }
-
-    const data = await apiFetch<{ token: string }>(`/admins/login`, {
+    const data = await apiFetch<{
+      data: {
+        token: string;
+        id: number;
+        email: string;
+        name: string;
+        imageURl: string;
+        role: UserRole;
+      };
+    }>(`/${role}s/login`, {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
 
-    const userData = { role, token: data.token };
+    data.data.role = role;
+
+    const userData = { ...data.data };
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
-    router.push(`/${role}-home`);
+    router.push(`/`);
   };
 
   const register = async (
@@ -75,12 +64,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     formData.append("name", name);
     if (image) formData.append("image", image);
 
-    await apiFetch<void>(`/owners/signup`, {
+    await apiFetch<void>(`/${role}s/signup`, {
       method: "POST",
       body: formData,
     });
 
-    router.push(`/${role}-login`);
+    router.push(`/${role}/login`);
   };
 
   const logout = () => {
@@ -88,6 +77,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem("user");
     router.push("/login");
   };
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, login, register, logout }}>
