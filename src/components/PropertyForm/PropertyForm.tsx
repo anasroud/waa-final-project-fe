@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Property } from '@/components/PropertyItem/PropertyItem';
+import { apiFetch } from '@/utils/api';
 
 interface PropertyFormProps {
     propertyId?: string;
@@ -126,18 +127,33 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
 
         setErrors(newErrors);
 
+        //todo: handle image uploads
+
         if (Object.keys(newErrors).length === 0) {
             try {
-                const endpoint = isEditing ? `/api/properties/${propertyId}` : '/api/properties';
-                const method = isEditing ? 'PUT' : 'POST';
+                let data: {
+                    message: string;
+                    data: Property;
+                };
+                if (isEditing) {
+                    data = await apiFetch<{
+                        message: string;
+                        data: Property;
+                    }>(`/owners/properties/${propertyId}`, {
+                        method: "PUT",
+                        body: JSON.stringify(formData)
+                    });
+                } else {
+                    data = await apiFetch<{
+                        message: string;
+                        data: Property;
+                    }>(`/owners/properties`, {
+                        method: "POST",
+                        body: JSON.stringify(formData)
+                    });
+                }
 
-                const response = await fetch(endpoint, {
-                    method,
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-
-                if (!response.ok) throw new Error('Failed to save property');
+                if (data.message !== "success") throw new Error('Failed to save property');
                 router.push('/owner');
             } catch (error) {
                 console.error('Error saving property:', error);
