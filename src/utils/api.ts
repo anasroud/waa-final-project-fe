@@ -26,7 +26,7 @@ export async function apiFetch<T>(
     headers,
   });
 
-  if (response.status === 403) {
+  if (response.status === 401) {
     localStorage.removeItem("user");
     console.error("Forbidden: User has been logged out.");
     window.location.replace("/");
