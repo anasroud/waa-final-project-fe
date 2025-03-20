@@ -44,7 +44,7 @@ import { memo, useCallback, useEffect, useState } from "react";
 import { Users } from "@/types/Users";
 import Alert from "@/components/Alert/Alert";
 import { apiFetch } from "@/utils/api";
-import { Label } from "@radix-ui/react-label";
+import { Badge } from "@/components/ui/badge";
 
 const handleActivateUser = async (id: number, isActive: boolean) => {
   // api/admin/owners/{id}/activate
@@ -129,12 +129,12 @@ const ApprovedCell = ({ row }: { row: any }) => {
       }}
       className={cn(
         row.getValue("approved") === false &&
-          "bg-muted-foreground/60 text-primary-foreground",
+        "bg-muted-foreground/60 text-primary-foreground",
         "w-[120px] rounded-full"
       )}
     />
   ) : (
-    <Label>Approved</Label>
+    <Badge>Approved</Badge>
   );
 };
 
@@ -144,7 +144,7 @@ const ActiveCell = ({ row }: { row: any }) => {
 
   return (
     <Alert
-      label={isActive === true ? "Active" : "Inactive"}
+      label={isActive === true ? "Deactivate" : "Activate"}
       modalTitle="Change User Status"
       modalDescription={
         isActive === true
@@ -156,8 +156,10 @@ const ActiveCell = ({ row }: { row: any }) => {
         setIsActive(!isActive);
       }}
       className={cn(
-        isActive === false && "bg-muted-foreground/60 text-primary-foreground",
-        "w-[120px] rounded-full"
+        {
+          "bg-green-50 text-green-500": !isActive,
+          "bg-red-50 text-red-500": isActive,
+        }
       )}
     />
   );
@@ -241,7 +243,7 @@ const AdminTable = () => {
                         <div
                           className={cn(
                             header.column.getCanSort() &&
-                              "flex h-full cursor-pointer items-center justify-between gap-2 select-none"
+                            "flex h-full cursor-pointer items-center justify-between gap-2 select-none"
                           )}
                           onClick={header.column.getToggleSortingHandler()}
                           onKeyDown={(e) => {
