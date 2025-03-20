@@ -112,7 +112,7 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
             />
           </motion.div>
           <div className="absolute top-2 w-full flex justify-between items-center px-4">
-            <div className="left-2 bg-primary text-white px-2 py-1 rounded text-sm font-semibold">
+            <div className="left-2 bg-primary text-white px-2 py-1 rounded text-xs font-semibold">
               {property.homeType}
             </div>
             {user && <button
