@@ -14,11 +14,11 @@ export default function ProtectedRoute({ allowedRoles, children }: Props) {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push(`/login/${allowedRoles[0]}`);
+      router.replace(`/login/${allowedRoles[0]}`);
     }
 
     if (!loading && user && !allowedRoles.includes(user.role)) {
-      router.push(`/`);
+      router.replace(`/`);
     }
   }, [user, loading, router, allowedRoles]);
 

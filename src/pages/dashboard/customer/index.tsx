@@ -10,7 +10,7 @@ import { HeartIcon, CircleDollarSign } from "lucide-react";
 export default function CustomerDashboard() {
   return (
     <ProtectedRoute allowedRoles={["customer"]}>
-      <Nav showButtons={false} />
+      <Nav showButtons={true} />
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Buyer Dashboard</h1>
@@ -20,14 +20,14 @@ export default function CustomerDashboard() {
             <TabsList className="text-foreground mb-3 h-auto gap-2 rounded-none border-b bg-transparent px-0 py-1">
               <TabsTrigger
                 value="tab-1"
-                className="hover:bg-accent hover:text-foreground data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+                className="hover:bg-accent hover:text-foreground data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent  after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
               >
                 <CircleDollarSign
                   className="-ms-0.5 me-1.5 opacity-60"
                   size={16}
                   aria-hidden="true"
                 />
-                My Offers
+                My Offersrelative
               </TabsTrigger>
               <TabsTrigger
                 value="tab-2"
@@ -44,14 +44,10 @@ export default function CustomerDashboard() {
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
           <TabsContent value="tab-1">
-            <AnimatedWrapper>
-              <CustomerOffersTable />
-            </AnimatedWrapper>
+            <CustomerOffersTable />
           </TabsContent>
           <TabsContent value="tab-2">
-            <AnimatedWrapper>
-              <FavoritedPropertiesTable />
-            </AnimatedWrapper>
+            <FavoritedPropertiesTable />
           </TabsContent>
         </Tabs>
       </div>

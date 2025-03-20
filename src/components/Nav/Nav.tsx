@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { Button } from "../ui/button";
 import { useAuth } from "@/context/AuthContext";
+import Alert from "../Alert/Alert";
 
 export interface INavProps {
   showButtons?: boolean;
@@ -17,8 +18,12 @@ const Nav = ({ showButtons = true }) => {
           className="flex items-center space-x-2 cursor-pointer"
           onClick={() => router.push("/")}
         >
-          <span className="text-3xl font-bold font-lora">HomeFindr.</span>
+          <span className="text-3xl font-bold font-lora">
+            HomeFindr.
+            {user && <span className="text-primary text-2xl">{user.role}</span>}
+          </span>
         </div>
+
         <div className="flex space-x-4">
           {showButtons && (
             <>
@@ -48,14 +53,24 @@ const Nav = ({ showButtons = true }) => {
                 <Button
                   variant="outline"
                   size={"lg"}
-                  onClick={() => router.push(user.role === "admin" ? "/dashboard" : "/dashboard/customer")}
+                  onClick={() =>
+                    router.push(
+                      user.role === "admin"
+                        ? "/dashboard"
+                        : "/dashboard/customer"
+                    )
+                  }
                 >
                   Dashboard
                 </Button>
               )}
-              <Button variant="default" size={"lg"} onClick={() => logout()}>
-                Logout
-              </Button>
+              <Alert
+                label="Logout"
+                modalTitle="Are Sure you want to logout"
+                onConfirm={() => logout()}
+                className="w-[120px] h-10 bg-black text-white rounded-md"
+                modalDescription={""}
+              />
             </>
           )}
         </div>
