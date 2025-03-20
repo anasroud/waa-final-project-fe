@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { apiFetch } from "@/utils/api";
+import { FileUploadResponse } from "@/components/Inputs/FileUploader";
 
 type UserRole = "owner" | "admin" | "customer";
 
@@ -20,13 +21,15 @@ interface AuthContextType {
     email: string,
     password: string,
     name: string,
-    // image: File | null,
-    role: UserRole,
+    image: File | null,
+    role: UserRole
   ) => Promise<void>;
   loading: boolean;
   setUser: (user: User | null) => void;
   logout: () => void;
 }
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -39,7 +42,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
       const parsedUser = JSON.parse(savedUser);
-      const decodedToken = decodeToken(parsedUser.token); // Implement your token decoding logic
+      const decodedToken = decodeToken(parsedUser.token);
       if (decodedToken && decodedToken.exp > Date.now() / 1000) {
         setUser(parsedUser);
       } else {
@@ -51,6 +54,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const login = async (email: string, password: string, role: UserRole) => {
+    setLoading(true);
     try {
       const data = await apiFetch<{ data: User }>(`/${role}s/login`, {
         method: "POST",
@@ -63,6 +67,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const { role: _, ...userWithoutRole } = userData;
       const localData = { role, ...userWithoutRole };
       localStorage.setItem("user", JSON.stringify(localData));
+      setLoading(false);
       router.push(`/`);
     } catch (error) {
       if (error instanceof Error) {
@@ -81,20 +86,45 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     email: string,
     password: string,
     name: string,
-    // image: File | null,
-    role: UserRole,
+    image: File | null,
+    role: UserRole
   ) => {
     try {
-      const data = await apiFetch<{ data: unknown }>(`/${role}s/signup`, {
-        method: "POST",
-        body: JSON.stringify({ email, password, name }),
-      });
+      let imageUrl = "";
 
-      if (data.data) {
-        console.log("Registration successful:", data.data);
+      if (image) {
+        const formData = new FormData();
+        formData.append("files", image);
+        const response = await fetch(BASE_URL + "/media/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          console.error(errorMessage || `Error: ${response.status}`);
+        } else {
+          const data: FileUploadResponse = await response.json();
+          imageUrl = data.data.url[0];
+        }
       }
 
-      router.push(`/login/${role}`);
+      const requestBody = {
+        email,
+        password,
+        name,
+        ...(imageUrl && { imageUrl }),
+      };
+
+      const response = await apiFetch<{ data: unknown }>(`/${role}s/signup`, {
+        method: "POST",
+        body: JSON.stringify(requestBody),
+      });
+
+      if (response.data) {
+        console.log("Registration successful:", response.data);
+        router.push(`/login/${role}`);
+      }
     } catch (error) {
       console.error("Registration failed:", error);
       throw error;
@@ -133,7 +163,7 @@ const decodeToken = (token: string) => {
         .map(function (c) {
           return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
         })
-        .join(""),
+        .join("")
     );
 
     return JSON.parse(jsonPayload);

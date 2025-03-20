@@ -10,6 +10,8 @@ export interface INormalInputProps {
   type: string;
   setValue: (value: string) => void;
   value?: string;
+  inputClassName?: string;
+  min?: number;
 }
 
 export default function NormalInput({
@@ -19,6 +21,8 @@ export default function NormalInput({
   type,
   setValue,
   value,
+  inputClassName,
+  min,
 }: INormalInputProps) {
   const id = useId();
 
@@ -30,10 +34,12 @@ export default function NormalInput({
     <div className={(cn("*:not-first:mt-2"), className)}>
       <Label htmlFor={id}>{label}</Label>
       <Input
+        className={inputClassName}
         onChange={changeEvent}
         id={id}
         placeholder={placeHolder}
         type={type}
+        min={min}
         defaultValue={value}
       />
     </div>

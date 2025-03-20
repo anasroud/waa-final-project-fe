@@ -10,8 +10,8 @@ export default function OwnerRegister() {
       <Nav />
       <AuthFormWithImage
         title="Owner Register"
-        onSubmit={(email, password, name) =>
-          register(email, password, name, "owner")
+        onSubmit={(email, password, name, image) =>
+          register(email, password, name, image, "owner")
         }
         type="register"
         buttonText="Register"

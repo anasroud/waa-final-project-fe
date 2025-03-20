@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { useId, useState } from "react";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
-interface FileUploadResponse {
+export interface FileUploadResponse {
   message: string;
   data: {
     url: string[];
@@ -12,9 +12,14 @@ interface FileUploadResponse {
 interface IFileUploaderProps {
   onUploadSuccess?: (urls: string[]) => void;
   onError?: (error: string) => void;
+  allowMultiple?: boolean;
 }
 
-const FileUploader = ({ onUploadSuccess, onError }: IFileUploaderProps) => {
+const FileUploader = ({
+  onUploadSuccess,
+  onError,
+  allowMultiple = true,
+}: IFileUploaderProps) => {
   const id = useId();
   const [loading, setLoading] = useState(false);
 
@@ -73,7 +78,7 @@ const FileUploader = ({ onUploadSuccess, onError }: IFileUploaderProps) => {
         id={id}
         className="p-0 pe-3 file:me-3 file:border-0 file:border-e"
         type="file"
-        multiple // Allow multiple files to be selected
+        multiple={allowMultiple} // Allow multiple files to be selected
         onChange={handleFileChange}
         disabled={loading}
       />
