@@ -48,7 +48,13 @@ const Nav = ({ showButtons = true }) => {
                 <Button
                   variant="outline"
                   size={"lg"}
-                  onClick={() => router.push(user.role === "admin" ? "/dashboard" : "/dashboard/customer")}
+                  onClick={() =>
+                    router.push(
+                      user.role === "admin"
+                        ? "/dashboard"
+                        : "/dashboard/customer",
+                    )
+                  }
                 >
                   Dashboard
                 </Button>

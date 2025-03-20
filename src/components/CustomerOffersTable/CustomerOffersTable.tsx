@@ -94,26 +94,35 @@ const CustomerOffersTable = () => {
         <TableBody>
           {offers.map((offer) => (
             <TableRow key={offer.id}>
-              <TableCell className="font-medium">{offer.property.title}</TableCell>
+              <TableCell className="font-medium">
+                {offer.property.title}
+              </TableCell>
               <TableCell>
                 <div className="flex items-center text-sm">
-                  <CircleDollarSign className="mr-1 text-green-500" height={16} />
+                  <CircleDollarSign
+                    className="mr-1 text-green-500"
+                    height={16}
+                  />
                   ${offer.property.price.toLocaleString()}
                 </div>
               </TableCell>
               <TableCell>
                 <div className="flex items-center text-sm">
-                  <CircleDollarSign className="mr-1 text-blue-500" height={16} />
+                  <CircleDollarSign
+                    className="mr-1 text-blue-500"
+                    height={16}
+                  />
                   ${offer.offeredPrice.toLocaleString()}
                 </div>
               </TableCell>
               <TableCell>{offer.message}</TableCell>
               <TableCell>
                 <span
-                  className={`inline-flex items-center rounded-sm px-2 py-1 text-xs font-medium ${offer.isAccepted
+                  className={`inline-flex items-center rounded-sm px-2 py-1 text-xs font-medium ${
+                    offer.isAccepted
                       ? "bg-green-100 text-green-700"
                       : "bg-yellow-100 text-yellow-700"
-                    }`}
+                  }`}
                 >
                   {offer.isAccepted ? "Accepted" : "Pending"}
                 </span>
