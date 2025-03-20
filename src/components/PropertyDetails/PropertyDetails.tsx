@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Button } from '../ui/button'
-import { Bath, BedDouble, ChevronLeft, ChevronRight, DollarSign, Home, MapPin, X } from 'lucide-react'
+import { Bath, BedDouble, ChevronLeft, ChevronRight, Home, MapPin, X } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { formatPrice, Property } from '../PropertyItem/PropertyItem';
 import { cn } from '@/lib/utils';
+import OfferModal from '../OfferModal';
 
 function PropertyDetails({ isOpen, setIsOpen, selectedProperty }: { isOpen: boolean, setIsOpen: React.Dispatch<React.SetStateAction<boolean>>, selectedProperty: Property | null }) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -23,6 +24,8 @@ function PropertyDetails({ isOpen, setIsOpen, selectedProperty }: { isOpen: bool
             prev === 0 ? selectedProperty.imageURLs.length - 1 : prev - 1
         );
     };
+
+
 
     return (
         <AnimatePresence>
@@ -169,13 +172,8 @@ function PropertyDetails({ isOpen, setIsOpen, selectedProperty }: { isOpen: bool
                                 </div>
 
                                 <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                                    <Button
-                                        className="flex-1"
-                                        size="lg"
-                                    >
-                                        <DollarSign className="h-5 w-5" />
-                                        Place an Offer
-                                    </Button>
+
+                                    <OfferModal selectedProperty={selectedProperty} />
                                     <Button
                                         variant="outline"
                                         className="flex-1"
@@ -190,6 +188,8 @@ function PropertyDetails({ isOpen, setIsOpen, selectedProperty }: { isOpen: bool
                 </>
             )}
         </AnimatePresence>
+
+
     )
 }
 
