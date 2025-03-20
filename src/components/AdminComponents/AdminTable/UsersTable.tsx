@@ -103,7 +103,7 @@ const columns: ColumnDef<Users>[] = [
   {
     header: "Role",
     accessorKey: "role",
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div>
           <span className="leading-none capitalize">Owner</span>{" "}
