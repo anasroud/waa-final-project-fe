@@ -1,4 +1,3 @@
-import AnimatedWrapper from "@/components/AnimatedWrapper/AnimatedWrapper";
 import CustomerOffersTable from "@/components/CustomerOffersTable/CustomerOffersTable";
 import FavoritedPropertiesTable from "@/components/FavoritedPropertiesTable/FavoritedPropertiesTable";
 import Nav from "@/components/Nav/Nav";

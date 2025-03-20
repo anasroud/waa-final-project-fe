@@ -1,6 +1,4 @@
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { apiFetch } from "@/utils/api";
 import { useId, useState } from "react";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
@@ -56,9 +54,13 @@ const FileUploader = ({ onUploadSuccess, onError }: IFileUploaderProps) => {
           onError("Upload failed: " + data.message);
         }
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (onError) {
-        onError("Upload error: " + error.message);
+        if (error instanceof Error) {
+          onError("Upload error: " + error.message);
+        } else {
+          onError("Upload error: An unknown error occurred.");
+        }
       }
     } finally {
       setLoading(false);
