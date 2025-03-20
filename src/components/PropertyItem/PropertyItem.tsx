@@ -33,7 +33,7 @@ export type Property = {
   isApproved: boolean;
   processedAt: string | null;
   ownerId: number;
-  status: "AVAILABLE" | "PENDING" | "SOLD" | "CONTINGENT";
+  status: "Available" | "Pending" | "SOLD" | "CONTINGENT";
   imageURLs: string[];
 };
 

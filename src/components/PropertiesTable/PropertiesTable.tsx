@@ -111,9 +111,9 @@ const PropertiesTable = () => {
                 <div className="flex items-center">
                   <Badge
                     className={`!text-[10px] rounded-sm font-bold ${
-                      property.status === "AVAILABLE"
+                      property.status === "Available"
                         ? "bg-green-100 text-green-800"
-                        : property.status === "PENDING"
+                        : property.status === "Pending"
                           ? "bg-yellow-100 text-yellow-800"
                           : property.status === "SOLD"
                             ? "bg-red-100 text-red-800"
@@ -146,19 +146,19 @@ const PropertiesTable = () => {
                 </div>
               </TableCell>
               <TableCell>
-                {property.status === "AVAILABLE" && (
-                  <div className="inline-flex -space-x-px rounded-md shadow-xs rtl:space-x-reverse">
-                    <Button
-                      className="rounded-none shadow-none first:rounded-s-md last:rounded-e-md focus-visible:z-10"
-                      variant="outline"
-                      onClick={() => {
-                        setSelectedProperty(property);
+                <div className="inline-flex -space-x-px rounded-md shadow-xs rtl:space-x-reverse">
+                  <Button
+                    className="rounded-none shadow-none first:rounded-s-md last:rounded-e-md focus-visible:z-10"
+                    variant="outline"
+                    onClick={() => {
+                      setSelectedProperty(property);
 
-                        setIsOpen(true);
-                      }}
-                    >
-                      <Eye size={16} />
-                    </Button>
+                      setIsOpen(true);
+                    }}
+                  >
+                    <Eye size={16} />
+                  </Button>
+                  {property.status === "Available" && (
                     <Button
                       className="rounded-none shadow-none first:rounded-s-md last:rounded-e-md focus-visible:z-10"
                       variant="outline"
@@ -166,16 +166,16 @@ const PropertiesTable = () => {
                     >
                       <Edit size={16} />
                     </Button>
-                    <Button
-                      className="rounded-none shadow-none first:rounded-s-md last:rounded-e-md focus-visible:z-10"
-                      variant="outline"
-                      size="icon"
-                      onClick={() => handleDelete(property.id)}
-                    >
-                      <Trash size={16} className="text-red-400" />
-                    </Button>
-                  </div>
-                )}
+                  )}
+                  <Button
+                    className="rounded-none shadow-none first:rounded-s-md last:rounded-e-md focus-visible:z-10"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handleDelete(property.id)}
+                  >
+                    <Trash size={16} className="text-red-400" />
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}
