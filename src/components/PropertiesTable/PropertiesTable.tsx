@@ -8,6 +8,8 @@ import {
   Eye,
   ShowerHead,
   Trash,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from "lucide-react";
 import {
   Table,
@@ -21,8 +23,7 @@ import { Property } from "../PropertyItem/PropertyItem";
 import PropertyDetails from "../PropertyDetails/PropertyDetails";
 import { Badge } from "../ui/badge";
 import { apiFetch } from "@/utils/api";
-
-// const sampleResponse = { "message": "success", "data": [{ "id": 1, "title": "Beautiful Villa", "description": "A luxurious villa in the city", "city": "New York", "state": "NY", "zipCode": "10001", "address": "123 Villa St", "locationLat": 40.7128, "locationLng": -74.006, "price": 500000, "bedroomCount": 4, "bathroomCount": 3, "homeType": "House", "squareFootage": 3500, "hasParking": true, "hasPool": true, "hasAC": true, "processedAt": "2025-03-19T13:41:19.488141", "ownerId": 2, "status": "Available", "imageURLs": [], "approved": true }, { "id": 2, "title": "Modern Condo", "description": "A modern condo with a pool", "city": "Los Angeles", "state": "CA", "zipCode": "90001", "address": "456 Condo Ave", "locationLat": 34.0522, "locationLng": -118.2437, "price": 350000, "bedroomCount": 2, "bathroomCount": 2, "homeType": "Condo", "squareFootage": 1200, "hasParking": true, "hasPool": true, "hasAC": true, "processedAt": "2025-03-19T13:41:19.488165", "ownerId": 2, "status": "Available", "imageURLs": [], "approved": true }], "meta": { "totalPages": 1, "currentPage": 0, "totalElements": 2 } }
+import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/pagination";
 
 const PropertiesTable = () => {
   const router = useRouter();
@@ -30,14 +31,23 @@ const PropertiesTable = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     fetchProperties();
-  }, []);
+  }, [currentPage]);
 
   const fetchProperties = async () => {
     try {
-      const response = await apiFetch<{ message: string; data: Property[] }>(
-        "/owners/properties",
+      const response = await apiFetch<{
+        message: string; data: Property[], "meta": {
+          "totalPages": number;
+          "currentPage": number;
+          "totalElements": number;
+        }
+      }>(
+        "/owners/properties?page=" + currentPage + "&size=3",
         {
           method: "GET",
         },
@@ -47,6 +57,7 @@ const PropertiesTable = () => {
         throw new Error("Failed to fetch properties");
 
       setProperties(response.data);
+      setTotalPages(response.meta.totalPages);
       setLoading(false);
     } catch (err) {
       console.log(err);
@@ -110,15 +121,14 @@ const PropertiesTable = () => {
               <TableCell>
                 <div className="flex items-center">
                   <Badge
-                    className={`!text-[10px] rounded-sm font-bold ${
-                      property.status === "Available"
-                        ? "bg-green-100 text-green-800"
-                        : property.status === "Pending"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : property.status === "SOLD"
-                            ? "bg-red-100 text-red-800"
-                            : "bg-gray-100 text-gray-800"
-                    }`}
+                    className={`!text-[10px] rounded-sm font-bold ${property.status === "Available"
+                      ? "bg-green-100 text-green-800"
+                      : property.status === "Pending"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : property.status === "SOLD"
+                          ? "bg-red-100 text-red-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
                   >
                     {property.status}
                   </Badge>
@@ -181,6 +191,46 @@ const PropertiesTable = () => {
           ))}
         </TableBody>
       </Table>
+      <Pagination>
+        <PaginationContent className="w-full justify-between gap-3">
+          <PaginationItem>
+            <Button
+              variant="outline"
+              className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+              aria-disabled={currentPage === 0 ? true : undefined}
+              role={currentPage === 0 ? "link" : undefined}
+              onClick={() => {
+                setCurrentPage((prev) => prev - 1);
+                // fetchProperties();
+              }}
+              asChild
+            >
+              <span>
+                <ChevronLeftIcon className="-ms-1 opacity-60" size={16} aria-hidden="true" />
+                Previous
+              </span>
+            </Button>
+          </PaginationItem>
+          <PaginationItem>
+            <Button
+              variant="outline"
+              className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+              aria-disabled={currentPage === totalPages - 1 ? true : undefined}
+              role={currentPage === totalPages - 1 ? "link" : undefined}
+              onClick={() => {
+                setCurrentPage((prev) => prev + 1);
+                // fetchProperties();
+              }}
+              asChild
+            >
+              <span>
+                Next
+                <ChevronRightIcon className="-me-1 opacity-60" size={16} aria-hidden="true" />
+              </span>
+            </Button>
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
       <PropertyDetails
         isOpen={isOpen}
         selectedProperty={selectedProperty}
