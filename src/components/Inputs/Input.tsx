@@ -34,7 +34,7 @@ export default function NormalInput({
         id={id}
         placeholder={placeHolder}
         type={type}
-        value={value}
+        defaultValue={value}
       />
     </div>
   );

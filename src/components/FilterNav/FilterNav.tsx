@@ -78,7 +78,7 @@ const FilterNav = ({ setSearchFilters, city }: IFilterNavProps) => {
         className="container max-w-6xl bg-gray-100/80 rounded-4xl mx-auto mt-5 gap-6 p-8 flex justify-between items-end flex-col md:flex-row"
         onSubmit={handleOnSubmit}
       >
-        <div className="grid w-fit gap-6 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
+        <div className="grid w-full gap-6 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
           <NormalInput
             label="Search By City"
             placeHolder="ex: FairField"
