@@ -5,6 +5,7 @@ import {
   BedDouble,
   ChevronLeft,
   ChevronRight,
+  DollarSign,
   Home,
   MapPin,
   X,
@@ -13,6 +14,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { formatPrice, Property } from "../PropertyItem/PropertyItem";
 import { cn } from "@/lib/utils";
 import OfferModal from "../OfferModal";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 
 function PropertyDetails({
   isOpen,
@@ -40,6 +43,10 @@ function PropertyDetails({
       prev === 0 ? selectedProperty.imageURLs.length - 1 : prev - 1,
     );
   };
+
+  const { user } = useAuth();
+  const router = useRouter();
+
 
   return (
     <AnimatePresence>
@@ -193,7 +200,14 @@ function PropertyDetails({
                 </div>
 
                 <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                  <OfferModal selectedProperty={selectedProperty} setIsOpen={setIsOpen} />
+                  {user ?
+                    <OfferModal selectedProperty={selectedProperty} setIsOpen={setIsOpen} />
+                    :
+                    <Button className="flex-1" size="lg" onClick={() => router.push("/login/customer")}>
+                      <DollarSign className="h-5 w-5" />
+                      Place an Offer
+                    </Button>
+                  }
                   <Button variant="outline" className="flex-1" size="lg">
                     Contact Seller
                   </Button>
