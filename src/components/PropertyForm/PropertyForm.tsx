@@ -129,11 +129,12 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
     const fetchPropertyData = async () => {
       if (isEditing && propertyId) {
         try {
-          // TODO: Replace with actual API call
-          const response = await fetch(`/api/properties/${propertyId}`);
-          if (!response.ok) throw new Error("Failed to fetch property");
-          const data = await response.json();
-          setFormData(data);
+          const response = await apiFetch<{
+            message: string;
+            data: Property;
+          }>(`/owners/properties/${propertyId}`);
+
+          setFormData(response.data);
         } catch (error) {
           console.error("Error fetching property:", error);
         }
@@ -168,7 +169,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
             message: string;
             data: Property;
           }>(`/owners/properties/${propertyId}`, {
-            method: "PUT",
+            method: "PATCH",
             body: JSON.stringify(formData),
           });
         } else {
