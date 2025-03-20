@@ -1,5 +1,6 @@
 import AnimatedWrapper from "@/components/AnimatedWrapper/AnimatedWrapper";
 import CustomerOffersTable from "@/components/CustomerOffersTable/CustomerOffersTable";
+import FavoritedPropertiesTable from "@/components/FavoritedPropertiesTable/FavoritedPropertiesTable";
 import Nav from "@/components/Nav/Nav";
 import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -49,7 +50,7 @@ export default function CustomerDashboard() {
           </TabsContent>
           <TabsContent value="tab-2">
             <AnimatedWrapper>
-              <div className="text-center py-4">Favorites feature coming soon!</div>
+              <FavoritedPropertiesTable />
             </AnimatedWrapper>
           </TabsContent>
         </Tabs>
