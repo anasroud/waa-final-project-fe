@@ -10,7 +10,7 @@ const FeaturedProperties = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const query = `?page=${1}&size=${6}`;
+        const query = `?page=${0}&size=${6}`;
 
         const response = await apiFetch<{
           data: Property[];
