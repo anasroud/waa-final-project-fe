@@ -26,6 +26,7 @@ export type Property = {
   locationLat: number;
   locationLng: number;
   price: number;
+  favorited: boolean;
   bedroomCount: number;
   bathroomCount: number;
   homeType: string;
@@ -56,7 +57,6 @@ interface PropertyItemProps {
 const PropertyItem = ({ property, className }: PropertyItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const toggleFavorite = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -65,7 +65,6 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
         method: "POST",
         body: JSON.stringify({ propertyId: property.id }),
       });
-      setIsFavorite(!isFavorite);
     } catch (error) {
       console.error("Error toggling favorite:", error);
     }
@@ -120,7 +119,7 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
                 onClick={toggleFavorite}
                 className="text-white hover:text-primary transition-colors"
               >
-                {!isFavorite ? (
+                {!property.favorited ? (
                   <Heart size={24} />
                 ) : (
                   <svg
