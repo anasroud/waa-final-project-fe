@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { usePagination } from "@/hooks/use-pagination";
@@ -54,8 +53,8 @@ const handleActivateUser = async (id: number, isActive: boolean) => {
     body: JSON.stringify({ isActive: !isActive }),
   })) as Response;
 
-  if (res.ok) {
-    // Do something
+  if (res.status === 200) {
+    window.location.reload();
   }
 };
 
@@ -66,8 +65,8 @@ const handleApproveUser = async (id: number, approved: boolean) => {
     body: JSON.stringify({ approved: !approved }),
   })) as Response;
 
-  if (res.ok) {
-    // Do something
+  if (res.status === 200) {
+    window.location.reload();
   }
 };
 
@@ -78,18 +77,7 @@ const columns: ColumnDef<Users>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-3">
-          {typeof row.getValue("imageUrl") === "string" && (
-            <img
-              className="rounded-full"
-              src={row.getValue("imageUrl") as string}
-              width={40}
-              height={40}
-              alt="User Avatar"
-            />
-          )}
-          <div>
-            <div className="font-medium">{row.getValue("name")}</div>
-          </div>
+          <div className="font-medium">{row.getValue("name")}</div>
         </div>
       );
     },
@@ -114,55 +102,66 @@ const columns: ColumnDef<Users>[] = [
   },
   {
     header: "Active",
-    accessorKey: "isActive",
-    cell: ({ row }) => {
-      return (
-        <Alert
-          label={row.getValue("isActive") === true ? "Active" : "Inactive"}
-          modalTitle="Change User Status"
-          modalDescription={
-            row.getValue("isActive") === true
-              ? "Are you sure you want to deactivate this user?"
-              : "Are you sure you want to activate this user?"
-          }
-          onConfirm={() => {
-            handleActivateUser(row.original.id, row.original.isActive);
-          }}
-          className={cn(
-            row.getValue("isActive") === false &&
-              "bg-muted-foreground/60 text-primary-foreground",
-            "w-[120px] rounded-full",
-          )}
-        />
-      );
-    },
+    accessorKey: "active",
+    cell: ({ row }) => <ActiveCell row={row} />,
     size: 120,
   },
   {
     header: "Approve",
     accessorKey: "approved",
-    cell: ({ row }) => {
-      return row.getValue("approved") === false ? (
-        <Alert
-          label="Approve"
-          modalTitle="Activate User"
-          modalDescription="Are you sure you want to approve this user?"
-          onConfirm={() => {
-            handleApproveUser(row.original.id, row.original.approved);
-          }}
-          className={cn(
-            row.getValue("approved") === false &&
-              "bg-muted-foreground/60 text-primary-foreground",
-            "w-[120px] rounded-full",
-          )}
-        />
-      ) : (
-        <Label>Approved</Label>
-      );
-    },
+    cell: ({ row }) => <ApprovedCell row={row} />,
     size: 120,
   },
 ];
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ApprovedCell = ({ row }: { row: any }) => {
+  const [isApproved, setIsApproved] = useState(row.getValue("approved"));
+
+  return !isApproved ? (
+    <Alert
+      label="Approve"
+      modalTitle="Activate User"
+      modalDescription="Are you sure you want to approve this user?"
+      onConfirm={() => {
+        handleApproveUser(row.original.id, row.original.approved);
+        setIsApproved(!isApproved);
+      }}
+      className={cn(
+        row.getValue("approved") === false &&
+          "bg-muted-foreground/60 text-primary-foreground",
+        "w-[120px] rounded-full"
+      )}
+    />
+  ) : (
+    <Label>Approved</Label>
+  );
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ActiveCell = ({ row }: { row: any }) => {
+  const [isActive, setIsActive] = useState(row.getValue("active"));
+
+  return (
+    <Alert
+      label={isActive === true ? "Active" : "Inactive"}
+      modalTitle="Change User Status"
+      modalDescription={
+        isActive === true
+          ? "Are you sure you want to deactivate this user?"
+          : "Are you sure you want to activate this user?"
+      }
+      onConfirm={() => {
+        handleActivateUser(row.original.id, row.original.isActive);
+        setIsActive(!isActive);
+      }}
+      className={cn(
+        isActive === false && "bg-muted-foreground/60 text-primary-foreground",
+        "w-[120px] rounded-full"
+      )}
+    />
+  );
+};
 
 const AdminTable = () => {
   const pageSize = 10;
@@ -185,7 +184,7 @@ const AdminTable = () => {
 
   const fetchUsers = useCallback(async () => {
     const res = apiFetch(
-      `/admins/owners?limit=${pagination.pageSize}&page=${pagination.pageIndex}`,
+      `/admins/owners?limit=${pagination.pageSize}&page=${pagination.pageIndex}`
     );
     const data = (await res) as { data: Users[]; meta: { totalPages: number } };
     setData(data.data);
@@ -242,7 +241,7 @@ const AdminTable = () => {
                         <div
                           className={cn(
                             header.column.getCanSort() &&
-                              "flex h-full cursor-pointer items-center justify-between gap-2 select-none",
+                              "flex h-full cursor-pointer items-center justify-between gap-2 select-none"
                           )}
                           onClick={header.column.getToggleSortingHandler()}
                           onKeyDown={(e) => {
@@ -258,7 +257,7 @@ const AdminTable = () => {
                         >
                           {flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                           {{
                             asc: (
@@ -280,7 +279,7 @@ const AdminTable = () => {
                       ) : (
                         flexRender(
                           header.column.columnDef.header,
-                          header.getContext(),
+                          header.getContext()
                         )
                       )}
                     </TableHead>
@@ -300,7 +299,7 @@ const AdminTable = () => {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}
@@ -346,7 +345,7 @@ const AdminTable = () => {
                   className="disabled:pointer-events-none disabled:opacity-50"
                   onClick={() =>
                     table.setPageIndex(
-                      table.getState().pagination.pageIndex - 1,
+                      table.getState().pagination.pageIndex - 1
                     )
                   }
                   disabled={!table.getCanPreviousPage()}
@@ -396,7 +395,7 @@ const AdminTable = () => {
                   className="disabled:pointer-events-none disabled:opacity-50"
                   onClick={() =>
                     table.setPageIndex(
-                      table.getState().pagination.pageIndex + 1,
+                      table.getState().pagination.pageIndex + 1
                     )
                   }
                   disabled={!table.getCanNextPage()}

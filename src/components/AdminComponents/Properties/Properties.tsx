@@ -27,7 +27,6 @@ import {
 import {
   ColumnDef,
   PaginationState,
-  SortingState,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
@@ -72,7 +71,7 @@ const columns: ColumnDef<IProperty>[] = [
     accessorKey: "processedAt",
     cell: ({ row }) => {
       const processedAt = new Date(
-        row.getValue("processedAt"),
+        row.getValue("processedAt")
       ).toLocaleDateString("en-GB");
       return (
         <div>
@@ -104,18 +103,11 @@ const PropertiesTable = () => {
 
   const [numberOfUsers, setNumberOfUsers] = useState(0);
 
-  const [sorting, setSorting] = useState<SortingState>([
-    {
-      id: "name",
-      desc: false,
-    },
-  ]);
-
   const [data, setData] = useState<IProperty[]>([]);
 
   const fetchProperties = useCallback(async () => {
     const res = apiFetch(
-      `/admins/properties?limit=${pagination.pageSize}&page=${pagination.pageIndex}`,
+      `/admins/properties?limit=${pagination.pageSize}&page=${pagination.pageIndex}`
     );
     const data = (await res) as {
       data: IProperty[];
@@ -140,12 +132,10 @@ const PropertiesTable = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    onSortingChange: setSorting,
     enableSortingRemoval: false,
     getPaginationRowModel: getPaginationRowModel(),
     manualPagination: true,
     state: {
-      sorting,
       pagination,
     },
     onPaginationChange: setPagination,
@@ -175,7 +165,7 @@ const PropertiesTable = () => {
                         <div
                           className={cn(
                             header.column.getCanSort() &&
-                              "flex h-full cursor-pointer items-center justify-between gap-2 select-none",
+                              "flex h-full cursor-pointer items-center justify-between gap-2 select-none"
                           )}
                           onClick={header.column.getToggleSortingHandler()}
                           onKeyDown={(e) => {
@@ -191,7 +181,7 @@ const PropertiesTable = () => {
                         >
                           {flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                           {{
                             asc: (
@@ -213,7 +203,7 @@ const PropertiesTable = () => {
                       ) : (
                         flexRender(
                           header.column.columnDef.header,
-                          header.getContext(),
+                          header.getContext()
                         )
                       )}
                     </TableHead>
@@ -233,7 +223,7 @@ const PropertiesTable = () => {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}
@@ -279,7 +269,7 @@ const PropertiesTable = () => {
                   className="disabled:pointer-events-none disabled:opacity-50"
                   onClick={() =>
                     table.setPageIndex(
-                      table.getState().pagination.pageIndex - 1,
+                      table.getState().pagination.pageIndex - 1
                     )
                   }
                   disabled={!table.getCanPreviousPage()}
@@ -329,7 +319,7 @@ const PropertiesTable = () => {
                   className="disabled:pointer-events-none disabled:opacity-50"
                   onClick={() =>
                     table.setPageIndex(
-                      table.getState().pagination.pageIndex + 1,
+                      table.getState().pagination.pageIndex + 1
                     )
                   }
                   disabled={!table.getCanNextPage()}

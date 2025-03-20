@@ -53,6 +53,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+
+    const validateToken = async (token: string, role: UserRole) => {
+      try {
+        const decodedToken = decodeToken(token);
+        if (decodedToken && decodedToken.exp > Date.now() / 1000) {
+          const data = await apiFetch<{ data: User }>(`/${role}s/me`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setUser({ ...data.data, role });
+        } else {
+          localStorage.removeItem("user");
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("Token validation failed:", error);
+        localStorage.removeItem("user");
+        setUser(null);
+      }
+    };
+
+    if (savedUser) {
+      router.events.on("routeChangeComplete", () => {
+        const savedUser = localStorage.getItem("user");
+        if (savedUser) {
+          const parsedUser = JSON.parse(savedUser);
+          validateToken(parsedUser.token, parsedUser.role);
+        }
+      });
+    }
+  }, []);
+
   const login = async (email: string, password: string, role: UserRole) => {
     setLoading(true);
     try {
