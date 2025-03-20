@@ -27,7 +27,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     res.status(200).json({
       total: usersData.length,
-      users: paginatedUsers as Users[],
+      users: paginatedUsers as unknown as Users[],
     });
   } catch (error) {
     res.status(500).json({ message: error });
