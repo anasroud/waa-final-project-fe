@@ -9,6 +9,7 @@ export interface INormalInputProps {
   className?: string;
   type: string;
   setValue: (value: string) => void;
+  value?: string;
 }
 
 export default function NormalInput({
@@ -17,6 +18,7 @@ export default function NormalInput({
   className,
   type,
   setValue,
+  value,
 }: INormalInputProps) {
   const id = useId();
 
@@ -32,6 +34,7 @@ export default function NormalInput({
         id={id}
         placeholder={placeHolder}
         type={type}
+        value={value}
       />
     </div>
   );

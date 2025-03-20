@@ -11,7 +11,7 @@ type PaginationProps = {
   paginationHandler: (page: number) => void;
 };
 
-export default function Component({
+export default function BasicPagination({
   currentPage,
   totalPages,
   paginationHandler,

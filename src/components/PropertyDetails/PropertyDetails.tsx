@@ -32,7 +32,7 @@ function PropertyDetails({
     e?.stopPropagation();
     if (!selectedProperty) return;
     setCurrentImageIndex((prev) =>
-      prev === selectedProperty.imageURLs.length - 1 ? 0 : prev + 1,
+      prev === selectedProperty.imageURLs.length - 1 ? 0 : prev + 1
     );
   };
 
@@ -40,13 +40,12 @@ function PropertyDetails({
     e?.stopPropagation();
     if (!selectedProperty) return;
     setCurrentImageIndex((prev) =>
-      prev === 0 ? selectedProperty.imageURLs.length - 1 : prev - 1,
+      prev === 0 ? selectedProperty.imageURLs.length - 1 : prev - 1
     );
   };
 
   const { user } = useAuth();
   const router = useRouter();
-
 
   return (
     <AnimatePresence>
@@ -80,7 +79,7 @@ function PropertyDetails({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-6">
-                <div className="aspect-video rounded-lg overflow-hidden relative group">
+                <div className="aspect-video rounded-lg overflow-hidden group">
                   <motion.div
                     key={currentImageIndex}
                     initial={{ opacity: 0.5 }}
@@ -94,7 +93,9 @@ function PropertyDetails({
                         selectedProperty.imageURLs[currentImageIndex] ||
                         "/hero-bg.jpg"
                       }
-                      alt={`${selectedProperty.title} - Image ${currentImageIndex + 1}`}
+                      alt={`${selectedProperty.title} - Image ${
+                        currentImageIndex + 1
+                      }`}
                       className="w-full h-full object-cover"
                     />
                   </motion.div>
@@ -120,7 +121,7 @@ function PropertyDetails({
                               "h-1.5 w-1.5 rounded-full transition-all",
                               index === currentImageIndex
                                 ? "bg-white w-3"
-                                : "bg-white/50",
+                                : "bg-white/50"
                             )}
                           />
                         ))}
@@ -200,14 +201,21 @@ function PropertyDetails({
                 </div>
 
                 <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                  {user ?
-                    <OfferModal selectedProperty={selectedProperty} setIsOpen={setIsOpen} />
-                    :
-                    <Button className="flex-1" size="lg" onClick={() => router.push("/login/customer")}>
+                  {user ? (
+                    <OfferModal
+                      selectedProperty={selectedProperty}
+                      setIsOpen={setIsOpen}
+                    />
+                  ) : (
+                    <Button
+                      className="flex-1"
+                      size="lg"
+                      onClick={() => router.push("/login/customer")}
+                    >
                       <DollarSign className="h-5 w-5" />
                       Place an Offer
                     </Button>
-                  }
+                  )}
                   <Button variant="outline" className="flex-1" size="lg">
                     Contact Seller
                   </Button>

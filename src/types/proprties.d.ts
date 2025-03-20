@@ -18,7 +18,7 @@ export interface IProperty {
   hasAC: boolean;
   processedAt: string;
   ownerId: number;
-  status: string;
-  imageURLs: string[] | null;
-  approved: boolean;
+  status: "Available" | "Pending" | "SOLD" | "CONTINGENT";
+  imageURLs: string[];
+  isApproved: boolean;
 }

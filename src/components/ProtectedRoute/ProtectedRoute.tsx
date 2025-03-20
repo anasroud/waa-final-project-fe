@@ -16,7 +16,6 @@ export default function ProtectedRoute({ allowedRoles, children }: Props) {
     if (!loading && !user) {
       router.push(`/login/${allowedRoles[0]}`);
     }
-    console.log(user);
 
     if (!loading && user && !allowedRoles.includes(user.role)) {
       router.push(`/`);
