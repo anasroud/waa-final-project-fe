@@ -7,7 +7,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+} from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { apiFetch } from "@/utils/api";
 import ConfirmationModal from "./components/ConfirmationModal";
@@ -56,9 +60,12 @@ const OffersTable = () => {
 
   const fetchOffers = async () => {
     try {
-      const { data, meta } = await apiFetch<OffersResponse>("/owners/offers?page=" + currentPage + "&size=10", {
-        method: "GET",
-      });
+      const { data, meta } = await apiFetch<OffersResponse>(
+        "/owners/offers?page=" + currentPage + "&size=10",
+        {
+          method: "GET",
+        },
+      );
 
       setOffers(data);
       setTotalPages(meta.totalPages);
@@ -180,26 +187,24 @@ const OffersTable = () => {
                 <p className="text-sm text-gray-500">{offer.customer.email}</p>
               </TableCell>
               <TableCell>{offer.message.slice(0, 30)}...</TableCell>
-              <TableCell>${offer.offeredPrice.toLocaleString()}
-              </TableCell>
+              <TableCell>${offer.offeredPrice.toLocaleString()}</TableCell>
               <TableCell>
-
                 <span
                   className={cn(
                     `inline-flex items-center rounded-sm px-2 py-1 text-xs font-medium`,
                     {
                       "text-green-800 bg-green-100":
                         offer.isAccepted && !offer.soldAt,
-                      "text-yellow-800 bg-yellow-100":
-                        !offer.isAccepted,
-                      "text-gray-800 bg-gray-100": offer.isAccepted && offer.soldAt,
+                      "text-yellow-800 bg-yellow-100": !offer.isAccepted,
+                      "text-gray-800 bg-gray-100":
+                        offer.isAccepted && offer.soldAt,
                       "text-red-600 bg-red-100": offer.isAccepted === false,
                     },
                   )}
                 >
-                  {offer.isAccepted === true && <>
-                    {offer.soldAt ? "Sold" : "Contingent"}
-                  </>}
+                  {offer.isAccepted === true && (
+                    <>{offer.soldAt ? "Sold" : "Contingent"}</>
+                  )}
                   {offer.isAccepted === null && "Pending"}
                   {offer.isAccepted === false && "Rejected"}
                 </span>
@@ -260,7 +265,11 @@ const OffersTable = () => {
               asChild
             >
               <span>
-                <ChevronLeftIcon className="-ms-1 opacity-60" size={16} aria-hidden="true" />
+                <ChevronLeftIcon
+                  className="-ms-1 opacity-60"
+                  size={16}
+                  aria-hidden="true"
+                />
                 Previous
               </span>
             </Button>
@@ -279,7 +288,11 @@ const OffersTable = () => {
             >
               <span>
                 Next
-                <ChevronRightIcon className="-me-1 opacity-60" size={16} aria-hidden="true" />
+                <ChevronRightIcon
+                  className="-me-1 opacity-60"
+                  size={16}
+                  aria-hidden="true"
+                />
               </span>
             </Button>
           </PaginationItem>

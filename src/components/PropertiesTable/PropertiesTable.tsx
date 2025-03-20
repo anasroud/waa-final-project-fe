@@ -23,7 +23,11 @@ import { Property } from "../PropertyItem/PropertyItem";
 import PropertyDetails from "../PropertyDetails/PropertyDetails";
 import { Badge } from "../ui/badge";
 import { apiFetch } from "@/utils/api";
-import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+} from "@/components/ui/pagination";
 
 const PropertiesTable = () => {
   const router = useRouter();
@@ -41,17 +45,16 @@ const PropertiesTable = () => {
   const fetchProperties = async () => {
     try {
       const response = await apiFetch<{
-        message: string; data: Property[], "meta": {
-          "totalPages": number;
-          "currentPage": number;
-          "totalElements": number;
-        }
-      }>(
-        "/owners/properties?page=" + currentPage + "&size=10",
-        {
-          method: "GET",
-        },
-      );
+        message: string;
+        data: Property[];
+        meta: {
+          totalPages: number;
+          currentPage: number;
+          totalElements: number;
+        };
+      }>("/owners/properties?page=" + currentPage + "&size=10", {
+        method: "GET",
+      });
 
       if (response.message !== "success")
         throw new Error("Failed to fetch properties");
@@ -75,10 +78,8 @@ const PropertiesTable = () => {
     if (!confirm("Are you sure you want to delete this property?")) return;
 
     try {
-      await apiFetch(
-        `/owners/properties/${propertyId}`, {
+      await apiFetch(`/owners/properties/${propertyId}`, {
         method: "DELETE",
-
       });
 
       fetchProperties(); // Refresh the list
@@ -123,14 +124,15 @@ const PropertiesTable = () => {
               <TableCell>
                 <div className="flex items-center">
                   <Badge
-                    className={`!text-[10px] rounded-sm font-bold ${property.status === "Available"
-                      ? "bg-green-100 text-green-800"
-                      : property.status === "Pending"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : property.status === "SOLD"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-gray-100 text-gray-800"
-                      }`}
+                    className={`!text-[10px] rounded-sm font-bold ${
+                      property.status === "Available"
+                        ? "bg-green-100 text-green-800"
+                        : property.status === "Pending"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : property.status === "SOLD"
+                            ? "bg-red-100 text-red-800"
+                            : "bg-gray-100 text-gray-800"
+                    }`}
                   >
                     {property.status}
                   </Badge>
@@ -208,7 +210,11 @@ const PropertiesTable = () => {
               asChild
             >
               <span>
-                <ChevronLeftIcon className="-ms-1 opacity-60" size={16} aria-hidden="true" />
+                <ChevronLeftIcon
+                  className="-ms-1 opacity-60"
+                  size={16}
+                  aria-hidden="true"
+                />
                 Previous
               </span>
             </Button>
@@ -227,7 +233,11 @@ const PropertiesTable = () => {
             >
               <span>
                 Next
-                <ChevronRightIcon className="-me-1 opacity-60" size={16} aria-hidden="true" />
+                <ChevronRightIcon
+                  className="-me-1 opacity-60"
+                  size={16}
+                  aria-hidden="true"
+                />
               </span>
             </Button>
           </PaginationItem>

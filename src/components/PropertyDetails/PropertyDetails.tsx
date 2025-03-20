@@ -90,8 +90,9 @@ function PropertyDetails({
                         selectedProperty.imageURLs[currentImageIndex] ||
                         "/hero-bg.jpg"
                       }
-                      alt={`${selectedProperty.title} - Image ${currentImageIndex + 1
-                        }`}
+                      alt={`${selectedProperty.title} - Image ${
+                        currentImageIndex + 1
+                      }`}
                       className="w-full h-full object-cover"
                     />
                   </motion.div>

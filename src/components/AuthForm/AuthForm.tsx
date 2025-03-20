@@ -14,7 +14,7 @@ type Props = {
     email: string,
     password: string,
     name: string,
-    image: File | null
+    image: File | null,
   ) => Promise<void>;
   type?: "login" | "register";
   buttonText: string;

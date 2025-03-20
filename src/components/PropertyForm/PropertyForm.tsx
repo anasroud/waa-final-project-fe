@@ -5,7 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Property } from "@/components/PropertyItem/PropertyItem";
 import { apiFetch } from "@/utils/api";
 import FileUploader from "../Inputs/FileUploader";
@@ -92,7 +98,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -407,10 +413,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                   }}
                   required
                 >
-                  <SelectTrigger
-                    id="homeType"
-                    aria-invalid={!!errors.homeType}
-                  >
+                  <SelectTrigger id="homeType" aria-invalid={!!errors.homeType}>
                     <SelectValue placeholder="Select home type" />
                   </SelectTrigger>
                   <SelectContent>
