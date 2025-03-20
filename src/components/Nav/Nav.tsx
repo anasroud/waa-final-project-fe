@@ -28,7 +28,7 @@ const Nav = ({ showButtons = true }) => {
                   size={"lg"}
                   onClick={() => router.push("/search")}
                 >
-                  Buy
+                  Search
                 </Button>
               )}
               {(!user || user.role === "owner") && (
@@ -44,11 +44,11 @@ const Nav = ({ showButtons = true }) => {
           )}
           {user && (
             <>
-              {user.role === "admin" && (
+              {(user.role === "admin" || user.role === "customer") && (
                 <Button
                   variant="outline"
                   size={"lg"}
-                  onClick={() => router.push("/dashboard")}
+                  onClick={() => router.push(user.role === "admin" ? "/dashboard" : "/dashboard/customer")}
                 >
                   Dashboard
                 </Button>
