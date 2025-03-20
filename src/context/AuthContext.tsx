@@ -80,13 +80,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     if (savedUser) {
-      router.events.on("routeChangeComplete", () => {
-        const savedUser = localStorage.getItem("user");
-        if (savedUser) {
-          const parsedUser = JSON.parse(savedUser);
-          validateToken(parsedUser.token, parsedUser.role);
-        }
-      });
+      const parsedUser = JSON.parse(savedUser);
+      validateToken(parsedUser.token, parsedUser.role);
     }
   }, []);
 
