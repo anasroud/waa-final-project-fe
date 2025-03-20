@@ -171,7 +171,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
             message: string;
             data: Property;
           }>(`/owners/properties/${propertyId}`, {
-            method: "PATCH",
+            method: "PUT",
             body: JSON.stringify(formData),
           });
         } else {
