@@ -24,14 +24,19 @@ interface ApiResponse {
   };
 }
 
-export default function OfferModal({ selectedProperty }: { selectedProperty: Property; }) {
-
+export default function OfferModal({
+  selectedProperty,
+}: {
+  selectedProperty: Property;
+}) {
   const [offer, setOffer] = useState({
     offeredPrice: "",
     message: "",
   });
 
-  const handleOfferSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleOfferSubmit = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
     try {
       const response = await apiFetch<ApiResponse>(`/customers/offers`, {
@@ -57,21 +62,19 @@ export default function OfferModal({ selectedProperty }: { selectedProperty: Pro
     }
   };
 
-
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          className="flex-1"
-          size="lg"
-        >
+        <Button className="flex-1" size="lg">
           <DollarSign className="h-5 w-5" />
           Place an Offer
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-0 p-0 [&>button:last-child]:top-3.5">
         <DialogHeader className="contents space-y-0 text-left">
-          <DialogTitle className="border-b px-6 py-4 text-base">Make an offer for the property</DialogTitle>
+          <DialogTitle className="border-b px-6 py-4 text-base">
+            Make an offer for the property
+          </DialogTitle>
         </DialogHeader>
         <div className="px-6 py-4">
           <form className="space-y-5">
@@ -82,7 +85,9 @@ export default function OfferModal({ selectedProperty }: { selectedProperty: Pro
                   id="price"
                   placeholder="How much do you want to offer?"
                   value={offer.offeredPrice}
-                  onChange={(e) => setOffer({ ...offer, offeredPrice: e.target.value })}
+                  onChange={(e) =>
+                    setOffer({ ...offer, offeredPrice: e.target.value })
+                  }
                   aria-label="price"
                 />
               </div>
@@ -93,12 +98,18 @@ export default function OfferModal({ selectedProperty }: { selectedProperty: Pro
                   id="message"
                   placeholder="Personalize your message to the owner"
                   value={offer.message}
-                  onChange={(e) => setOffer({ ...offer, message: e.target.value })}
+                  onChange={(e) =>
+                    setOffer({ ...offer, message: e.target.value })
+                  }
                   aria-label="message"
                 />
               </div>
             </div>
-            <Button type="button" className="w-full" onClick={handleOfferSubmit}>
+            <Button
+              type="button"
+              className="w-full"
+              onClick={handleOfferSubmit}
+            >
               Send Offer
             </Button>
           </form>

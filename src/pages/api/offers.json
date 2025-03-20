@@ -28,9 +28,7 @@
       "id": 2,
       "title": "Cozy Condo",
       "price": 350000,
-      "imageURLs": [
-        "https://example.com/condo1.jpg"
-      ]
+      "imageURLs": ["https://example.com/condo1.jpg"]
     },
     "customer": {
       "id": 3,
@@ -85,9 +83,7 @@
       "id": 5,
       "title": "Suburban Townhouse",
       "price": 400000,
-      "imageURLs": [
-        "https://example.com/townhouse1.jpeg"
-      ]
+      "imageURLs": ["https://example.com/townhouse1.jpeg"]
     },
     "customer": {
       "id": 6,
@@ -141,9 +137,7 @@
       "id": 8,
       "title": "Riverside Bungalow",
       "price": 700000,
-      "imageURLs": [
-        "https://example.com/bungalow1.jpg"
-      ]
+      "imageURLs": ["https://example.com/bungalow1.jpg"]
     },
     "customer": {
       "id": 9,

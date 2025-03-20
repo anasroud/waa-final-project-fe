@@ -16,7 +16,7 @@ export default function Search() {
   useEffect(() => {
     const fetchProperties = async () => {
       const response = await fetch(
-        `/api/properties?page=${page}&limit=${pageLimit}`
+        `/api/properties?page=${page}&limit=${pageLimit}`,
       );
       const data = await response.json();
       setProperties(data.properties);

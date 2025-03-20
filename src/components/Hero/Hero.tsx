@@ -1,5 +1,3 @@
-
-
 import { Search } from "lucide-react";
 
 const Hero = () => {
