@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Property } from "@/components/PropertyItem/PropertyItem";
 import { apiFetch } from "@/utils/api";
 import FileUploader from "../Inputs/FileUploader";
@@ -43,14 +44,14 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
         return !value
           ? "Title is required"
           : value.length < 3
-          ? "Title must be at least 3 characters"
-          : "";
+            ? "Title must be at least 3 characters"
+            : "";
       case "description":
         return !value
           ? "Description is required"
           : value.length < 10
-          ? "Description must be at least 10 characters"
-          : "";
+            ? "Description must be at least 10 characters"
+            : "";
       case "city":
       case "state":
         return !value
@@ -60,31 +61,31 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
         return !value
           ? "Zip code is required"
           : !/^\d{5}(-\d{4})?$/.test(value)
-          ? "Invalid zip code format"
-          : "";
+            ? "Invalid zip code format"
+            : "";
       case "address":
         return !value ? "Address is required" : "";
       case "price":
         return !value
           ? "Price is required"
           : value <= 0
-          ? "Price must be greater than 0"
-          : "";
+            ? "Price must be greater than 0"
+            : "";
       case "bedroomCount":
       case "bathroomCount":
         return !value
           ? `${name.replace("Count", " count")} is required`
           : value < 0
-          ? "Count must be 0 or greater"
-          : "";
+            ? "Count must be 0 or greater"
+            : "";
       case "homeType":
         return !value ? "Home type is required" : "";
       case "squareFootage":
         return !value
           ? "Square footage is required"
           : value <= 0
-          ? "Square footage must be greater than 0"
-          : "";
+            ? "Square footage must be greater than 0"
+            : "";
       default:
         return "";
     }
@@ -397,14 +398,28 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="homeType">Home Type</Label>
-                <Input
-                  id="homeType"
-                  name="homeType"
+                <Select
                   value={formData.homeType}
-                  onChange={handleInputChange}
-                  aria-invalid={!!errors.homeType}
+                  onValueChange={(value) => {
+                    setFormData((prev) => ({ ...prev, homeType: value }));
+                    const error = validateField("homeType", value);
+                    setErrors((prev) => ({ ...prev, homeType: error }));
+                  }}
                   required
-                />
+                >
+                  <SelectTrigger
+                    id="homeType"
+                    aria-invalid={!!errors.homeType}
+                  >
+                    <SelectValue placeholder="Select home type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="House">House</SelectItem>
+                    <SelectItem value="Townhome">Townhome</SelectItem>
+                    <SelectItem value="Condo">Condo</SelectItem>
+                    <SelectItem value="Apartment">Apartment</SelectItem>
+                  </SelectContent>
+                </Select>
                 {errors.homeType && (
                   <p
                     className="text-destructive mt-2 text-xs"
