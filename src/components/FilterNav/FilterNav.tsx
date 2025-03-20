@@ -39,16 +39,7 @@ const FilterNav = ({ setSearchFilters, city }: IFilterNavProps) => {
     hasAC: false,
   });
 
-  const options = [
-    "House",
-    "Apartment",
-    "Condo",
-    "Townhouse",
-    "Duplex",
-    "Triplex",
-    "studio",
-    "loft",
-  ];
+  const options = ["House", "Town Home", "Condo", "Apartment"];
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     setMoreFilters({
