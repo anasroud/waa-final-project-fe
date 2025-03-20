@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PropertyItem, { Property } from "../PropertyItem/PropertyItem";
+import { apiFetch } from "@/utils/api";
 
 const FeaturedProperties = () => {
   const [properties, setProperties] = useState<Property[]>([]);
@@ -9,16 +10,16 @@ const FeaturedProperties = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        setIsLoading(true);
-        // Fetch only 6 featured properties
-        const response = await fetch("/api/properties?limit=6");
+        const query = `?page=${1}&size=${6}`;
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch properties");
-        }
+        const response = await apiFetch<{
+          data: Property[];
+          meta: { totalPages: number };
+        }>(`/customers/properties${query}`, {
+          method: "GET",
+        });
 
-        const data = await response.json();
-        setProperties(data.properties);
+        setProperties(response.data);
       } catch (err) {
         setError("Error loading properties. Please try again later.");
         console.error("Error fetching properties:", err);
