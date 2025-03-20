@@ -7,7 +7,7 @@ export interface INavProps {
   showButtons?: boolean;
 }
 
-const Nav = ({ showButtons = true }) => {
+const Nav = ({ showButtons = true }: INavProps) => {
   const router = useRouter();
   const { user, logout } = useAuth();
 
