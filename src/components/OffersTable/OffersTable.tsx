@@ -183,8 +183,8 @@ const OffersTable = () => {
                       "text-green-800 bg-green-100":
                         offer.isAccepted && !offer.soldAt,
                       "text-yellow-800 bg-yellow-100":
-                        offer.isAccepted && offer.soldAt,
-                      "text-gray-800 bg-gray-100": !offer.isAccepted,
+                        !offer.isAccepted,
+                      "text-gray-800 bg-gray-100": offer.isAccepted && offer.soldAt,
                     },
                   )}
                 >
