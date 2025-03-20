@@ -111,7 +111,7 @@ const FilterNav = ({ setSearchFilters, city }: IFilterNavProps) => {
             <PricesFilter
               minValue={0}
               maxValue={1000000}
-              initialValue={[20000, 100000]}
+              initialValue={[0, 1000000]}
               setValues={setPriceRange}
             />
           </div>
@@ -125,7 +125,11 @@ const FilterNav = ({ setSearchFilters, city }: IFilterNavProps) => {
           </div>
         </div>
         <div className="flex gap-4 flex-row md:flex-col">
-          <Button variant="outline" className="bg-black text-white" size="lg">
+          <Button
+            variant="outline"
+            className="bg-black text-white active:bg-gray-200 active:text-gray-900"
+            size="lg"
+          >
             Search
           </Button>
           {/* <MoreFilters setMoreFilters={setMoreFilters} /> */}
