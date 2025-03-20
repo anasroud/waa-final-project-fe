@@ -57,6 +57,7 @@ interface PropertyItemProps {
 const PropertyItem = ({ property, className }: PropertyItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isFavorited, setIsFavorited] = useState(property.favorited);
 
   const toggleFavorite = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -65,6 +66,8 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
         method: "POST",
         body: JSON.stringify({ propertyId: property.id }),
       });
+
+      setIsFavorited((prev) => !prev);
     } catch (error) {
       console.error("Error toggling favorite:", error);
     }
@@ -119,7 +122,7 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
                 onClick={toggleFavorite}
                 className="text-white hover:text-primary transition-colors"
               >
-                {!property.favorited ? (
+                {isFavorited ? (
                   <Heart size={24} />
                 ) : (
                   <svg

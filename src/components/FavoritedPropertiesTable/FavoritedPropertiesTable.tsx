@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   BedDouble,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   CircleDollarSign,
   Eye,
   Heart,
@@ -19,19 +21,33 @@ import { Property } from "../PropertyItem/PropertyItem";
 import PropertyDetails from "../PropertyDetails/PropertyDetails";
 import { Badge } from "../ui/badge";
 import { apiFetch } from "@/utils/api";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+} from "@/components/ui/pagination";
 
 const FavoritedPropertiesTable = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     fetchFavorites();
-  }, []);
+  }, [currentPage]);
 
   const fetchFavorites = async () => {
     try {
-      const response = await apiFetch<{ message: string; data: Property[] }>(
+      const response = await apiFetch<{
+        message: string; data: Property[], meta: {
+          "totalPages": number;
+          "currentPage": number;
+          "totalElements": number;
+        }
+      }>(
         "/customers/favorites",
         {
           method: "GET",
@@ -42,6 +58,7 @@ const FavoritedPropertiesTable = () => {
         throw new Error("Failed to fetch favorites");
 
       setProperties(response.data);
+      setTotalPages(response.meta.totalPages);
       setLoading(false);
     } catch (err) {
       console.log(err);
@@ -112,15 +129,14 @@ const FavoritedPropertiesTable = () => {
               <TableCell>
                 <div className="flex items-center">
                   <Badge
-                    className={`!text-[10px] rounded-sm font-bold ${
-                      property.status === "Available"
-                        ? "bg-green-100 text-green-800"
-                        : property.status === "Pending"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : property.status === "SOLD"
-                            ? "bg-red-100 text-red-800"
-                            : "bg-gray-100 text-gray-800"
-                    }`}
+                    className={`!text-[10px] rounded-sm font-bold ${property.status === "Available"
+                      ? "bg-green-100 text-green-800"
+                      : property.status === "Pending"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : property.status === "SOLD"
+                          ? "bg-red-100 text-red-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
                   >
                     {property.status}
                   </Badge>
@@ -172,6 +188,54 @@ const FavoritedPropertiesTable = () => {
           ))}
         </TableBody>
       </Table>
+      <Pagination>
+        <PaginationContent className="w-full justify-between gap-3">
+          <PaginationItem>
+            <Button
+              variant="outline"
+              className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+              aria-disabled={currentPage === 0 ? true : undefined}
+              role={currentPage === 0 ? "link" : undefined}
+              onClick={() => {
+                setCurrentPage((prev) => prev - 1);
+                // fetchProperties();
+              }}
+              asChild
+            >
+              <span>
+                <ChevronLeftIcon
+                  className="-ms-1 opacity-60"
+                  size={16}
+                  aria-hidden="true"
+                />
+                Previous
+              </span>
+            </Button>
+          </PaginationItem>
+          <PaginationItem>
+            <Button
+              variant="outline"
+              className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+              aria-disabled={currentPage === totalPages - 1 ? true : undefined}
+              role={currentPage === totalPages - 1 ? "link" : undefined}
+              onClick={() => {
+                setCurrentPage((prev) => prev + 1);
+                // fetchProperties();
+              }}
+              asChild
+            >
+              <span>
+                Next
+                <ChevronRightIcon
+                  className="-me-1 opacity-60"
+                  size={16}
+                  aria-hidden="true"
+                />
+              </span>
+            </Button>
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
       <PropertyDetails
         isOpen={isOpen}
         selectedProperty={selectedProperty}
