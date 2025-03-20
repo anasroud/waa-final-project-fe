@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Property } from "@/components/PropertyItem/PropertyItem";
 import { apiFetch } from "@/utils/api";
+import FileUploader from "../Inputs/FileUploader";
 
 interface PropertyFormProps {
   propertyId?: string;
@@ -42,14 +43,14 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
         return !value
           ? "Title is required"
           : value.length < 3
-            ? "Title must be at least 3 characters"
-            : "";
+          ? "Title must be at least 3 characters"
+          : "";
       case "description":
         return !value
           ? "Description is required"
           : value.length < 10
-            ? "Description must be at least 10 characters"
-            : "";
+          ? "Description must be at least 10 characters"
+          : "";
       case "city":
       case "state":
         return !value
@@ -59,38 +60,38 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
         return !value
           ? "Zip code is required"
           : !/^\d{5}(-\d{4})?$/.test(value)
-            ? "Invalid zip code format"
-            : "";
+          ? "Invalid zip code format"
+          : "";
       case "address":
         return !value ? "Address is required" : "";
       case "price":
         return !value
           ? "Price is required"
           : value <= 0
-            ? "Price must be greater than 0"
-            : "";
+          ? "Price must be greater than 0"
+          : "";
       case "bedroomCount":
       case "bathroomCount":
         return !value
           ? `${name.replace("Count", " count")} is required`
           : value < 0
-            ? "Count must be 0 or greater"
-            : "";
+          ? "Count must be 0 or greater"
+          : "";
       case "homeType":
         return !value ? "Home type is required" : "";
       case "squareFootage":
         return !value
           ? "Square footage is required"
           : value <= 0
-            ? "Square footage must be greater than 0"
-            : "";
+          ? "Square footage must be greater than 0"
+          : "";
       default:
         return "";
     }
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -129,11 +130,12 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
     const fetchPropertyData = async () => {
       if (isEditing && propertyId) {
         try {
-          // TODO: Replace with actual API call
-          const response = await fetch(`/api/properties/${propertyId}`);
-          if (!response.ok) throw new Error("Failed to fetch property");
-          const data = await response.json();
-          setFormData(data);
+          const response = await apiFetch<{
+            message: string;
+            data: Property;
+          }>(`/owners/properties/${propertyId}`);
+
+          setFormData(response.data);
         } catch (error) {
           console.error("Error fetching property:", error);
         }
@@ -168,7 +170,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
             message: string;
             data: Property;
           }>(`/owners/properties/${propertyId}`, {
-            method: "PUT",
+            method: "PATCH",
             body: JSON.stringify(formData),
           });
         } else {
@@ -474,7 +476,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
 
             <div>
               <Label htmlFor="images">Images</Label>
-              <Input
+              {/* <Input
                 id="images"
                 type="file"
                 multiple
@@ -482,6 +484,17 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                 onChange={(e) => {
                   // TODO: Implement image upload logic
                   console.log("Images selected:", e.target.files);
+                }}
+              /> */}
+              <FileUploader
+                onUploadSuccess={(urls: string[]) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    imageURLs: urls,
+                  }));
+                }}
+                onError={() => {
+                  console.error("Error uploading images");
                 }}
               />
             </div>

@@ -10,23 +10,34 @@ type PointerDownEvent = Parameters<
   NonNullable<DropdownMenuPrimitive.DropdownMenuContentProps["onPointerDown"]>
 >[0];
 type PointerDownOutsideEvent = Parameters<
-  NonNullable<DropdownMenuPrimitive.DropdownMenuContentProps["onPointerDownOutside"]>
+  NonNullable<
+    DropdownMenuPrimitive.DropdownMenuContentProps["onPointerDownOutside"]
+  >
 >[0];
 
-function DropdownMenu({ ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Root>) {
+function DropdownMenu({
+  ...props
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Root>) {
   return <DropdownMenuPrimitive.Root data-slot="dropdown-menu" {...props} />;
 }
 
 function DropdownMenuPortal({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Portal>) {
-  return <DropdownMenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />;
+  return (
+    <DropdownMenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />
+  );
 }
 
 function DropdownMenuTrigger({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
-  return <DropdownMenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props} />;
+  return (
+    <DropdownMenuPrimitive.Trigger
+      data-slot="dropdown-menu-trigger"
+      {...props}
+    />
+  );
 }
 
 function DropdownMenuContent({
@@ -89,8 +100,12 @@ function DropdownMenuContent({
   );
 }
 
-function DropdownMenuGroup({ ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Group>) {
-  return <DropdownMenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />;
+function DropdownMenuGroup({
+  ...props
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Group>) {
+  return (
+    <DropdownMenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />
+  );
 }
 
 function DropdownMenuItem({
@@ -145,7 +160,12 @@ function DropdownMenuCheckboxItem({
 function DropdownMenuRadioGroup({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.RadioGroup>) {
-  return <DropdownMenuPrimitive.RadioGroup data-slot="dropdown-menu-radio-group" {...props} />;
+  return (
+    <DropdownMenuPrimitive.RadioGroup
+      data-slot="dropdown-menu-radio-group"
+      {...props}
+    />
+  );
 }
 
 function DropdownMenuRadioItem({
@@ -205,7 +225,10 @@ function DropdownMenuSeparator({
   );
 }
 
-function DropdownMenuShortcut({ className, ...props }: React.ComponentProps<"span">) {
+function DropdownMenuShortcut({
+  className,
+  ...props
+}: React.ComponentProps<"span">) {
   return (
     <kbd
       data-slot="dropdown-menu-shortcut"
@@ -218,7 +241,9 @@ function DropdownMenuShortcut({ className, ...props }: React.ComponentProps<"spa
   );
 }
 
-function DropdownMenuSub({ ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
+function DropdownMenuSub({
+  ...props
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
   return <DropdownMenuPrimitive.Sub data-slot="dropdown-menu-sub" {...props} />;
 }
 
@@ -241,7 +266,10 @@ function DropdownMenuSubTrigger({
       {...props}
     >
       {children}
-      <ChevronRightIcon size={16} className="text-muted-foreground/80 ml-auto" />
+      <ChevronRightIcon
+        size={16}
+        className="text-muted-foreground/80 ml-auto"
+      />
     </DropdownMenuPrimitive.SubTrigger>
   );
 }

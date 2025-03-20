@@ -34,7 +34,7 @@ export interface IMoreFiltersProps {
 export default function MoreFilters({ setMoreFilters }: IMoreFiltersProps) {
   const handleValuesChange = (
     type: keyof IMoreFiltersOptions,
-    value: unknown
+    value: unknown,
   ) => {
     setMoreFilters((prev: IMoreFiltersOptions) => ({ ...prev, [type]: value }));
   };
