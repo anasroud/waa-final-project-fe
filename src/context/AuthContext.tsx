@@ -12,6 +12,8 @@ interface User {
   imageUrl: string;
   role: UserRole;
   token: string;
+  active: boolean;
+  approved: boolean;
 }
 
 interface AuthContextType {
