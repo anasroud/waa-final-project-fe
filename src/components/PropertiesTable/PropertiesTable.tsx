@@ -75,10 +75,12 @@ const PropertiesTable = () => {
     if (!confirm("Are you sure you want to delete this property?")) return;
 
     try {
-      const response = await fetch(`/api/properties/${propertyId}`, {
+      await apiFetch(
+        `/owners/properties/${propertyId}`, {
         method: "DELETE",
+
       });
-      if (!response.ok) throw new Error("Failed to delete property");
+
       fetchProperties(); // Refresh the list
     } catch (err) {
       console.log(err);
