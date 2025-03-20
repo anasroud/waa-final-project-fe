@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import NormalInput from "../Inputs/Input";
 import PricesFilter from "../PricesFilter";
-import InputWithNumbers from "../InputWithNumbers";
 import { Label } from "react-aria-components";
 import { Button } from "../ui/button";
 import DropDown from "../DropDown";
@@ -74,21 +73,28 @@ const FilterNav = ({ setSearchFilters, city }: IFilterNavProps) => {
             label="Search By City"
             placeHolder="ex: FairField"
             className="w-full"
+            inputClassName="bg-white"
             type="text"
             value={city}
             setValue={setSearch}
           />
-          <InputWithNumbers
+          <NormalInput
             label="Bathrooms"
             placeHolder="ex: 2"
-            setValue={setBedrooms}
-            inputType="decimal"
+            className="w-full"
+            inputClassName="bg-white"
+            type="number"
+            min={0}
+            setValue={(value: string) => setBathrooms(Number(value))}
           />
-          <InputWithNumbers
+          <NormalInput
             label="Bedrooms"
             placeHolder="ex: 3"
-            setValue={setBathrooms}
-            inputType="decimal"
+            className="w-full"
+            inputClassName="bg-white"
+            type="number"
+            min={0}
+            setValue={(value: string) => setBedrooms(Number(value))}
           />
           <DropDown
             className="pt-6 w-full"

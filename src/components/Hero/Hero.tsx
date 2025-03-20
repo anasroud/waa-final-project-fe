@@ -1,16 +1,17 @@
 import { Search } from "lucide-react";
-import { useRouter } from "next/router";
 
-const Hero = () => {
-  const router = useRouter();
+export interface IHero {
+  setSearch: (search: string) => void;
+}
 
+const Hero = ({ setSearch }: IHero) => {
   interface HandleKeyDownEvent extends React.KeyboardEvent<HTMLInputElement> {
     target: HTMLInputElement;
   }
 
   const handleKeyDown = (e: HandleKeyDownEvent) => {
     if (e.key === "Enter") {
-      router.push(`/search?query=${e.target.value}`);
+      setSearch(e.target.value);
     }
   };
 

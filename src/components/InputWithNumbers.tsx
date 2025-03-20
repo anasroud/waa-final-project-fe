@@ -12,7 +12,7 @@ import {
 export interface IInputWithNumbersProps {
   label: string;
   placeHolder: string;
-  setValue: (value: number) => void;
+  setValue: (value: number | ((prev: number) => number)) => void;
   inputType: "currency" | "decimal" | "percent" | "unit";
 }
 
@@ -35,11 +35,13 @@ export default function InputWithNumbers({
             className="bg-background text-foreground flex-1 px-3 py-2 tabular-nums"
             placeholder={placeHolder}
             onChange={(e) => {
+              console.log(e.target.value);
               setValue(parseInt(e.target.value));
             }}
           />
           <div className="flex h-[calc(100%+2px)] flex-col">
             <Button
+              onPress={() => setValue((prev) => prev + 1)}
               slot="increment"
               className="border-input bg-background text-muted-foreground/80 hover:bg-accent hover:text-foreground -me-px flex h-1/2 w-6 flex-1 items-center justify-center border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
             >
@@ -47,6 +49,10 @@ export default function InputWithNumbers({
             </Button>
             <Button
               slot="decrement"
+              onPress={() => {
+                console.log("decrement", setValue);
+                setValue((prev) => prev - 1);
+              }}
               className="border-input bg-background text-muted-foreground/80 hover:bg-accent hover:text-foreground -me-px -mt-px flex h-1/2 w-6 flex-1 items-center justify-center border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
             >
               <ChevronDownIcon size={12} aria-hidden="true" />

@@ -1,17 +1,25 @@
 import { useState } from "react";
-// import FileInput from "../Inputs/FileInput";
 import EmailInput from "../Inputs/InputWithIcon";
 import PasswordSignUp from "../Inputs/PasswordSIgnUp";
 import PasswordLogIn from "../Inputs/PasswordLogin";
 import NormalInput from "../Inputs/Input";
 import { AtSignIcon } from "lucide-react";
+import FileInput from "../Inputs/FileInput";
+import { Button } from "react-aria-components";
+import LoadingButton from "../LoadingButton";
 
 type Props = {
   title: string;
-  onSubmit: (email: string, password: string, name: string) => Promise<void>;
+  onSubmit: (
+    email: string,
+    password: string,
+    name: string,
+    image: File | null
+  ) => Promise<void>;
   type?: "login" | "register";
   buttonText: string;
   role?: "owner" | "customer";
+  isLoading?: boolean;
 };
 
 export default function AuthFormWithImage({
@@ -20,18 +28,19 @@ export default function AuthFormWithImage({
   buttonText,
   type = "login",
   role,
+  isLoading,
 }: Props) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
-  // const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     try {
-      await onSubmit(email, password, name);
+      await onSubmit(email, password, name, image);
     } catch (err) {
       setError((err as Error).message);
     }
@@ -63,18 +72,25 @@ export default function AuthFormWithImage({
           ) : (
             <PasswordLogIn setPassword={setPassword} />
           )}
-          {/* {type === "register" && (
-            <FileInput label="Add a Profile Picture" setFile={setImage} />
-          )} */}
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-          >
-            {buttonText}
-          </button>
+          {type === "register" && (
+            <FileInput label="Profile Picture" setFile={setImage} />
+          )}
+          {!isLoading ? (
+            <Button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+            >
+              {buttonText}
+            </Button>
+          ) : (
+            <LoadingButton
+              className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+              label={buttonText}
+            />
+          )}
         </form>
         {role && (
-          <div className="text-blue-500">
+          <div className="text-blue-500/80 pt-4 text-sm">
             <a href={`/signup/${role}`}>Dont have an account? Sign Up</a>
           </div>
         )}

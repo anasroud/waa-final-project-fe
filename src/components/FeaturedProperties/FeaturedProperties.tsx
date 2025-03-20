@@ -1,36 +1,14 @@
-import { useEffect, useState } from "react";
 import PropertyItem, { Property } from "../PropertyItem/PropertyItem";
-import { apiFetch } from "@/utils/api";
 
-const FeaturedProperties = () => {
-  const [properties, setProperties] = useState<Property[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        const query = `?page=${0}&size=${6}`;
-
-        const response = await apiFetch<{
-          data: Property[];
-          meta: { totalPages: number };
-        }>(`/customers/properties${query}`, {
-          method: "GET",
-        });
-
-        setProperties(response.data);
-      } catch (err) {
-        setError("Error loading properties. Please try again later.");
-        console.error("Error fetching properties:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProperties();
-  }, []);
-
+const FeaturedProperties = ({
+  isLoading,
+  error,
+  properties,
+}: {
+  isLoading: boolean;
+  error: string | null;
+  properties: Property[];
+}) => {
   if (isLoading) {
     return (
       <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
