@@ -13,6 +13,7 @@ import { useState } from "react";
 import { apiFetch } from "@/utils/api";
 import { Property } from "./PropertyItem/PropertyItem";
 import { DollarSign } from "lucide-react";
+import { toast } from "sonner";
 
 interface ApiResponse {
   message: string;
@@ -26,8 +27,10 @@ interface ApiResponse {
 
 export default function OfferModal({
   selectedProperty,
+  setIsOpen,
 }: {
   selectedProperty: Property;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [offer, setOffer] = useState({
     offeredPrice: "",
@@ -39,6 +42,24 @@ export default function OfferModal({
   ) => {
     e.preventDefault();
     try {
+      // Validate the offer
+      if (!offer.offeredPrice || !offer.message) {
+        toast.error("Please fill in all fields.");
+        return;
+      }
+      if (isNaN(Number(offer.offeredPrice))) {
+        toast.error("Please enter a valid number for the offer price.");
+        return;
+      }
+      if (Number(offer.offeredPrice) <= 0) {
+        toast.error("Offer price must be greater than 0.");
+        return;
+      }
+      if (offer.message.length < 10) {
+        toast.error("Message must be at least 10 characters long.");
+        return;
+      }
+
       const response = await apiFetch<ApiResponse>(`/customers/offers`, {
         method: "POST",
         headers: {
@@ -55,8 +76,8 @@ export default function OfferModal({
         throw new Error("Failed to submit offer");
       }
 
-      // Handle success (e.g., show a success message, close the dialog, etc.)
-      console.log("Offer submitted successfully:", response.data);
+      // Close the dialog on success
+      setIsOpen(false);
     } catch (error) {
       console.error("Error submitting offer:", error);
     }

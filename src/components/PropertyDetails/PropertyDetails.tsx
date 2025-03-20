@@ -193,7 +193,7 @@ function PropertyDetails({
                 </div>
 
                 <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                  <OfferModal selectedProperty={selectedProperty} />
+                  <OfferModal selectedProperty={selectedProperty} setIsOpen={setIsOpen} />
                   <Button variant="outline" className="flex-1" size="lg">
                     Contact Seller
                   </Button>

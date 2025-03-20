@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 import { UserRole } from "@/types/Users";
 import { AppProps } from "next/app";
+import { Toaster } from 'sonner';
 
 const protectedRoutes: Record<string, UserRole[]> = {
   "/owner": ["owner"],
@@ -22,6 +23,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
       ) : (
         <Component {...pageProps} />
       )}
+      <Toaster richColors position="top-right" />
     </AuthProvider>
   );
 }
