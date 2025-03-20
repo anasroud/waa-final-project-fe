@@ -7,10 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { apiFetch } from "@/utils/api";
 import ConfirmationModal from "./components/ConfirmationModal";
 import { cn } from "@/lib/utils";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 interface Offer {
   id: number;
@@ -45,17 +47,21 @@ const OffersTable = () => {
   const [offers, setOffers] = useState<Offer[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     fetchOffers();
-  }, []);
+  }, [currentPage]);
 
   const fetchOffers = async () => {
     try {
-      const { data } = await apiFetch<OffersResponse>("/owners/offers", {
+      const { data, meta } = await apiFetch<OffersResponse>("/owners/offers?page=" + currentPage + "&size=10", {
         method: "GET",
       });
 
       setOffers(data);
+      setTotalPages(meta.totalPages);
     } catch (error) {
       console.error("Error fetching offers:", error);
     } finally {
@@ -236,6 +242,46 @@ const OffersTable = () => {
           ))}
         </TableBody>
       </Table>
+      <Pagination>
+        <PaginationContent className="w-full justify-between gap-3">
+          <PaginationItem>
+            <Button
+              variant="outline"
+              className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+              aria-disabled={currentPage === 0 ? true : undefined}
+              role={currentPage === 0 ? "link" : undefined}
+              onClick={() => {
+                setCurrentPage((prev) => prev - 1);
+                // fetchProperties();
+              }}
+              asChild
+            >
+              <span>
+                <ChevronLeftIcon className="-ms-1 opacity-60" size={16} aria-hidden="true" />
+                Previous
+              </span>
+            </Button>
+          </PaginationItem>
+          <PaginationItem>
+            <Button
+              variant="outline"
+              className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+              aria-disabled={currentPage === totalPages - 1 ? true : undefined}
+              role={currentPage === totalPages - 1 ? "link" : undefined}
+              onClick={() => {
+                setCurrentPage((prev) => prev + 1);
+                // fetchProperties();
+              }}
+              asChild
+            >
+              <span>
+                Next
+                <ChevronRightIcon className="-me-1 opacity-60" size={16} aria-hidden="true" />
+              </span>
+            </Button>
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
       <ConfirmationModal
         cancel={() => {
           setShowConfirmationModal(false);
