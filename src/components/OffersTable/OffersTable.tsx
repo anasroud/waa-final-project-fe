@@ -18,7 +18,7 @@ interface Offer {
   id: number;
   message: string;
   offeredPrice: number;
-  isAccepted: boolean;
+  isAccepted: boolean | null;
   soldAt: string | null;
   property: {
     id: number;
@@ -179,9 +179,11 @@ const OffersTable = () => {
                 <p>{offer.customer.name}</p>
                 <p className="text-sm text-gray-500">{offer.customer.email}</p>
               </TableCell>
-              <TableCell>{offer.message}</TableCell>
-              <TableCell>${offer.offeredPrice.toLocaleString()}</TableCell>
+              <TableCell>{offer.message.slice(0, 30)}...</TableCell>
+              <TableCell>${offer.offeredPrice.toLocaleString()}
+              </TableCell>
               <TableCell>
+
                 <span
                   className={cn(
                     `inline-flex items-center rounded-sm px-2 py-1 text-xs font-medium`,
@@ -191,19 +193,20 @@ const OffersTable = () => {
                       "text-yellow-800 bg-yellow-100":
                         !offer.isAccepted,
                       "text-gray-800 bg-gray-100": offer.isAccepted && offer.soldAt,
+                      "text-red-600 bg-red-100": offer.isAccepted === false,
                     },
                   )}
                 >
-                  {offer.isAccepted
-                    ? offer.soldAt
-                      ? "Sold"
-                      : "Contingent"
-                    : "Pending"}
+                  {offer.isAccepted === true && <>
+                    {offer.soldAt ? "Sold" : "Contingent"}
+                  </>}
+                  {offer.isAccepted === null && "Pending"}
+                  {offer.isAccepted === false && "Rejected"}
                 </span>
               </TableCell>
               <TableCell>
                 <div className="flex space-x-2 justify-end">
-                  {!offer.isAccepted && (
+                  {!offer.isAccepted && offer.isAccepted !== false && (
                     <Button
                       onClick={() =>
                         handleOpenConfirmationModal("accept", offer.id)
@@ -225,7 +228,7 @@ const OffersTable = () => {
                       Close offer
                     </Button>
                   )}
-                  {!offer.soldAt && (
+                  {!offer.soldAt && offer.isAccepted !== false && (
                     <Button
                       onClick={() =>
                         handleOpenConfirmationModal("reject", offer.id)
