@@ -13,6 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import PropertyDetails from "../PropertyDetails/PropertyDetails";
 import { apiFetch } from "@/utils/api";
+import { useAuth } from "@/context/AuthContext";
 
 export type Property = {
   id: number;
@@ -84,6 +85,8 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
     );
   };
 
+  const { user } = useAuth();
+
   return (
     <>
       <div
@@ -109,10 +112,10 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
             />
           </motion.div>
           <div className="absolute top-2 w-full flex justify-between items-center px-4">
-            <div className="left-2 bg-primary text-white px-2 py-1 rounded text-sm font-semibold">
+            <div className="left-2 bg-primary text-white px-2 py-1 rounded text-xs font-semibold">
               {property.homeType}
             </div>
-            <button
+            {user && <button
               onClick={toggleFavorite}
               className="text-white hover:text-primary transition-colors"
             >
@@ -127,7 +130,7 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
                   <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z" />
                 </svg>
               )}
-            </button>
+            </button>}
           </div>
           {property.imageURLs.length > 1 && (
             <>
