@@ -47,7 +47,7 @@ const PropertiesTable = () => {
           "totalElements": number;
         }
       }>(
-        "/owners/properties?page=" + currentPage + "&size=3",
+        "/owners/properties?page=" + currentPage + "&size=10",
         {
           method: "GET",
         },
