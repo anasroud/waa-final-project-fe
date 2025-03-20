@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -6,9 +6,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { apiFetch } from '@/utils/api';
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { apiFetch } from "@/utils/api";
 
 interface Offer {
   id: number;
@@ -28,13 +28,13 @@ interface Offer {
 }
 
 interface OffersResponse {
-  "message": string;
+  message: string;
   data: Offer[];
-  "meta": {
-    "totalPages": number;
-    "currentPage": number;
-    "totalElements": number;
-  }
+  meta: {
+    totalPages: number;
+    currentPage: number;
+    totalElements: number;
+  };
 }
 
 const OffersTable = () => {
@@ -47,13 +47,13 @@ const OffersTable = () => {
 
   const fetchOffers = async () => {
     try {
-      const { data } = await apiFetch<OffersResponse>('/owners/offers', {
-        method: 'GET',
+      const { data } = await apiFetch<OffersResponse>("/owners/offers", {
+        method: "GET",
       });
 
       setOffers(data);
     } catch (error) {
-      console.error('Error fetching offers:', error);
+      console.error("Error fetching offers:", error);
     } finally {
       setLoading(false);
     }
@@ -61,42 +61,48 @@ const OffersTable = () => {
 
   const handleAcceptOffer = async (offerId: number) => {
     // TODO: Implement API call to accept offer
-    console.log('Accepting offer:', offerId);
-    const response = await apiFetch<{ message: string; data: { id: number, accepted: boolean } }>(`/owners/offers/${offerId}`, {
-      method: 'PATCH',
+    console.log("Accepting offer:", offerId);
+    const response = await apiFetch<{
+      message: string;
+      data: { id: number; accepted: boolean };
+    }>(`/owners/offers/${offerId}`, {
+      method: "PATCH",
       body: JSON.stringify({
-        "isAccepted": true
+        isAccepted: true,
       }),
     });
     if (response.message === "success") {
       setOffers((prevOffers) =>
         prevOffers.map((offer) =>
-          offer.id === offerId ? { ...offer, isAccepted: true } : offer
-        )
+          offer.id === offerId ? { ...offer, isAccepted: true } : offer,
+        ),
       );
       fetchOffers();
     } else {
-      console.error('Failed to accept offer:', response.message);
+      console.error("Failed to accept offer:", response.message);
     }
   };
 
   const handleRejectOffer = async (offerId: number) => {
     // TODO: Implement API call to reject offer
-    console.log('Rejecting offer:', offerId);
-    const response = await apiFetch<{ message: string; data: { id: number, accepted: boolean } }>(`/owners/offers/${offerId}`, {
-      method: 'PATCH',
+    console.log("Rejecting offer:", offerId);
+    const response = await apiFetch<{
+      message: string;
+      data: { id: number; accepted: boolean };
+    }>(`/owners/offers/${offerId}`, {
+      method: "PATCH",
       body: JSON.stringify({
-        "isAccepted": false
+        isAccepted: false,
       }),
     });
     if (response.message === "success") {
       // refresh the offers list
       setOffers((prevOffers) =>
-        prevOffers.filter((offer) => offer.id !== offerId)
+        prevOffers.filter((offer) => offer.id !== offerId),
       );
       fetchOffers();
     } else {
-      console.error('Failed to reject offer:', response.message);
+      console.error("Failed to reject offer:", response.message);
     }
   };
 
@@ -123,14 +129,12 @@ const OffersTable = () => {
               <TableCell>{offer.property.title}</TableCell>
               <TableCell>{offer.customer.name}</TableCell>
               <TableCell>{offer.message}</TableCell>
-              <TableCell>
-                ${offer.offeredPrice.toLocaleString()}
-              </TableCell>
+              <TableCell>${offer.offeredPrice.toLocaleString()}</TableCell>
               <TableCell>
                 <span
-                  className={`inline-flex items-center rounded-sm px-2 py-1 text-xs font-medium ${offer.isAccepted ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}
+                  className={`inline-flex items-center rounded-sm px-2 py-1 text-xs font-medium ${offer.isAccepted ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}`}
                 >
-                  {offer.isAccepted ? 'Accepted' : 'Pending'}
+                  {offer.isAccepted ? "Accepted" : "Pending"}
                 </span>
               </TableCell>
               <TableCell>

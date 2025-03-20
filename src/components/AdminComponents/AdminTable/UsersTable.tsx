@@ -106,7 +106,9 @@ const columns: ColumnDef<Users>[] = [
     cell: ({ row }) => {
       return (
         <div>
-          <span className="leading-none capitalize">{row.original.role}</span>{" "}
+          <span className="leading-none capitalize">
+            {row.original.role}
+          </span>{" "}
         </div>
       );
     },
@@ -131,7 +133,7 @@ const columns: ColumnDef<Users>[] = [
           className={cn(
             row.getValue("isActive") === false &&
               "bg-muted-foreground/60 text-primary-foreground",
-            "w-[120px] rounded-full"
+            "w-[120px] rounded-full",
           )}
         />
       );
@@ -185,7 +187,7 @@ const AdminTable = () => {
 
   const fetchUsers = useCallback(async () => {
     const res = apiFetch(
-      `/admins/owners?limit=${pagination.pageSize}&page=${pagination.pageIndex}`
+      `/admins/owners?limit=${pagination.pageSize}&page=${pagination.pageIndex}`,
     );
     const data = (await res) as { data: Users[]; meta: { totalPages: number } };
     setData(data.data);
@@ -242,7 +244,7 @@ const AdminTable = () => {
                         <div
                           className={cn(
                             header.column.getCanSort() &&
-                              "flex h-full cursor-pointer items-center justify-between gap-2 select-none"
+                              "flex h-full cursor-pointer items-center justify-between gap-2 select-none",
                           )}
                           onClick={header.column.getToggleSortingHandler()}
                           onKeyDown={(e) => {
@@ -258,7 +260,7 @@ const AdminTable = () => {
                         >
                           {flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                           {{
                             asc: (
@@ -280,7 +282,7 @@ const AdminTable = () => {
                       ) : (
                         flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )
                       )}
                     </TableHead>
@@ -300,7 +302,7 @@ const AdminTable = () => {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -346,7 +348,7 @@ const AdminTable = () => {
                   className="disabled:pointer-events-none disabled:opacity-50"
                   onClick={() =>
                     table.setPageIndex(
-                      table.getState().pagination.pageIndex - 1
+                      table.getState().pagination.pageIndex - 1,
                     )
                   }
                   disabled={!table.getCanPreviousPage()}
@@ -396,7 +398,7 @@ const AdminTable = () => {
                   className="disabled:pointer-events-none disabled:opacity-50"
                   onClick={() =>
                     table.setPageIndex(
-                      table.getState().pagination.pageIndex + 1
+                      table.getState().pagination.pageIndex + 1,
                     )
                   }
                   disabled={!table.getCanNextPage()}

@@ -6,7 +6,7 @@ interface FetchOptions extends RequestInit {
 
 export async function apiFetch<T>(
   endpoint: string,
-  options: FetchOptions = {}
+  options: FetchOptions = {},
 ): Promise<T> {
   const token =
     typeof window !== "undefined"
