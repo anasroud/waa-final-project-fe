@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { usePagination } from "@/hooks/use-pagination";
@@ -42,129 +41,60 @@ import {
   ChevronUpIcon,
 } from "lucide-react";
 import { memo, useCallback, useEffect, useState } from "react";
-import { Users } from "@/types/Users";
-import Alert from "@/components/Alert/Alert";
 import { apiFetch } from "@/utils/api";
-import { Label } from "@radix-ui/react-label";
+import { IProperty } from "@/types/proprties";
 
-const handleActivateUser = async (id: number, isActive: boolean) => {
-  // api/admin/owners/{id}/activate
-  const res = (await apiFetch(`/admins/owners/${id}/activate`, {
-    method: "PATCH",
-    body: JSON.stringify({ isActive: !isActive }),
-  })) as Response;
-
-  if (res.ok) {
-    // Do something
-  }
-};
-
-const handleApproveUser = async (id: number, approved: boolean) => {
-  // api/admin/owners/{id}/approve
-  const res = (await apiFetch(`/admins/owners/${id}/approve`, {
-    method: "PATCH",
-    body: JSON.stringify({ approved: !approved }),
-  })) as Response;
-
-  if (res.ok) {
-    // Do something
-  }
-};
-
-const columns: ColumnDef<Users>[] = [
+const columns: ColumnDef<IProperty>[] = [
   {
-    header: "Name",
-    accessorKey: "name",
+    header: "Title",
+    accessorKey: "title",
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-3">
-          {typeof row.getValue("imageUrl") === "string" && (
-            <img
-              className="rounded-full"
-              src={row.getValue("imageUrl") as string}
-              width={40}
-              height={40}
-              alt="User Avatar"
-            />
-          )}
-          <div>
-            <div className="font-medium">{row.getValue("name")}</div>
-          </div>
+          <div className="font-medium">{row.getValue("title")}</div>
         </div>
       );
     },
     size: 180,
   },
   {
-    header: "Email",
-    accessorKey: "email",
+    header: "status",
+    accessorKey: "status",
+    size: 150,
+  },
+  {
+    header: "homeType",
+    accessorKey: "homeType",
+    size: 150,
+  },
+  {
+    header: "processedAt",
+    accessorKey: "processedAt",
+    cell: ({ row }) => {
+      const processedAt = new Date(
+        row.getValue("processedAt")
+      ).toLocaleDateString("en-GB");
+      return (
+        <div>
+          <span className="leading-none">{processedAt}</span>
+        </div>
+      );
+    },
+    size: 150,
+  },
+  {
+    header: "description",
+    accessorKey: "description",
     size: 200,
   },
   {
-    header: "Role",
-    accessorKey: "role",
-    cell: ({ row }) => {
-      return (
-        <div>
-          <span className="leading-none capitalize">{row.original.role}</span>{" "}
-        </div>
-      );
-    },
-    size: 180,
-  },
-  {
-    header: "Active",
-    accessorKey: "isActive",
-    cell: ({ row }) => {
-      return (
-        <Alert
-          label={row.getValue("isActive") === true ? "Active" : "Inactive"}
-          modalTitle="Change User Status"
-          modalDescription={
-            row.getValue("isActive") === true
-              ? "Are you sure you want to deactivate this user?"
-              : "Are you sure you want to activate this user?"
-          }
-          onConfirm={() => {
-            handleActivateUser(row.original.id, row.original.isActive);
-          }}
-          className={cn(
-            row.getValue("isActive") === false &&
-              "bg-muted-foreground/60 text-primary-foreground",
-            "w-[120px] rounded-full"
-          )}
-        />
-      );
-    },
-    size: 120,
-  },
-  {
-    header: "Approve",
-    accessorKey: "approved",
-    cell: ({ row }) => {
-      return row.getValue("approved") === false ? (
-        <Alert
-          label="Approve"
-          modalTitle="Activate User"
-          modalDescription="Are you sure you want to approve this user?"
-          onConfirm={() => {
-            handleApproveUser(row.original.id, row.original.approved);
-          }}
-          className={cn(
-            row.getValue("approved") === false &&
-              "bg-muted-foreground/60 text-primary-foreground",
-            "w-[120px] rounded-full"
-          )}
-        />
-      ) : (
-        <Label>Approved</Label>
-      );
-    },
+    header: "Owner",
+    accessorKey: "ownerId",
     size: 120,
   },
 ];
 
-const AdminTable = () => {
+const PropertiesTable = () => {
   const pageSize = 10;
 
   const [pagination, setPagination] = useState<PaginationState>({
@@ -181,13 +111,16 @@ const AdminTable = () => {
     },
   ]);
 
-  const [data, setData] = useState<Users[]>([]);
+  const [data, setData] = useState<IProperty[]>([]);
 
-  const fetchUsers = useCallback(async () => {
+  const fetchProperties = useCallback(async () => {
     const res = apiFetch(
-      `/admins/owners?limit=${pagination.pageSize}&page=${pagination.pageIndex}`
+      `/admins/properties?limit=${pagination.pageSize}&page=${pagination.pageIndex}`
     );
-    const data = (await res) as { data: Users[]; meta: { totalPages: number } };
+    const data = (await res) as {
+      data: IProperty[];
+      meta: { totalPages: number };
+    };
     setData(data.data);
     setNumberOfUsers(data.meta.totalPages);
   }, [pagination.pageIndex, pagination.pageSize]);
@@ -199,8 +132,8 @@ const AdminTable = () => {
   }, []);
 
   useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers, fetchNumberOfUsers]);
+    fetchProperties();
+  }, [fetchProperties, fetchNumberOfUsers]);
 
   const table = useReactTable({
     data,
@@ -225,7 +158,7 @@ const AdminTable = () => {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full">
       <div className="bg-background overflow-hidden rounded-md border">
         <Table className="table-fixed">
           <TableHeader>
@@ -438,4 +371,4 @@ const AdminTable = () => {
   );
 };
 
-export default memo(AdminTable);
+export default memo(PropertiesTable);

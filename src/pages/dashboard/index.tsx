@@ -1,6 +1,7 @@
 import UsersTable from "@/components/AdminComponents/AdminTable/UsersTable";
 import AnimatedWrapper from "@/components/AnimatedWrapper/AnimatedWrapper";
 import Nav from "@/components/Nav/Nav";
+import PropertiesTable from "@/components/AdminComponents/Properties/Properties";
 import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -46,7 +47,7 @@ export default function Dashboard() {
           </TabsContent>
           <TabsContent value="tab-2">
             <AnimatedWrapper>
-              <UsersTable />
+              <PropertiesTable />
             </AnimatedWrapper>
           </TabsContent>
         </Tabs>

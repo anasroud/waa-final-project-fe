@@ -17,6 +17,7 @@ export interface IAlertProps {
   modalTitle: string;
   modalDescription: string;
   className?: string;
+  onConfirm?: () => void;
 }
 
 export default function Alert({
@@ -24,7 +25,14 @@ export default function Alert({
   modalTitle,
   modalDescription,
   className,
+  onConfirm,
 }: IAlertProps) {
+  const handleConfirm = () => {
+    if (onConfirm) {
+      onConfirm();
+    }
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -47,7 +55,7 @@ export default function Alert({
         </div>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Confirm</AlertDialogAction>
+          <AlertDialogAction onClick={handleConfirm}>Confirm</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
