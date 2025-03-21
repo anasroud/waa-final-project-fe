@@ -47,8 +47,6 @@ export default function Home() {
     setPage(page);
   };
 
-  console.log(totalPages);
-
   return (
     <div className="min-h-screen">
       <Nav />

@@ -35,7 +35,6 @@ export default function InputWithNumbers({
             className="bg-background text-foreground flex-1 px-3 py-2 tabular-nums"
             placeholder={placeHolder}
             onChange={(e) => {
-              console.log(e.target.value);
               setValue(parseInt(e.target.value));
             }}
           />
@@ -50,7 +49,6 @@ export default function InputWithNumbers({
             <Button
               slot="decrement"
               onPress={() => {
-                console.log("decrement", setValue);
                 setValue((prev) => prev - 1);
               }}
               className="border-input bg-background text-muted-foreground/80 hover:bg-accent hover:text-foreground -me-px -mt-px flex h-1/2 w-6 flex-1 items-center justify-center border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
