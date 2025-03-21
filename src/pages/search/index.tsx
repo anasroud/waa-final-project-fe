@@ -11,7 +11,6 @@ export default function Search() {
   const [properties, setProperties] = useState<IProperty[]>([]);
   const [countProperties, setCountProperties] = useState(0);
   const [page, setPage] = useState(1);
-  const [city, setCity] = useState("");
   const [searchFilters, setSearchFilters] = useState({
     city: undefined,
     state: undefined,
@@ -27,15 +26,6 @@ export default function Search() {
 
   const pageLimit = 9;
   const totalPages = Math.ceil(countProperties / pageLimit);
-
-  useEffect(() => {
-    const urlSearchQuery = new URLSearchParams(window.location.search);
-    const linkQuery = urlSearchQuery.get("query");
-    if (linkQuery) {
-      setCity(linkQuery);
-      setSearchFilters({ city: linkQuery });
-    }
-  }, []);
 
   const fetchProperties = useCallback(async () => {
     const buildSearchQuery = (body: SearchFilters) => {
@@ -74,7 +64,7 @@ export default function Search() {
     <>
       <Nav />
       <div>
-        <FilterNav city={city} setSearchFilters={setSearchFilters} />
+        <FilterNav setSearchFilters={setSearchFilters} />
       </div>
       <div className="mx-auto max-w-6xl space-y-6 p-4">
         <div className="grid  grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-8">
