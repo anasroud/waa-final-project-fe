@@ -1,4 +1,5 @@
 import PropertyItem, { Property } from "../PropertyItem/PropertyItem";
+import PropertyItemSkeleton from "../PropertyItem/PropertyItemSkeleton";
 
 const FeaturedProperties = ({
   isLoading,
@@ -17,6 +18,12 @@ const FeaturedProperties = ({
             Featured Properties
           </h2>
           <p className="text-gray-600 mb-8">Loading properties...</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <PropertyItemSkeleton key={i} />
+          ))}
         </div>
       </div>
     );

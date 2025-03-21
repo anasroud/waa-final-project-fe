@@ -11,11 +11,12 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchProperties = async () => {
+      setIsLoading(true);
       try {
         let query = `?page=${page}&size=${6}`;
 
@@ -57,7 +58,7 @@ export default function Home() {
         properties={properties}
       />
       <BasicPagination
-        currentPage={page}
+        currentPage={page + 1}
         totalPages={totalPages}
         className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
         paginationHandler={paginationHandler}

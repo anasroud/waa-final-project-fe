@@ -14,6 +14,7 @@ import { formatPrice, Property } from "../PropertyItem/PropertyItem";
 import { cn } from "@/lib/utils";
 import OfferModal from "../OfferModal";
 import { useAuth } from "@/context/AuthContext";
+import Image from "next/image";
 
 function PropertyDetails({
   isOpen,
@@ -30,7 +31,7 @@ function PropertyDetails({
     e?.stopPropagation();
     if (!selectedProperty) return;
     setCurrentImageIndex((prev) =>
-      prev === selectedProperty.imageURLs.length - 1 ? 0 : prev + 1,
+      prev === selectedProperty.imageURLs.length - 1 ? 0 : prev + 1
     );
   };
 
@@ -38,7 +39,7 @@ function PropertyDetails({
     e?.stopPropagation();
     if (!selectedProperty) return;
     setCurrentImageIndex((prev) =>
-      prev === 0 ? selectedProperty.imageURLs.length - 1 : prev - 1,
+      prev === 0 ? selectedProperty.imageURLs.length - 1 : prev - 1
     );
   };
 
@@ -85,16 +86,19 @@ function PropertyDetails({
                     transition={{ duration: 0.7 }}
                     className="h-full"
                   >
-                    <img
-                      src={
-                        selectedProperty.imageURLs[currentImageIndex] ||
-                        "/hero-bg.jpg"
-                      }
-                      alt={`${selectedProperty.title} - Image ${
-                        currentImageIndex + 1
-                      }`}
-                      className="w-full h-full object-cover"
-                    />
+                    <div className="h-full relative w-full object-cover">
+                      <Image
+                        src={
+                          selectedProperty.imageURLs[currentImageIndex] ||
+                          "/hero-bg.jpg"
+                        }
+                        alt={`${selectedProperty.title} - Image ${
+                          currentImageIndex + 1
+                        }`}
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
                   </motion.div>
                   {selectedProperty.imageURLs.length > 1 && (
                     <>
@@ -118,7 +122,7 @@ function PropertyDetails({
                               "h-1.5 w-1.5 rounded-full transition-all",
                               index === currentImageIndex
                                 ? "bg-white w-3"
-                                : "bg-white/50",
+                                : "bg-white/50"
                             )}
                           />
                         ))}

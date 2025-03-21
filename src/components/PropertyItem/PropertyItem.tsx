@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   Bed,
@@ -75,14 +76,14 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
   const nextImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
     setCurrentImageIndex((prev) =>
-      prev === property.imageURLs.length - 1 ? 0 : prev + 1,
+      prev === property.imageURLs.length - 1 ? 0 : prev + 1
     );
   };
 
   const prevImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
     setCurrentImageIndex((prev) =>
-      prev === 0 ? property.imageURLs.length - 1 : prev - 1,
+      prev === 0 ? property.imageURLs.length - 1 : prev - 1
     );
   };
 
@@ -93,7 +94,7 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
       <div
         className={cn(
           "bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-[1.02] hover:shadow-lg",
-          className,
+          className
         )}
         onClick={() => setIsOpen(true)}
       >
@@ -106,11 +107,14 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
             transition={{ duration: 0.5 }}
             className="h-full"
           >
-            <img
-              src={property.imageURLs[currentImageIndex] || "/hero-bg.jpg"}
-              alt={`${property.title} - Image ${currentImageIndex + 1}`}
-              className="h-full w-full object-cover"
-            />
+            <div className="h-full relative w-full object-contain">
+              <Image
+                src={property.imageURLs[currentImageIndex] || "/hero-bg.jpg"}
+                alt={`${property.title} - Image ${currentImageIndex + 1}`}
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
           </motion.div>
           <div className="absolute top-2 w-full flex justify-between items-center px-4">
             <div className="left-2 bg-primary text-white px-2 py-1 rounded text-xs font-semibold">
@@ -157,7 +161,7 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
                       "h-1 w-1 rounded-full transition-all",
                       index === currentImageIndex
                         ? "bg-white w-2"
-                        : "bg-white/50",
+                        : "bg-white/50"
                     )}
                   />
                 ))}
