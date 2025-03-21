@@ -1,10 +1,10 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import NormalInput from "../Inputs/Input";
 import PricesFilter from "../PricesFilter";
 import { Label } from "react-aria-components";
 import { Button } from "../ui/button";
 import DropDown from "../DropDown";
-import { IMoreFiltersOptions } from "../MoreFilters";
+// import { IMoreFiltersOptions } from "../MoreFilters";
 import { states } from "@/utils/searchOptions";
 
 export interface SearchFilters {
@@ -37,11 +37,6 @@ const FilterNav = ({ setSearchFilters }: IFilterNavProps) => {
   const homeTypeRef = useRef<string | null>(null);
   const selectedStateRef = useRef<string | null>(null);
   const priceRangeRef = useRef<[number, number]>([0, 1000000000]);
-  const [moreFilters, setMoreFilters] = useState<IMoreFiltersOptions>({
-    hasPool: false,
-    hasParking: false,
-    hasAC: false,
-  });
 
   const options = [
     { name: "House", value: "House" },
@@ -59,9 +54,9 @@ const FilterNav = ({ setSearchFilters }: IFilterNavProps) => {
       maxPrice: priceRangeRef.current[1],
       homeType: homeTypeRef.current,
       city: searchRef.current?.value || "",
-      hasParking: moreFilters.hasParking,
-      hasPool: moreFilters.hasPool,
-      hasAC: moreFilters.hasAC,
+      hasParking: undefined,
+      hasPool: undefined,
+      hasAC: undefined,
       state: selectedStateRef.current,
     });
   };

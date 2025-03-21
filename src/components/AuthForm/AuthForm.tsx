@@ -30,9 +30,13 @@ export default function AuthFormWithImage({
   role,
   isLoading,
 }: Props) {
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(
+    null as unknown as HTMLInputElement
+  );
+  const passwordRef = useRef<HTMLInputElement>(
+    null as unknown as HTMLInputElement
+  );
+  const nameRef = useRef<HTMLInputElement>(null as unknown as HTMLInputElement);
   const imageRef = useRef<File | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -99,7 +103,7 @@ export default function AuthFormWithImage({
         </form>
         {role && (
           <div className="text-blue-500/80 pt-4 text-sm">
-            <a href={`/signup/${role}`}>Don't have an account? Sign Up</a>
+            <a href={`/signup/${role}`}>Don&apos;t have an account? Sign Up</a>
           </div>
         )}
       </div>
