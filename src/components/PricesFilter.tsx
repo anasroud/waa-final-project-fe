@@ -3,7 +3,6 @@
 import { useSliderWithInput } from "@/hooks/use-slider-with-input";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
 
 export interface IPricesFilterProps {
   minValue?: number;
@@ -18,9 +17,6 @@ const PricesFilter = ({
   initialValue,
   setValues,
 }: IPricesFilterProps) => {
-  const [currentValues, setCurrentValues] =
-    useState<[number, number]>(initialValue);
-
   const {
     sliderValue,
     inputValues,
@@ -40,10 +36,6 @@ const PricesFilter = ({
           value={inputValues[0]}
           onChange={(e) => {
             handleInputChange(e, 0);
-            setCurrentValues((existingValues) => [
-              parseInt(e.target.value),
-              existingValues[1],
-            ]);
           }}
           onBlur={() => validateAndUpdateValue(inputValues[0], 0)}
           onKeyDown={(e) => {
@@ -68,10 +60,6 @@ const PricesFilter = ({
           value={inputValues[1]}
           onChange={(e) => {
             handleInputChange(e, 1);
-            setCurrentValues((existingValues) => [
-              existingValues[0],
-              parseInt(e.target.value),
-            ]);
           }}
           onBlur={() => validateAndUpdateValue(inputValues[1], 1)}
           onKeyDown={(e) => {
