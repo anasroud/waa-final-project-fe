@@ -25,6 +25,7 @@ const Hero = ({ setSearch }: IHero) => {
           layout="fill"
           objectFit="cover"
           quality={100}
+          priority
         />
       </div>
       <div className="absolute inset-0 bg-black/50" />
