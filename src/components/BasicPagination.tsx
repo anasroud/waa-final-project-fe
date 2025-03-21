@@ -4,20 +4,23 @@ import {
   PaginationContent,
   PaginationItem,
 } from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
 
 type PaginationProps = {
   currentPage: number;
   totalPages: number;
   paginationHandler: (page: number) => void;
+  className?: string;
 };
 
 export default function BasicPagination({
   currentPage,
   totalPages,
   paginationHandler,
+  className,
 }: PaginationProps) {
   return (
-    <div className="flex items-center justify-between gap-3">
+    <div className={cn("flex items-center justify-between gap-3", className)}>
       <p className="text-muted-foreground grow text-sm" aria-live="polite">
         Page <span className="text-foreground">{currentPage}</span> of{" "}
         <span className="text-foreground">{totalPages}</span>
@@ -33,13 +36,7 @@ export default function BasicPagination({
               onClick={() => paginationHandler(currentPage - 1)}
               asChild
             >
-              <a
-                href={
-                  currentPage === 1 ? undefined : `#/page/${currentPage - 1}`
-                }
-              >
-                Previous
-              </a>
+              <a>Previous</a>
             </Button>
           </PaginationItem>
           <PaginationItem>

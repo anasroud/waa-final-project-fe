@@ -57,7 +57,7 @@ const Nav = ({ showButtons = true }: INavProps) => {
                     router.push(
                       user.role === "admin"
                         ? "/dashboard"
-                        : "/dashboard/customer",
+                        : "/dashboard/customer"
                     )
                   }
                 >
