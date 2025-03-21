@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import NormalInput from "../Inputs/Input";
 import PricesFilter from "../PricesFilter";
 import { Label } from "react-aria-components";
@@ -22,48 +22,52 @@ export interface SearchFilters {
 
 export interface IFilterNavProps {
   setSearchFilters: (filters: SearchFilters) => void;
-  city?: string;
 }
 
-const FilterNav = ({ setSearchFilters, city }: IFilterNavProps) => {
-  const [search, setSearch] = useState<string>("");
-  const [bedrooms, setBedrooms] = useState<number>(0);
-  const [bathrooms, setBathrooms] = useState<number>(0);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0.0, 0.0]);
-  const [homeType, setHomeType] = useState<string | null>(null);
-  const [selectedStates, setState] = useState<string | null>("");
+const FilterNav = ({ setSearchFilters }: IFilterNavProps) => {
+  const searchRef = useRef<HTMLInputElement>(
+    null as unknown as HTMLInputElement
+  );
+  const bedroomsRef = useRef<HTMLInputElement>(
+    null as unknown as HTMLInputElement
+  );
+  const bathroomsRef = useRef<HTMLInputElement>(
+    null as unknown as HTMLInputElement
+  );
+  const homeTypeRef = useRef<string | null>(null);
+  const selectedStateRef = useRef<string | null>(null);
+  const priceRangeRef = useRef<[number, number]>([0, 1000000000]);
   const [moreFilters, setMoreFilters] = useState<IMoreFiltersOptions>({
     hasPool: false,
     hasParking: false,
     hasAC: false,
   });
 
-  const options = ["House", "Town Home", "Condo", "Apartment"];
+  const options = [
+    { name: "House", value: "House" },
+    { name: "Town Home", value: "Town Home" },
+    { name: "Condo", value: "Condo" },
+    { name: "Apartment", value: "Apartment" },
+  ];
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    setMoreFilters({
-      hasParking: false,
-      hasPool: false,
-      hasAC: false,
-    });
     e.preventDefault();
     setSearchFilters({
-      minBedroomCount: bedrooms,
-      minBathroomCount: bathrooms,
-      minPrice: priceRange[0] * 1.0,
-      maxPrice: priceRange[1] * 1.0,
-      homeType,
-      city: search,
+      minBedroomCount: Number(bedroomsRef.current?.value) || 0,
+      minBathroomCount: Number(bathroomsRef.current?.value) || 0,
+      minPrice: priceRangeRef.current[0],
+      maxPrice: priceRangeRef.current[1],
+      homeType: homeTypeRef.current,
+      city: searchRef.current?.value || "",
       hasParking: moreFilters.hasParking,
       hasPool: moreFilters.hasPool,
       hasAC: moreFilters.hasAC,
-      state: selectedStates,
+      state: selectedStateRef.current,
     });
   };
 
-  useEffect(() => {}, [search]);
   return (
-    <nav className=" border-b p-4 border-gray-200/20">
+    <nav className="border-b p-4 border-gray-200/20">
       <form
         className="container max-w-6xl bg-gray-100/80 rounded-4xl mx-auto mt-5 gap-6 p-8 flex justify-between items-end flex-col md:flex-row"
         onSubmit={handleOnSubmit}
@@ -75,8 +79,7 @@ const FilterNav = ({ setSearchFilters, city }: IFilterNavProps) => {
             className="w-full"
             inputClassName="bg-white"
             type="text"
-            value={city}
-            setValue={setSearch}
+            inputRef={searchRef}
           />
           <NormalInput
             label="Bathrooms"
@@ -85,7 +88,7 @@ const FilterNav = ({ setSearchFilters, city }: IFilterNavProps) => {
             inputClassName="bg-white"
             type="number"
             min={0}
-            setValue={(value: string) => setBathrooms(Number(value))}
+            inputRef={bathroomsRef}
           />
           <NormalInput
             label="Bedrooms"
@@ -94,22 +97,21 @@ const FilterNav = ({ setSearchFilters, city }: IFilterNavProps) => {
             inputClassName="bg-white"
             type="number"
             min={0}
-            setValue={(value: string) => setBedrooms(Number(value))}
+            inputRef={bedroomsRef}
           />
           <DropDown
             className="pt-6 w-full"
             placeholder="Home Type"
             options={options}
-            setValue={setHomeType}
+            setValue={(value) => (homeTypeRef.current = value)}
           />
-
           <div>
             <Label className="text-sm">Price Range</Label>
             <PricesFilter
               minValue={0}
-              maxValue={1000000}
-              initialValue={[0, 1000000]}
-              setValues={setPriceRange}
+              maxValue={1000000000}
+              initialValue={priceRangeRef.current}
+              setValues={(values) => (priceRangeRef.current = values)}
             />
           </div>
           <div>
@@ -117,7 +119,7 @@ const FilterNav = ({ setSearchFilters, city }: IFilterNavProps) => {
               className="pt-6 w-full"
               placeholder="Select a state"
               options={states}
-              setValue={setState}
+              setValue={(value) => (selectedStateRef.current = value)}
             />
           </div>
         </div>
@@ -126,6 +128,7 @@ const FilterNav = ({ setSearchFilters, city }: IFilterNavProps) => {
             variant="outline"
             className="bg-black text-white active:bg-gray-200 active:text-gray-900"
             size="lg"
+            type="submit"
           >
             Search
           </Button>

@@ -6,17 +6,16 @@ import { CheckIcon, EyeIcon, EyeOffIcon, XIcon } from "lucide-react";
 import { useId, useMemo, useState } from "react";
 
 export interface IPasswordSignUpProps {
-  setValue: (value: string) => void;
+  inputRef?: React.RefObject<HTMLInputElement>;
 }
 
-export default function PasswordSignUp({ setValue }: IPasswordSignUpProps) {
+export default function PasswordSignUp({ inputRef }: IPasswordSignUpProps) {
   const id = useId();
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const toggleVisibility = () => setIsVisible((prevState) => !prevState);
 
-  setValue(password);
   const checkStrength = (pass: string) => {
     const requirements = [
       { regex: /.{8,}/, text: "At least 8 characters" },
@@ -56,7 +55,7 @@ export default function PasswordSignUp({ setValue }: IPasswordSignUpProps) {
     <div>
       {/* Password input field with toggle visibility button */}
       <div className="*:not-first:mt-2">
-        <Label htmlFor={id}>Input with password strength indicator</Label>
+        <Label htmlFor={id}>Password</Label>
         <div className="relative">
           <Input
             id={id}
@@ -64,6 +63,7 @@ export default function PasswordSignUp({ setValue }: IPasswordSignUpProps) {
             placeholder="Password"
             type={isVisible ? "text" : "password"}
             value={password}
+            ref={inputRef}
             onChange={(e) => setPassword(e.target.value)}
             aria-describedby={`${id}-description`}
           />
@@ -95,7 +95,7 @@ export default function PasswordSignUp({ setValue }: IPasswordSignUpProps) {
       >
         <div
           className={`h-full ${getStrengthColor(
-            strengthScore,
+            strengthScore
           )} transition-all duration-500 ease-out`}
           style={{ width: `${(strengthScore / 4) * 100}%` }}
         ></div>

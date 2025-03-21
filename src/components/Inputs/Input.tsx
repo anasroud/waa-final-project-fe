@@ -8,10 +8,10 @@ export interface INormalInputProps {
   placeHolder: string;
   className?: string;
   type: string;
-  setValue: (value: string) => void;
   value?: string;
   inputClassName?: string;
   min?: number;
+  inputRef?: React.RefObject<HTMLInputElement>;
 }
 
 export default function NormalInput({
@@ -19,24 +19,20 @@ export default function NormalInput({
   placeHolder,
   className,
   type,
-  setValue,
   value,
   inputClassName,
+  inputRef,
   min,
 }: INormalInputProps) {
   const id = useId();
-
-  const changeEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
 
   return (
     <div className={(cn("*:not-first:mt-2"), className)}>
       <Label htmlFor={id}>{label}</Label>
       <Input
         className={inputClassName}
-        onChange={changeEvent}
         id={id}
+        ref={inputRef}
         placeholder={placeHolder}
         type={type}
         min={min}

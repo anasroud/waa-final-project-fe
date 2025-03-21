@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import EmailInput from "../Inputs/InputWithIcon";
 import PasswordSignUp from "../Inputs/PasswordSIgnUp";
 import PasswordLogIn from "../Inputs/PasswordLogin";
@@ -14,7 +14,7 @@ type Props = {
     email: string,
     password: string,
     name: string,
-    image: File | null,
+    image: File | null
   ) => Promise<void>;
   type?: "login" | "register";
   buttonText: string;
@@ -30,17 +30,22 @@ export default function AuthFormWithImage({
   role,
   isLoading,
 }: Props) {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [image, setImage] = useState<File | null>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<File | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     try {
-      await onSubmit(email, password, name, image);
+      await onSubmit(
+        emailRef.current?.value || "",
+        passwordRef.current?.value || "",
+        nameRef.current?.value || "",
+        imageRef.current
+      );
     } catch (err) {
       setError((err as Error).message);
     }
@@ -54,26 +59,29 @@ export default function AuthFormWithImage({
         <form onSubmit={handleSubmit} className="space-y-4">
           {type === "register" && (
             <NormalInput
-              label="Enter your Name"
+              label="Name"
               placeHolder="Name"
               type="text"
-              setValue={setName}
+              inputRef={nameRef}
             />
           )}
           <EmailInput
             Icon={AtSignIcon}
             placeholder="Email"
-            label="Enter Your Email"
+            label="Email"
             type="email"
-            setValue={setEmail}
+            inputRef={emailRef}
           />
           {type === "register" ? (
-            <PasswordSignUp setValue={setPassword} />
+            <PasswordSignUp inputRef={passwordRef} />
           ) : (
-            <PasswordLogIn setPassword={setPassword} />
+            <PasswordLogIn inputRef={passwordRef} />
           )}
           {type === "register" && (
-            <FileInput label="Profile Picture" setFile={setImage} />
+            <FileInput
+              label="Profile Picture"
+              setFile={(file) => (imageRef.current = file)}
+            />
           )}
           {!isLoading ? (
             <Button
@@ -91,7 +99,7 @@ export default function AuthFormWithImage({
         </form>
         {role && (
           <div className="text-blue-500/80 pt-4 text-sm">
-            <a href={`/signup/${role}`}>Dont have an account? Sign Up</a>
+            <a href={`/signup/${role}`}>Don't have an account? Sign Up</a>
           </div>
         )}
       </div>

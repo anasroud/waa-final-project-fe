@@ -50,14 +50,14 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
         return !value
           ? "Title is required"
           : value.length < 3
-            ? "Title must be at least 3 characters"
-            : "";
+          ? "Title must be at least 3 characters"
+          : "";
       case "description":
         return !value
           ? "Description is required"
           : value.length < 10
-            ? "Description must be at least 10 characters"
-            : "";
+          ? "Description must be at least 10 characters"
+          : "";
       case "city":
       case "state":
         return !value
@@ -67,38 +67,38 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
         return !value
           ? "Zip code is required"
           : !/^\d{5}(-\d{4})?$/.test(value)
-            ? "Invalid zip code format"
-            : "";
+          ? "Invalid zip code format"
+          : "";
       case "address":
         return !value ? "Address is required" : "";
       case "price":
         return !value
           ? "Price is required"
           : value <= 0
-            ? "Price must be greater than 0"
-            : "";
+          ? "Price must be greater than 0"
+          : "";
       case "bedroomCount":
       case "bathroomCount":
         return !value
           ? `${name.replace("Count", " count")} is required`
           : value < 0
-            ? "Count must be 0 or greater"
-            : "";
+          ? "Count must be 0 or greater"
+          : "";
       case "homeType":
         return !value ? "Home type is required" : "";
       case "squareFootage":
         return !value
           ? "Square footage is required"
           : value <= 0
-            ? "Square footage must be greater than 0"
-            : "";
+          ? "Square footage must be greater than 0"
+          : "";
       default:
         return "";
     }
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -205,13 +205,17 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
         <h1 className="text-3xl font-bold mb-8">
           {isEditing ? "Edit Property Listing" : "Create New Property Listing"}
         </h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6 bg-gray-200 p-4 rounded-md"
+        >
           <div className="space-y-4">
             <div>
               <Label htmlFor="title">Title</Label>
               <Input
                 id="title"
                 name="title"
+                className="bg-white"
                 value={formData.title}
                 onChange={handleInputChange}
                 aria-invalid={!!errors.title}
@@ -233,6 +237,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
               <Textarea
                 id="description"
                 name="description"
+                className="bg-white"
                 value={formData.description}
                 onChange={handleInputChange}
                 aria-invalid={!!errors.description}
@@ -255,6 +260,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                 <Input
                   id="city"
                   name="city"
+                  className="bg-white"
                   value={formData.city}
                   onChange={handleInputChange}
                   aria-invalid={!!errors.city}
@@ -276,6 +282,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                   id="state"
                   name="state"
                   value={formData.state}
+                  className="bg-white"
                   onChange={handleInputChange}
                   aria-invalid={!!errors.state}
                   required
@@ -299,6 +306,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                   id="zipCode"
                   name="zipCode"
                   value={formData.zipCode}
+                  className="bg-white"
                   onChange={handleInputChange}
                   aria-invalid={!!errors.zipCode}
                   required
@@ -318,6 +326,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                 <Input
                   id="address"
                   name="address"
+                  className="bg-white"
                   value={formData.address}
                   onChange={handleInputChange}
                   aria-invalid={!!errors.address}
@@ -341,6 +350,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                 <Input
                   id="price"
                   name="price"
+                  className="bg-white"
                   type="number"
                   value={formData.price}
                   onChange={handleNumberChange}
@@ -364,6 +374,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                   name="bedroomCount"
                   type="number"
                   value={formData.bedroomCount}
+                  className="bg-white"
                   onChange={handleNumberChange}
                   aria-invalid={!!errors.bedroomCount}
                   required
@@ -384,6 +395,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                   id="bathroomCount"
                   name="bathroomCount"
                   type="number"
+                  className="bg-white"
                   value={formData.bathroomCount}
                   onChange={handleNumberChange}
                   aria-invalid={!!errors.bathroomCount}
@@ -404,25 +416,31 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="homeType">Home Type</Label>
-                <Select
-                  value={formData.homeType}
-                  onValueChange={(value) => {
-                    setFormData((prev) => ({ ...prev, homeType: value }));
-                    const error = validateField("homeType", value);
-                    setErrors((prev) => ({ ...prev, homeType: error }));
-                  }}
-                  required
-                >
-                  <SelectTrigger id="homeType" aria-invalid={!!errors.homeType}>
-                    <SelectValue placeholder="Select home type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="House">House</SelectItem>
-                    <SelectItem value="Townhome">Townhome</SelectItem>
-                    <SelectItem value="Condo">Condo</SelectItem>
-                    <SelectItem value="Apartment">Apartment</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="bg-white rounded-md">
+                  <Select
+                    value={formData.homeType}
+                    onValueChange={(value) => {
+                      setFormData((prev) => ({ ...prev, homeType: value }));
+                      const error = validateField("homeType", value);
+                      setErrors((prev) => ({ ...prev, homeType: error }));
+                    }}
+                    required
+                  >
+                    <SelectTrigger
+                      id="homeType"
+                      aria-invalid={!!errors.homeType}
+                    >
+                      <SelectValue placeholder="Select home type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="House">House</SelectItem>
+                      <SelectItem value="Townhome">Townhome</SelectItem>
+                      <SelectItem value="Condo">Condo</SelectItem>
+                      <SelectItem value="Apartment">Apartment</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 {errors.homeType && (
                   <p
                     className="text-destructive mt-2 text-xs"
@@ -439,6 +457,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                   id="squareFootage"
                   name="squareFootage"
                   type="number"
+                  className="bg-white"
                   value={formData.squareFootage}
                   onChange={handleNumberChange}
                   aria-invalid={!!errors.squareFootage}
@@ -462,6 +481,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="hasParking"
+                    className="bg-white"
                     checked={formData.hasParking}
                     onCheckedChange={(checked) =>
                       handleCheckboxChange("hasParking", checked as boolean)
@@ -473,6 +493,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                   <Checkbox
                     id="hasPool"
                     checked={formData.hasPool}
+                    className="bg-white"
                     onCheckedChange={(checked) =>
                       handleCheckboxChange("hasPool", checked as boolean)
                     }
@@ -483,6 +504,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                   <Checkbox
                     id="hasAC"
                     checked={formData.hasAC}
+                    className="bg-white"
                     onCheckedChange={(checked) =>
                       handleCheckboxChange("hasAC", checked as boolean)
                     }
@@ -511,6 +533,7 @@ const PropertyForm = ({ propertyId, isEditing = false }: PropertyFormProps) => {
                     imageURLs: urls,
                   }));
                 }}
+                className="bg-white"
                 onError={() => {
                   console.error("Error uploading images");
                 }}

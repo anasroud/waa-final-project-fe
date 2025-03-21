@@ -24,7 +24,7 @@ interface AuthContextType {
     password: string,
     name: string,
     image: File | null,
-    role: UserRole,
+    role: UserRole
   ) => Promise<void>;
   loading: boolean;
   setUser: (user: User | null) => void;
@@ -119,7 +119,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     password: string,
     name: string,
     image: File | null,
-    role: UserRole,
+    role: UserRole
   ) => {
     try {
       let imageUrl = "";
@@ -195,7 +195,7 @@ const decodeToken = (token: string) => {
         .map(function (c) {
           return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
         })
-        .join(""),
+        .join("")
     );
 
     return JSON.parse(jsonPayload);

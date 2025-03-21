@@ -1,4 +1,5 @@
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { useId, useState } from "react";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
@@ -13,11 +14,13 @@ interface IFileUploaderProps {
   onUploadSuccess?: (urls: string[]) => void;
   onError?: (error: string) => void;
   allowMultiple?: boolean;
+  className?: string;
 }
 
 const FileUploader = ({
   onUploadSuccess,
   onError,
+  className,
   allowMultiple = true,
 }: IFileUploaderProps) => {
   const id = useId();
@@ -76,7 +79,10 @@ const FileUploader = ({
     <div className="*:not-first:mt-2">
       <Input
         id={id}
-        className="p-0 pe-3 file:me-3 file:border-0 file:border-e"
+        className={cn(
+          "p-0 pe-3 file:me-3 file:border-0 file:border-e",
+          className
+        )}
         type="file"
         multiple={allowMultiple} // Allow multiple files to be selected
         onChange={handleFileChange}

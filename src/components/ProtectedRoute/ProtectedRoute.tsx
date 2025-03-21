@@ -2,6 +2,7 @@ import { useAuth } from "@/context/AuthContext";
 import { UserRole } from "@/types/Users";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Loading from "../Loading/Loading";
 
 type Props = {
   allowedRoles: UserRole[];
@@ -23,7 +24,7 @@ export default function ProtectedRoute({ allowedRoles, children }: Props) {
   }, [user, loading, router, allowedRoles]);
 
   if (loading || !user) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return children;

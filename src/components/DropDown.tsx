@@ -11,7 +11,7 @@ import { useState } from "react";
 export interface IDropDownProps {
   className?: string;
   placeholder?: string;
-  options: string[];
+  options: { name: string; value: string }[];
   setValue: (value: string | null) => void;
 }
 export default function DropDown({
@@ -20,11 +20,14 @@ export default function DropDown({
   options,
   setValue,
 }: IDropDownProps) {
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<{
+    name: string;
+    value: string;
+  } | null>(null);
 
-  setValue(selected);
-  const handleSelection = (option: string) => {
-    if (selected === option) {
+  setValue(selected?.value ?? null);
+  const handleSelection = (option: { name: string; value: string }) => {
+    if (selected?.value === option.value) {
       setSelected(null);
     } else {
       setSelected(option);
@@ -36,7 +39,7 @@ export default function DropDown({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="w-full">
-            {selected || placeholder}
+            {selected?.name || placeholder}
             <ChevronDownIcon
               className="-me-1 opacity-60"
               size={16}
@@ -59,9 +62,9 @@ export default function DropDown({
                 handleSelection(option);
               }}
               className={selected === option ? "bg-accent" : ""}
-              key={option}
+              key={option.value}
             >
-              {option}
+              {option.name}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
