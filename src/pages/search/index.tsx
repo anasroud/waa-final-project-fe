@@ -27,7 +27,7 @@ export default function Search() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const pageLimit = 4;
+  const pageLimit = 9;
 
   const fetchProperties = useCallback(async () => {
     const buildSearchQuery = (body: SearchFilters) => {

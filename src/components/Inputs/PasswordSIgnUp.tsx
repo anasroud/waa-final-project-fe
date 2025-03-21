@@ -95,7 +95,7 @@ export default function PasswordSignUp({ inputRef }: IPasswordSignUpProps) {
       >
         <div
           className={`h-full ${getStrengthColor(
-            strengthScore
+            strengthScore,
           )} transition-all duration-500 ease-out`}
           style={{ width: `${(strengthScore / 4) * 100}%` }}
         ></div>

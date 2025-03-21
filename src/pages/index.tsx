@@ -4,6 +4,13 @@ import FeaturedProperties from "@/components/FeaturedProperties/FeaturedProperti
 import { useEffect, useState } from "react";
 import { Property } from "@/components/PropertyItem/PropertyItem";
 import { apiFetch } from "@/utils/api";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+} from "@/components/ui/pagination";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import BasicPagination from "@/components/BasicPagination";
 
 export default function Home() {
@@ -26,7 +33,11 @@ export default function Home() {
 
         const response = await apiFetch<{
           data: Property[];
-          meta: { totalPages: number };
+          meta: {
+            totalPages: number;
+            currentPage: number;
+            totalElements: number;
+          };
         }>(`/customers/properties${query}`, {
           method: "GET",
         });

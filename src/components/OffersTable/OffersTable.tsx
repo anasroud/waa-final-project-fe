@@ -64,7 +64,7 @@ const OffersTable = () => {
         "/owners/offers?page=" + currentPage + "&size=10",
         {
           method: "GET",
-        }
+        },
       );
 
       setOffers(data);
@@ -90,8 +90,8 @@ const OffersTable = () => {
     if (response.message === "success") {
       setOffers((prevOffers) =>
         prevOffers.map((offer) =>
-          offer.id === offerId ? { ...offer, isAccepted: true } : offer
-        )
+          offer.id === offerId ? { ...offer, isAccepted: true } : offer,
+        ),
       );
       fetchOffers();
     } else {
@@ -113,7 +113,7 @@ const OffersTable = () => {
     if (response.message === "success") {
       // refresh the offers list
       setOffers((prevOffers) =>
-        prevOffers.filter((offer) => offer.id !== offerId)
+        prevOffers.filter((offer) => offer.id !== offerId),
       );
       fetchOffers();
     } else {
@@ -135,7 +135,7 @@ const OffersTable = () => {
     if (response.message === "success") {
       // refresh the offers list
       setOffers((prevOffers) =>
-        prevOffers.filter((offer) => offer.id !== offerId)
+        prevOffers.filter((offer) => offer.id !== offerId),
       );
       fetchOffers();
     } else {
@@ -145,13 +145,13 @@ const OffersTable = () => {
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [action, setAction] = useState<"close" | "accept" | "reject" | null>(
-    null
+    null,
   );
   const [offerId, setOfferId] = useState<number | null>(null);
 
   function handleOpenConfirmationModal(
     action: "close" | "accept" | "reject",
-    offerId: number
+    offerId: number,
   ) {
     setAction(action);
     setOfferId(offerId);
@@ -196,7 +196,7 @@ const OffersTable = () => {
                       "text-gray-800 bg-gray-100":
                         offer.isAccepted && offer.soldAt,
                       "text-red-600 bg-red-100": offer.isAccepted === false,
-                    }
+                    },
                   )}
                 >
                   {offer.isAccepted === true && (

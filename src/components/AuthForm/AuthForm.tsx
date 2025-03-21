@@ -14,7 +14,7 @@ type Props = {
     email: string,
     password: string,
     name: string,
-    image: File | null
+    image: File | null,
   ) => Promise<void>;
   type?: "login" | "register";
   buttonText: string;
@@ -31,10 +31,10 @@ export default function AuthFormWithImage({
   isLoading,
 }: Props) {
   const emailRef = useRef<HTMLInputElement>(
-    null as unknown as HTMLInputElement
+    null as unknown as HTMLInputElement,
   );
   const passwordRef = useRef<HTMLInputElement>(
-    null as unknown as HTMLInputElement
+    null as unknown as HTMLInputElement,
   );
   const nameRef = useRef<HTMLInputElement>(null as unknown as HTMLInputElement);
   const imageRef = useRef<File | null>(null);
@@ -48,7 +48,7 @@ export default function AuthFormWithImage({
         emailRef.current?.value || "",
         passwordRef.current?.value || "",
         nameRef.current?.value || "",
-        imageRef.current
+        imageRef.current,
       );
     } catch (err) {
       setError((err as Error).message);

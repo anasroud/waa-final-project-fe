@@ -12,7 +12,7 @@ const getDeviceType = (userAgent: string): string => {
 
 const useDevice = () => {
   const [deviceType, setDeviceType] = useState<string>(
-    getDeviceType(navigator.userAgent)
+    getDeviceType(navigator.userAgent),
   );
 
   useEffect(() => {

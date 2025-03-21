@@ -127,14 +127,15 @@ const FavoritedPropertiesTable = () => {
               <TableCell>
                 <div className="flex items-center">
                   <Badge
-                    className={`!text-[10px] rounded-sm font-bold ${property.status === "Available"
-                      ? "bg-green-100 text-green-800"
-                      : property.status === "Pending"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : property.status === "SOLD"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-gray-100 text-gray-800"
-                      }`}
+                    className={`!text-[10px] rounded-sm font-bold ${
+                      property.status === "Available"
+                        ? "bg-green-100 text-green-800"
+                        : property.status === "Pending"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : property.status === "SOLD"
+                            ? "bg-red-100 text-red-800"
+                            : "bg-gray-100 text-gray-800"
+                    }`}
                   >
                     {property.status}
                   </Badge>
