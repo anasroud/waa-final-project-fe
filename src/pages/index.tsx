@@ -59,7 +59,7 @@ export default function Home() {
       />
       <BasicPagination
         currentPage={page + 1}
-        totalPages={totalPages}
+        totalPages={totalPages === 0 ? 1 : totalPages}
         className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
         paginationHandler={paginationHandler}
       />

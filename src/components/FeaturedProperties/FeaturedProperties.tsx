@@ -42,6 +42,19 @@ const FeaturedProperties = ({
     );
   }
 
+  if (properties.length === 0 && !isLoading) {
+    return (
+      <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold font-lora mb-2">
+            Featured Properties
+          </h2>
+          <p>No properties found. Please try adjusting your search filters.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="text-center">
