@@ -10,8 +10,6 @@ import PropertyItemSkeleton from "@/components/PropertyItem/PropertyItemSkeleton
 
 export default function Search() {
   const [properties, setProperties] = useState<IProperty[]>([]);
-  const [countProperties, setCountProperties] = useState(0);
-  const [page, setPage] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [searchFilters, setSearchFilters] = useState({
@@ -26,14 +24,15 @@ export default function Search() {
     hasPool: undefined,
     hasAC: undefined,
   } as unknown as SearchFilters);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const pageLimit = 9;
-  const totalPages = Math.ceil(countProperties / pageLimit);
+  const pageLimit = 4;
 
   const fetchProperties = useCallback(async () => {
     const buildSearchQuery = (body: SearchFilters) => {
       setIsLoading(true);
-      let query = `?page=${page}&size=${pageLimit}`;
+      let query = `?page=${page - 1}&size=${pageLimit}`;
       for (const key in body) {
         const value = body[key as keyof SearchFilters];
         if (
@@ -57,8 +56,9 @@ export default function Search() {
         meta: { totalPages: number };
       };
 
+      setTotalPages(data.meta.totalPages);
+
       setProperties(data.data);
-      setCountProperties(data.meta.totalPages);
     } catch (err) {
       setError("Error loading properties. Please try again later.");
       console.error("Error fetching properties:", err);
@@ -118,8 +118,9 @@ export default function Search() {
           </div>
           <div>
             <BasicPagination
-              currentPage={page + 1}
-              totalPages={totalPages}
+              currentPage={page}
+              totalPages={totalPages === 0 ? 1 : totalPages}
+              className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
               paginationHandler={paginationHandler}
             />
           </div>
