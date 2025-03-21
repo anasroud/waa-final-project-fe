@@ -21,7 +21,6 @@ const PricesFilter = ({
   const [currentValues, setCurrentValues] =
     useState<[number, number]>(initialValue);
 
-  setValues(currentValues);
   const {
     sliderValue,
     inputValues,
@@ -29,6 +28,7 @@ const PricesFilter = ({
     handleInputChange,
     handleSliderChange,
   } = useSliderWithInput({ minValue, maxValue, initialValue });
+  setValues([parseInt(inputValues[0]), parseInt(inputValues[1])]);
 
   return (
     <div className="*:not-first:mt-3">
