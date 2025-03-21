@@ -35,8 +35,13 @@ export default function Search() {
       setIsLoading(true);
       let query = `?page=${page}&size=${pageLimit}`;
       for (const key in body) {
-        if (body[key as keyof SearchFilters]) {
-          query += `&${key}=${body[key as keyof SearchFilters]}`;
+        const value = body[key as keyof SearchFilters];
+        if (
+          value ||
+          (key === "minPrice" && value === 0) ||
+          (key === "maxPrice" && value === 0)
+        ) {
+          query += `&${key}=${value}`;
         }
       }
       return query;
