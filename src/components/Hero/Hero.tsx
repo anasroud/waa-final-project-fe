@@ -1,4 +1,5 @@
 import { Search } from "lucide-react";
+import Image from "next/image";
 
 export interface IHero {
   setSearch: (search: string) => void;
@@ -17,12 +18,15 @@ const Hero = ({ setSearch }: IHero) => {
 
   return (
     <div className="h-[60vh] w-full relative">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url("/hero-bg.jpg")',
-        }}
-      />
+      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat">
+        <Image
+          src="/hero-bg.jpg"
+          alt="Hero Background"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+        />
+      </div>
       <div className="absolute inset-0 bg-black/50" />
 
       <div className="relative h-full flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
