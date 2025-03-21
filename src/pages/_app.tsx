@@ -18,6 +18,13 @@ export default function App({ Component, pageProps, router }: AppProps) {
   return (
     <>
       <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+
         <meta
           name="description"
           content="A place where you can find sell your properties"
