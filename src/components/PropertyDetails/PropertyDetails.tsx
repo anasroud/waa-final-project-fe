@@ -31,7 +31,7 @@ function PropertyDetails({
     e?.stopPropagation();
     if (!selectedProperty) return;
     setCurrentImageIndex((prev) =>
-      prev === selectedProperty.imageURLs.length - 1 ? 0 : prev + 1
+      prev === selectedProperty.imageURLs.length - 1 ? 0 : prev + 1,
     );
   };
 
@@ -39,7 +39,7 @@ function PropertyDetails({
     e?.stopPropagation();
     if (!selectedProperty) return;
     setCurrentImageIndex((prev) =>
-      prev === 0 ? selectedProperty.imageURLs.length - 1 : prev - 1
+      prev === 0 ? selectedProperty.imageURLs.length - 1 : prev - 1,
     );
   };
 
@@ -122,7 +122,7 @@ function PropertyDetails({
                               "h-1.5 w-1.5 rounded-full transition-all",
                               index === currentImageIndex
                                 ? "bg-white w-3"
-                                : "bg-white/50"
+                                : "bg-white/50",
                             )}
                           />
                         ))}

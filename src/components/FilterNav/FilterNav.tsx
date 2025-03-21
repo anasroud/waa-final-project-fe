@@ -26,13 +26,13 @@ export interface IFilterNavProps {
 
 const FilterNav = ({ setSearchFilters }: IFilterNavProps) => {
   const searchRef = useRef<HTMLInputElement>(
-    null as unknown as HTMLInputElement
+    null as unknown as HTMLInputElement,
   );
   const bedroomsRef = useRef<HTMLInputElement>(
-    null as unknown as HTMLInputElement
+    null as unknown as HTMLInputElement,
   );
   const bathroomsRef = useRef<HTMLInputElement>(
-    null as unknown as HTMLInputElement
+    null as unknown as HTMLInputElement,
   );
   const homeTypeRef = useRef<string | null>(null);
   const selectedStateRef = useRef<string | null>(null);

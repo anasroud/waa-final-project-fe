@@ -81,7 +81,7 @@ const FileUploader = ({
         id={id}
         className={cn(
           "p-0 pe-3 file:me-3 file:border-0 file:border-e",
-          className
+          className,
         )}
         type="file"
         multiple={allowMultiple} // Allow multiple files to be selected

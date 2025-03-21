@@ -6,7 +6,7 @@ const PropertyItemSkeleton = ({ className }: { className?: string }) => {
     <div
       className={cn(
         "bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-[1.02] hover:shadow-lg",
-        className
+        className,
       )}
     >
       <div className="relative h-48 w-full bg-gray-200 animate-pulse"></div>

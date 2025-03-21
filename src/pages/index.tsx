@@ -34,10 +34,10 @@ export default function Home() {
         const response = await apiFetch<{
           data: Property[];
           meta: {
-            "totalPages": number;
-            "currentPage": number;
-            "totalElements": number;
-          }
+            totalPages: number;
+            currentPage: number;
+            totalElements: number;
+          };
         }>(`/customers/properties${query}`, {
           method: "GET",
         });
@@ -54,8 +54,6 @@ export default function Home() {
 
     fetchProperties();
   }, [search, currentPage]);
-
-
 
   return (
     <div className="min-h-screen">
@@ -95,7 +93,9 @@ export default function Home() {
               <Button
                 variant="outline"
                 className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
-                aria-disabled={currentPage === totalPages - 1 ? true : undefined}
+                aria-disabled={
+                  currentPage === totalPages - 1 ? true : undefined
+                }
                 role={currentPage === totalPages - 1 ? "link" : undefined}
                 onClick={() => {
                   setCurrentPage((prev) => prev + 1);

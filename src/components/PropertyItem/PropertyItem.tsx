@@ -76,14 +76,14 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
   const nextImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
     setCurrentImageIndex((prev) =>
-      prev === property.imageURLs.length - 1 ? 0 : prev + 1
+      prev === property.imageURLs.length - 1 ? 0 : prev + 1,
     );
   };
 
   const prevImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
     setCurrentImageIndex((prev) =>
-      prev === 0 ? property.imageURLs.length - 1 : prev - 1
+      prev === 0 ? property.imageURLs.length - 1 : prev - 1,
     );
   };
 
@@ -94,7 +94,7 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
       <div
         className={cn(
           "bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-[1.02] hover:shadow-lg",
-          className
+          className,
         )}
         onClick={() => setIsOpen(true)}
       >
@@ -161,7 +161,7 @@ const PropertyItem = ({ property, className }: PropertyItemProps) => {
                       "h-1 w-1 rounded-full transition-all",
                       index === currentImageIndex
                         ? "bg-white w-2"
-                        : "bg-white/50"
+                        : "bg-white/50",
                     )}
                   />
                 ))}
