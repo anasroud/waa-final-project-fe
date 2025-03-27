@@ -30,10 +30,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
           name="description"
           content="A place where you can find sell your properties"
         />
-        <link
-          rel="icon"
-          href="https://icons.iconarchive.com/icons/graphicloads/100-flat/256/home-icon.png"
-        />
+        <link rel="icon" href="/home-icon.png" />
         <title>HomeFinder</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#000000" />

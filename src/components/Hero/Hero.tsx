@@ -22,8 +22,8 @@ const Hero = ({ setSearch }: IHero) => {
         <Image
           src="/hero-bg.jpg"
           alt="Hero Background"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
           quality={100}
           priority
         />
