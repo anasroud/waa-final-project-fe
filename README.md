@@ -1,40 +1,162 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# HomeFinder
+
+A modern, full-featured real estate platform built with Next.js, React, and TypeScript. HomeFinder enables users to search, buy, sell, and manage properties with a beautiful, responsive UI and robust role-based access control.
+
+---
+
+## Table of Contents
+
+- [HomeFinder](#homefinder)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [User Roles](#user-roles)
+  - [Screenshots](#screenshots)
+  - [Tech Stack](#tech-stack)
+  - [Project Structure](#project-structure)
+  - [Getting Started](#getting-started)
+  - [Environment Variables](#environment-variables)
+  - [Scripts](#scripts)
+  - [Contributing](#contributing)
+  - [License](#license)
+
+---
+
+## Overview
+
+**HomeFinder** is a real estate web application where users can:
+
+- Search and filter properties by city, price, and features
+- List properties for sale (owners)
+- Manage offers and favorites (customers)
+- Approve users and properties (admins)
+
+The platform is designed for scalability, accessibility, and ease of use, with a clean codebase and modern best practices.
+
+---
+
+## Features
+
+- 🔒 **Authentication & Role-Based Access**: Secure login and registration for Admins, Owners, and Customers
+- 🏠 **Property Listings**: Add, edit, and view detailed property listings with images and rich metadata
+- 🔍 **Advanced Search & Filters**: Find properties by city, price, type, and amenities
+- ⭐ **Favorites & Offers**: Customers can favorite properties and make offers
+- 🛠️ **Owner Dashboard**: Manage your properties and offers
+- 🛡️ **Admin Dashboard**: Approve users and properties, manage platform data
+- 📱 **Responsive Design**: Fully responsive and mobile-friendly
+- ♿ **Accessibility**: Built with accessible components and best practices
+- 🚀 **Performance**: Optimized with Next.js, code-splitting, and modern libraries
+
+---
+
+## User Roles
+
+- **Admin**: Approves users and properties, manages all platform data
+- **Owner**: Lists and manages properties, reviews offers
+- **Customer**: Searches, favorites, and makes offers on properties
+
+---
+
+## Screenshots
+
+<!-- Add screenshots/gifs here if available -->
+
+---
+
+## Tech Stack
+
+- **Frontend**: [Next.js](https://nextjs.org/), [React](https://react.dev/), [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/), [Sass](https://sass-lang.com/)
+- **UI Components**: [Radix UI](https://www.radix-ui.com/), [Lucide Icons](https://lucide.dev/)
+- **State & Data**: React Context, Custom Hooks
+- **Tables**: [TanStack Table](https://tanstack.com/table/v8)
+- **Animation**: [Framer Motion](https://www.framer.com/motion/)
+- **Utilities**: clsx, class-variance-authority, sonner (toasts)
+
+---
+
+## Project Structure
+
+```
+src/
+  components/      # Reusable UI and feature components
+  context/         # React Contexts (e.g., Auth)
+  hooks/           # Custom React hooks
+  lib/             # Utility functions
+  pages/           # Next.js pages (routing)
+  styles/          # Global and component styles
+  types/           # TypeScript type definitions
+  utils/           # API and helper utilities
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+1. **Clone the repository:**
 
+   ```bash
+   git clone <repo-url>
+   cd waa-final-project-fe
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   # or
+   ```
+
+yarn install
+
+````
+3. **Set up environment variables:**
+- Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_API_BASE_URL` to your backend API URL.
+4. **Run the development server:**
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+````
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. **Open the app:**
+   Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+---
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Environment Variables
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+- `NEXT_PUBLIC_API_BASE_URL` — The base URL for your backend API
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev` — Start the development server
+- `npm run build` — Build for production
+- `npm start` — Start the production server
+- `npm run lint` — Run ESLint
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
+Contributions are welcome! Please follow these steps:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'Add feature'`)
+4. Push to your branch (`git push origin feature/your-feature`)
+5. Open a Pull Request
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+**Code Style:**
+
+- Use Prettier and ESLint (configured)
+- Use TypeScript for all code
+- Write clear, descriptive commit messages
+
+---
+
+## License
+
+This project is licensed under the MIT License.
